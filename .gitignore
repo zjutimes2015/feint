@@ -13,6 +13,8 @@ venv/
 *.db
 *.sqlite3
 node_modules/
+.next/
+out/
 .vercel
 
 # 部署与调试临时文件
