@@ -64,7 +64,7 @@ def call_openrouter(system, user, model):
         OPENROUTER_URL, data=body,
         headers={"Authorization": "Bearer " + key,
                  "Content-Type": "application/json",
-                 "HTTP-Referer": "https://zjutimes2015.github.io/brawlverse/",
+                 "HTTP-Referer": "https://zjutimes2015.github.io/hook/",
                  "X-Title": "BRAWLVERSE booker"},
         method="POST")
     with urllib.request.urlopen(req, timeout=120) as r:

@@ -35,7 +35,7 @@ class handler(BaseHTTPRequestHandler):
         if not pid:
             send(self, 501, {"error": "product not configured for tier " + tier})
             return
-        success_url = v.get("success_url") or "https://zjutimes2015.github.io/brawlverse/episodes.html?sub=ok"
+        success_url = v.get("success_url") or "https://zjutimes2015.github.io/hook/episodes.html?sub=ok"
         try:
             url = create_checkout_session(
                 pid,

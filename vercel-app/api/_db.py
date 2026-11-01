@@ -1,5 +1,6 @@
 """Shared DB + response helpers for Vercel Python serverless functions."""
 import hashlib
+import hmac
 import json as _json
 import os
 import time
@@ -269,4 +270,9 @@ def read_json(h):
 
 
 def require_admin(h) -> bool:
-    return h.headers.get("X-Admin-Token") == os.environ.get("ADMIN_TOKEN")
+    """Fail-closed: no ADMIN_TOKEN means no admin access at all."""
+    token = os.environ.get("ADMIN_TOKEN") or ""
+    if not token:
+        return False
+    given = h.headers.get("X-Admin-Token") or ""
+    return hmac.compare_digest(given, token)
