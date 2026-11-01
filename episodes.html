@@ -33,6 +33,7 @@
     <button id="fan-send">发送弹幕</button>
     <span id="fan-msg" class="note"></span>
   </div>
+  <script src="config.js"></script>
   <script src="assets/danmaku.min.js"></script>
   <script>
   /* Fan captions: danmaku layer + submit + pinned card. Needs API_BASE. */
@@ -50,7 +51,7 @@
     }
     async function pollFeed(){
       try{
-        const r = await fetch(`${window.BV_API_BASE}/api/captions/feed?since_id=${sinceId}`);
+        const r = await fetch(`${window.BV_API_BASE}/api/captions?op=feed&since_id=${sinceId}`);
         const j = await r.json();
         for(const c of j.captions){
           danmaku.emit({ text: `${c.nickname}: ${c.text}` });
@@ -60,7 +61,7 @@
     }
     async function pollPinned(){
       try{
-        const r = await fetch(`${window.BV_API_BASE}/api/captions/pinned`);
+        const r = await fetch(`${window.BV_API_BASE}/api/captions?op=pinned`);
         const j = await r.json();
         const card = document.getElementById('pinned-card');
         if(j.pinned){
@@ -76,7 +77,7 @@
       const msg = document.getElementById('fan-msg');
       if(!text){ msg.textContent = '先写一句话！'; return; }
       try{
-        const r = await fetch(`${window.BV_API_BASE}/api/captions`, {method:'POST',
+        const r = await fetch(`${window.BV_API_BASE}/api/captions?op=post`, {method:'POST',
           headers:{'Content-Type':'application/json'},
           body: JSON.stringify({text, nickname: nick, device_id: fanDeviceId()})});
         const j = await r.json();
@@ -134,10 +135,6 @@
 
 <footer><p>BRAWLVERSE · Season 1 in production</p><p class="aigc">All fighters, footage and artwork are AI-generated.</p></footer>
 
-<script>
-/* Shared config: fill after backend deploy, e.g. 'https://brawlverse-api.vercel.app' */
-window.BV_API_BASE = '';
-</script>
 <script>
 /* Device fingerprint (no dependency): canvas + WebGL + screen + tz + UA.
  * Stable per browser; falls back to stored random id if collection fails. */
@@ -213,7 +210,7 @@ function drawTally(t){
 async function refresh(){
   if(!API_BASE){ drawTally(get()); return; }
   try{
-    const r = await fetch(`${API_BASE}/api/votes/tally?bout_id=${BOUT_ID}&round_no=${ROUND_NO}`);
+    const r = await fetch(`${API_BASE}/api/votes?op=tally&bout_id=${BOUT_ID}&round_no=${ROUND_NO}`);
     const j = await r.json();
     drawTally({heavy:j.tally.heavy, dodge:j.tally.dodge, guard:j.tally.guard});
     const b = await fetch(`${API_BASE}/api/bouts`).then(r=>r.json());
@@ -230,7 +227,7 @@ async function vote(k){
     const v=get(); v[key]++; localStorage.setItem(K,JSON.stringify(v)); drawTally(v); return;
   }
   try{
-    const r = await fetch(`${API_BASE}/api/votes`, {method:'POST',
+    const r = await fetch(`${API_BASE}/api/votes?op=cast`, {method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({bout_id:BOUT_ID, round_no:ROUND_NO, choice:key, device_id:deviceId()})});
     if(!r.ok) throw new Error(await r.text());

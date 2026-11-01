@@ -40,7 +40,7 @@ button.ghost{background:#333;color:#eee}input{background:#222;color:#eee;border:
 <div id="caps"></div></div>
 <script>
 async function loadCaps(status){
-  const rows = await api('/api/admin/captions?status='+status).catch(e=>{alert('Load failed: '+e.message);return null;});
+  const rows = await api('/api/admin?op=captions&status='+status).catch(e=>{alert('Load failed: '+e.message);return null;});
   if(!rows) return;
   const box = document.getElementById('caps'); box.innerHTML='';
   if(!rows.length){ box.innerHTML='<p class="small">空</p>'; return; }
@@ -51,7 +51,7 @@ async function loadCaps(status){
     const btn = (label, action, ghost) => {
       const b = document.createElement('button'); b.textContent = label;
       if(ghost) b.className='ghost';
-      b.onclick = async () => { await api('/api/admin/captions?id='+c.id,{method:'PATCH',body:JSON.stringify({action})}); loadCaps(status); };
+      b.onclick = async () => { await api('/api/admin?op=captions&id='+c.id,{method:'PATCH',body:JSON.stringify({action})}); loadCaps(status); };
       el.appendChild(b);
     };
     if(status==='pending'){ btn('通过','approve'); btn('置顶','pin'); btn('拒绝','reject',true); }
@@ -63,7 +63,7 @@ async function loadCaps(status){
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
 async function loadMkts(){
-  const d = await api('/api/admin/betting').catch(e=>{alert('Load failed: '+e.message);return null;});
+  const d = await api('/api/admin?op=betting').catch(e=>{alert('Load failed: '+e.message);return null;});
   if(!d) return;
   const box = document.getElementById('mkts'); box.innerHTML='';
   if(!d.markets.length){ box.innerHTML='<p class="small">暂无盘口</p>'; return; }
@@ -75,7 +75,7 @@ async function loadMkts(){
     const btn = (label, body, ghost) => {
       const b = document.createElement('button'); b.textContent = label;
       if(ghost) b.className='ghost';
-      b.onclick = async () => { await api('/api/admin/betting?id='+m.id,{method:'PATCH',body:JSON.stringify(body)}); loadMkts(); };
+      b.onclick = async () => { await api('/api/admin?op=betting&id='+m.id,{method:'PATCH',body:JSON.stringify(body)}); loadMkts(); };
       el.appendChild(b);
     };
     if(m.status==='open'){ btn('锁盘',{action:'lock'},true); }
@@ -85,7 +85,7 @@ async function loadMkts(){
       m.selections.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});
       el.appendChild(sel);
       btn('结算',null); // placeholder replaced below
-      el.lastChild.onclick = async () => { await api('/api/admin/betting?id='+m.id,{method:'PATCH',body:JSON.stringify({action:'settle',winning_selection:sel.value})}); loadMkts(); };
+      el.lastChild.onclick = async () => { await api('/api/admin?op=betting&id='+m.id,{method:'PATCH',body:JSON.stringify({action:'settle',winning_selection:sel.value})}); loadMkts(); };
     }
     box.appendChild(el);
   }
@@ -93,11 +93,11 @@ async function loadMkts(){
 async function addMarket(){
   const g=i=>document.getElementById(i).value;
   const sels=g('mk_sels').split(',').map(s=>s.trim()).filter(Boolean);
-  await api('/api/admin/betting',{method:'POST',body:JSON.stringify({id:g('mk_id'),bout_id:g('mk_bout'),market_type:g('mk_type')||'winner',question:g('mk_q'),selections:sels})});
+  await api('/api/admin?op=betting',{method:'POST',body:JSON.stringify({id:g('mk_id'),bout_id:g('mk_bout'),market_type:g('mk_type')||'winner',question:g('mk_q'),selections:sels})});
   loadMkts();
 }
 async function loadSubs(){
-  const d = await api('/api/admin/subscriptions').catch(e=>{alert('Load failed: '+e.message);return null;});
+  const d = await api('/api/admin?op=subscriptions').catch(e=>{alert('Load failed: '+e.message);return null;});
   if(!d) return;
   const box = document.getElementById('subs'); box.innerHTML='';
   for(const s of d.subscriptions){
@@ -109,11 +109,11 @@ async function loadSubs(){
 }
 async function setSub(){
   const g=i=>document.getElementById(i).value;
-  await api('/api/admin/subscriptions?device_hash='+encodeURIComponent(g('sub_dh')),{method:'PATCH',body:JSON.stringify({tier:g('sub_tier')})});
+  await api('/api/admin?op=subscriptions&device_hash='+encodeURIComponent(g('sub_dh')),{method:'PATCH',body:JSON.stringify({tier:g('sub_tier')})});
   loadSubs();
 }
 async function loadGates(){
-  const d = await api('/api/admin/gates').catch(e=>{alert('Load failed: '+e.message);return null;});
+  const d = await api('/api/admin?op=gates').catch(e=>{alert('Load failed: '+e.message);return null;});
   if(!d) return;
   const box = document.getElementById('gates'); box.innerHTML='';
   for(const g of d.gates){
@@ -125,7 +125,7 @@ async function loadGates(){
       const b = document.createElement('button'); b.textContent = label;
       if(ghost) b.className='ghost';
       b.onclick = async () => {
-        try{ await api('/api/admin/gates?id='+g.id,{method:'PATCH',body:JSON.stringify({status})}); }
+        try{ await api('/api/admin?op=gates&id='+g.id,{method:'PATCH',body:JSON.stringify({status})}); }
         catch(e){ alert('Blocked: '+e.message); }
         loadGates();
       };
@@ -164,7 +164,7 @@ const r=await fetch(path,opts);if(!r.ok)throw new Error(await r.text());return r
 async function load(){TOKEN=document.getElementById('token').value;
 const bouts=await api('/api/bouts').catch(e=>{alert('Load failed: '+e.message);return null;});if(!bouts)return;
 const box=document.getElementById('bouts');box.innerHTML='';
-for(const b of bouts){const t=await api('/api/votes/tally?bout_id='+b.id+'&round_no='+b.round_no).catch(()=>null);
+for(const b of bouts){const t=await api('/api/votes?op=tally&bout_id='+b.id+'&round_no='+b.round_no).catch(()=>null);
 const el=document.createElement('div');el.className='card';
 const bars=t?Object.entries(t.tally).map(([k,v])=>{const p=t.total?Math.round(v/t.total*100):0;
 return '<div>'+k.toUpperCase()+' — '+v+' ('+p+'%)<div class="bar" style="width:'+p+'%"></div></div>';}).join(''):'';
@@ -174,8 +174,8 @@ const add=document.createElement('div');add.className='card';
 add.innerHTML='<h3>+ New bout</h3><div class="row"><input id="nb_id" placeholder="id (qf5)"><input id="nb_title" placeholder="title"><input id="nb_a" placeholder="fighter A"><input id="nb_b" placeholder="fighter B"><button onclick="addBout()">Create</button></div>';
 box.appendChild(add);
 loadMkts(); loadGates(); loadSubs();}
-async function toggleBout(id,open){await api('/api/admin/bouts?id='+id,{method:'PATCH',body:JSON.stringify({voting_open:open})});load();}
-async function nextRound(id,r){await api('/api/admin/bouts?id='+id,{method:'PATCH',body:JSON.stringify({round_no:r,voting_open:true})});load();}
+async function toggleBout(id,open){await api('/api/admin?op=bouts&id='+id,{method:'PATCH',body:JSON.stringify({voting_open:open})});load();}
+async function nextRound(id,r){await api('/api/admin?op=bouts&id='+id,{method:'PATCH',body:JSON.stringify({round_no:r,voting_open:true})});load();}
 async function addBout(){const g=i=>document.getElementById(i).value;
-await api('/api/admin/bouts',{method:'POST',body:JSON.stringify({id:g('nb_id'),title:g('nb_title'),fighter_a:g('nb_a'),fighter_b:g('nb_b'),voting_open:false})});load();}
+await api('/api/admin?op=bouts',{method:'POST',body:JSON.stringify({id:g('nb_id'),title:g('nb_title'),fighter_a:g('nb_a'),fighter_b:g('nb_b'),voting_open:false})});load();}
 </script></body></html>

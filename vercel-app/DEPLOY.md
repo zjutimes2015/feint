@@ -49,13 +49,35 @@ Error: [NEXT_NO_VERSION] No Next.js version detected.
 
 ## 3. 接前端
 
-`site/episodes.html`：
+仓库根目录的 `config.js` 是唯一配置点：
 
 ```js
-const API_BASE = 'https://brawlverse-api.vercel.app';  // 换成你的实际域名
+window.BV_API_BASE = location.hostname === "zjutimes2015.github.io"
+  ? "https://brawlverse-api.vercel.app"   // 换成你的实际域名
+  : "";
 ```
 
-推送后 GitHub Pages 自动更新。API 不可达时页面降级为本地计数。
+`index.html` / `episodes.html` / `fighters.html` 都会读它。推送后 GitHub Pages 自动更新。
+未填或 API 不可达时，所有交互降级为本地计数，不会报错。
+
+## 3.1 接口路径（v2 合并后）
+
+`api/` 下只有 9 个函数入口，子路径全部改为 query 参数 `op`：
+
+| 入口 | op |
+|---|---|
+| `/api/bouts` | 默认列表、`health` |
+| `/api/votes` | `tally`（GET 默认）、`cast`（POST） |
+| `/api/captions` | `feed`、`pinned`、`post` |
+| `/api/betting` | `markets`、`bet`、`claim`、`leaderboard`、`records` |
+| `/api/fantasy` | `teams`、`picks`、`leaderboard` |
+| `/api/live` | `state`、`vote`、`tally` |
+| `/api/subscription` | `status`、`checkout` |
+| `/api/webhooks` | `waffo`（默认） |
+| `/api/admin` | `bouts`、`betting`、`captions`、`gates`、`live`、`subscriptions`、`votes`、`script` |
+
+`script` 是 OpenRouter 文本生成，需 `OPENROUTER_API_KEY`。
+函数数与时长上限写在 `vercel.json`（`maxDuration: 60`，`includeFiles: lib/**`）。
 
 ## 4. Booker 后台
 

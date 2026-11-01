@@ -5,7 +5,7 @@ import sys
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from _db import q_all, q_one, q_write, sha  # noqa: E402
+from lib._db import q_all, q_one, q_write, sha  # noqa: E402
 
 SIGNUP_BONUS = 1000
 DAILY_CLAIM = 100

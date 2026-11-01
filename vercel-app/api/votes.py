@@ -1,21 +1,43 @@
-import os
-import sys
-import time
-
-sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "subscription"))
-from _db import (CHOICES, check_rate, client_ip, q_one, q_write, read_json,
-                 send, send_cors_preflight, sha)
-from _entitlements import entitlements  # noqa: E402
+import os, sys, time
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from lib._db import (CHOICES, check_rate, client_ip, q_all, q_one, q_write,
+                     read_json, send, send_cors_preflight, sha)
+from lib._entitlements import entitlements
 
 from http.server import BaseHTTPRequestHandler
+from urllib.parse import urlparse, parse_qs
 
 
 class handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         send_cors_preflight(self)
 
+    def _op(self, default):
+        return (parse_qs(urlparse(self.path).query).get("op", [""])[0] or default).lower()
+
+    def do_GET(self):
+        op = self._op("tally")
+        if op != "tally":
+            send(self, 400, {"error": "unknown op"})
+            return
+        qs = parse_qs(urlparse(self.path).query)
+        bout_id = qs.get("bout_id", [None])[0]
+        round_no = int(qs.get("round_no", ["1"])[0] or 1)
+        rows = q_all(
+            "SELECT choice, SUM(weight) AS n FROM votes WHERE bout_id = %s AND round_no = %s GROUP BY choice",
+            (bout_id, round_no),
+        )
+        tally = {"heavy": 0, "dodge": 0, "guard": 0}
+        for r in rows:
+            tally[r["choice"]] = r["n"]
+        send(self, 200, {"bout_id": bout_id, "round_no": round_no, "tally": tally,
+                         "total": sum(tally.values())})
+
     def do_POST(self):
+        op = self._op("cast")
+        if op != "cast":
+            send(self, 400, {"error": "unknown op"})
+            return
         try:
             v = read_json(self)
         except Exception:

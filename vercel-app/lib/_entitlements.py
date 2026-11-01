@@ -4,7 +4,7 @@ import sys
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from _db import q_one  # noqa: E402
+from lib._db import q_one  # noqa: E402
 
 # tier -> entitlements. Marginal cost of every entitlement is ~0 (DB flags +
 # existing content windows). That is the whole leverage of the model.

@@ -1,15 +1,12 @@
 import json
-import os
-import sys
-import time
-
-sys.path.insert(0, os.path.dirname(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from _entitlements import PAID_TIERS  # noqa: E402
-from _waffo import verify_webhook, waffo_configured  # noqa: E402
-from _db import q_one, q_write, send, send_cors_preflight  # noqa: E402
+import os, sys, time
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from lib._db import q_one, q_write, send, send_cors_preflight
+from lib._entitlements import PAID_TIERS
+from lib._waffo import verify_webhook, waffo_configured
 
 from http.server import BaseHTTPRequestHandler
+from urllib.parse import urlparse, parse_qs
 
 
 def _upsert_sub(device_hash, tier, status, waffo_sub_id="", period_end=0):
@@ -48,9 +45,15 @@ class handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         send_cors_preflight(self)
 
+    def _op(self):
+        return (parse_qs(urlparse(self.path).query).get("op", [""])[0] or "waffo").lower()
+
     def do_POST(self):
+        if self._op() != "waffo":
+            send(self, 400, {"error": "unknown op"}, cors=False)
+            return
         if not waffo_configured():
-            send(self, 501, {"error": "waffo not configured"})
+            send(self, 501, {"error": "waffo not configured"}, cors=False)
             return
         length = int(self.headers.get("Content-Length", 0) or 0)
         payload = self.rfile.read(length) if length else b""
@@ -58,12 +61,12 @@ class handler(BaseHTTPRequestHandler):
         try:
             event = verify_webhook(payload, sig)
         except ValueError as e:
-            send(self, 401, {"error": "invalid signature: " + str(e)[:120]})
+            send(self, 401, {"error": "invalid signature: " + str(e)[:120]}, cors=False)
             return
         # env guard: test events must not touch prod logic
         want_env = os.environ.get("WAFFO_ENV", "")
         if want_env and event.get("mode", "") and event["mode"] != want_env:
-            send(self, 200, {"ok": True, "ignored": "env mismatch"})
+            send(self, 200, {"ok": True, "ignored": "env mismatch"}, cors=False)
             return
         # idempotency
         eid = str(event.get("id", ""))
@@ -72,7 +75,7 @@ class handler(BaseHTTPRequestHandler):
                 q_write("INSERT INTO webhook_events (event_id, created_at) VALUES (%s,%s)",
                         (eid, time.time()))
             except Exception:
-                send(self, 200, {"ok": True, "deduped": True})
+                send(self, 200, {"ok": True, "deduped": True}, cors=False)
                 return
         etype = event.get("eventType", "")
         data = event.get("data", {}) or {}
@@ -93,6 +96,6 @@ class handler(BaseHTTPRequestHandler):
                 if dh:
                     _upsert_sub(dh, "free", "canceled")
         except Exception as e:
-            send(self, 500, {"error": "handler failed: " + str(e)[:160]})
+            send(self, 500, {"error": "handler failed: " + str(e)[:160]}, cors=False)
             return
-        send(self, 200, {"ok": True, "type": etype})
+        send(self, 200, {"ok": True, "type": etype}, cors=False)
