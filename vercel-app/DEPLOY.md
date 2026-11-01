@@ -21,6 +21,25 @@ vercel deploy --prod
 # 首次会问：link 到哪个项目 → 建新项目 brawlverse-api
 ```
 
+> **框架预设必须是 Other（不是 Next.js）**
+> 本仓库是 Python Serverless Functions + 静态页，没有 `package.json`，也不依赖 Next.js。
+> 用 Dashboard 导入 Git 仓库时的设置：
+> - **Root Directory**：`vercel-app`（部署 API 用）；只想部署静态站则留仓库根目录 `.`
+> - **Framework Preset**：`Other`
+>
+> 两个 `vercel.json` 已经写了 `"framework": null`，会把框架预设强制覆盖为 Other，
+> 避免再出现下面这个报错。
+
+### 报错 `NEXT_NO_VERSION` / `Could not identify Next.js version`
+
+```
+Warning: Could not identify Next.js version, ensure it is defined as a project dependency.
+Error: [NEXT_NO_VERSION] No Next.js version detected.
+```
+
+原因：Vercel 项目的 Framework Preset 被设成了 Next.js，但部署目录里没有 `package.json`（或没有 `next` 依赖）。
+处理：① 确认 Root Directory 指向 `vercel-app`（API）或仓库根目录（静态站）；② Framework Preset 改成 `Other`；③ Redeploy。
+
 ## 2. 配环境变量（Vercel 项目 → Settings → Environment Variables）
 
 - `DATABASE_URL` = 你的 postgres 连接串
