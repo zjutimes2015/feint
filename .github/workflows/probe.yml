@@ -1,0 +1,30 @@
+name: probe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe BRAWLVERSE API
+        run: |
+          echo "===== health ====="
+          curl -sS -m 30 -o health.txt -w "http_status=%{http_code}\n" "https://hook-pied.vercel.app/api/bouts?op=health" || true
+          echo "body:"; cat health.txt || true
+          echo
+          echo "===== bouts list ====="
+          curl -sS -m 30 -o bouts.txt -w "http_status=%{http_code}\n" "https://hook-pied.vercel.app/api/bouts" || true
+          echo "body:"; head -c 2000 bouts.txt || true
+          echo
+          echo "===== vote tally (db) ====="
+          curl -sS -m 30 -o tally.txt -w "http_status=%{http_code}\n" "https://hook-pied.vercel.app/api/votes?op=tally&bout_id=qf1&round_no=2" || true
+          echo "body:"; head -c 2000 tally.txt || true
+          echo
+          echo "===== fighter records (db) ====="
+          curl -sS -m 30 -o records.txt -w "http_status=%{http_code}\n" "https://hook-pied.vercel.app/api/betting?op=records" || true
+          echo "body:"; head -c 2000 records.txt || true
+          echo
+          echo "===== home page ====="
+          curl -sS -m 30 -o home.html -w "http_status=%{http_code}\n" "https://hook-pied.vercel.app/" || true
+          grep -o "BRAWLVERSE" home.html | head -3 || true
