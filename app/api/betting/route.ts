@@ -14,6 +14,29 @@ export async function OPTIONS(req: Request) {
 export async function GET(req: Request) {
   const op = opOf(req);
 
+  if (op === "wallet") {
+    const deviceId = new URL(req.url).searchParams.get("device_id") || "";
+    if (deviceId.length < 8) return json({ error: "device_id required" }, 400, req);
+    const dh = sha(deviceId);
+    const w = await getWallet(dh);
+    const e = await entitlements(dh);
+    const last = Number(w!.last_claim);
+    const now = Date.now() / 1000;
+    return json(
+      {
+        balance: Number(w!.balance),
+        last_claim: last,
+        next_claim_in_s: last ? Math.max(0, Math.trunc(DAY_S - (now - last))) : 0,
+        daily_claim: DAILY_CLAIM * e.daily_mult,
+        max_bet: MAX_BET * e.bet_max_mult,
+        tier: e.tier,
+        vote_weight: e.vote_weight,
+      },
+      200,
+      req,
+    );
+  }
+
   if (op === "markets") {
     const rows = await qAll<Record<string, any>>(
       "SELECT * FROM bet_markets WHERE status IN ('open','locked') ORDER BY created_at DESC",

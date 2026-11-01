@@ -14,6 +14,20 @@ export async function GET(req: Request) {
   const op = opOf(req);
   const season = new URL(req.url).searchParams.get("season") || "s1";
 
+  if (op === "my") {
+    const deviceId = new URL(req.url).searchParams.get("device_id") || "";
+    if (deviceId.length < 8) return json({ error: "device_id required" }, 400, req);
+    const t = await qOne<{ team_name: string; picks: string }>(
+      "SELECT team_name, picks FROM fantasy_teams WHERE device_hash = $1 AND season = $2",
+      [sha(deviceId), season],
+    );
+    return json(
+      { season, team: t ? { team_name: t.team_name, picks: JSON.parse(t.picks) } : null },
+      200,
+      req,
+    );
+  }
+
   if (op === "teams") {
     const rows = await qAll<{ team_name: string; picks: string; player: string }>(
       "SELECT team_name, picks, substr(device_hash,1,8) AS player FROM fantasy_teams WHERE season = $1 ORDER BY created_at",

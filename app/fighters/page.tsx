@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import TopNav from "@/components/TopNav";
 
 type RawRecord = { fighter: string; wins: number; losses: number; kos: number };
 type RecordMap = Record<string, RawRecord>;
@@ -31,10 +32,7 @@ export default function FightersPage() {
 
   return (
     <>
-      <nav className="topnav">
-        <Link href="/">HOME</Link> · <Link href="/episodes">EPISODES</Link> ·{" "}
-        <Link href="/storylines">STORYLINES</Link> · <Link href="/fan-forge">FAN FORGE →</Link>
-      </nav>
+      <TopNav />
       <header className="hero small">
         <h1 className="logo">THE FIGHTERS</h1>
         <p className="tagline">

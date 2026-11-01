@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import TopNav from "@/components/TopNav";
 import { deviceId } from "@/lib/device";
 
 type DanmakuInstance = { emit: (opts: { text: string }) => void };
@@ -12,10 +13,21 @@ type Pinned = { text: string; nickname: string };
 type Tally = { heavy: number; dodge: number; guard: number };
 type TallyResponse = { tally?: Partial<Tally>; total?: number };
 type Bout = { id: string; tactic_note?: string };
+type FighterRecord = { fighter: string; wins: number; losses: number; kos: number };
 
 const BOUT_ID = "qf1";
 const ROUND_NO = 2;
 const K = "bv_tactics";
+const FIGHTERS = [
+  "IRON JAW",
+  "VIPER",
+  "VOLT",
+  "GOLIATH-7",
+  "LA REINA",
+  "SLEDGE",
+  "MONSOON",
+  "THE PROFESSOR",
+];
 
 function readLocalTally(): Tally {
   try {
@@ -40,6 +52,7 @@ export default function EpisodesPage() {
   const [msg, setMsg] = useState("");
   const [tally, setTally] = useState<Tally>({ heavy: 0, dodge: 0, guard: 0 });
   const [tacticNote, setTacticNote] = useState("");
+  const [records, setRecords] = useState<Record<string, FighterRecord>>({});
 
   const danmakuRef = useRef<DanmakuInstance | null>(null);
   const layerRef = useRef<HTMLDivElement | null>(null);
@@ -148,6 +161,21 @@ export default function EpisodesPage() {
     return () => window.clearInterval(t);
   }, [refresh]);
 
+  // 战绩由结算真实写入，没有记录就显示 0-0
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await fetch("/api/betting?op=records");
+        const j = (await r.json()) as { records?: FighterRecord[] };
+        const map: Record<string, FighterRecord> = {};
+        for (const x of j.records ?? []) map[x.fighter.toUpperCase()] = x;
+        setRecords(map);
+      } catch {
+        // 网络异常时保持 0-0
+      }
+    })();
+  }, []);
+
   async function vote(k: keyof Tally) {
     try {
       const r = await fetch("/api/votes?op=cast", {
@@ -188,10 +216,7 @@ export default function EpisodesPage() {
 
   return (
     <>
-      <nav className="topnav">
-        <Link href="/">HOME</Link> · <Link href="/fighters">FIGHTERS</Link> ·{" "}
-        <Link href="/fan-forge">FAN FORGE →</Link>
-      </nav>
+      <TopNav />
       <header className="hero small">
         <h1 className="logo">EPISODES</h1>
         <p className="tagline">
@@ -227,7 +252,7 @@ export default function EpisodesPage() {
             <input
               id="fan-text"
               maxLength={40}
-              placeholder="发一句解说/玩梗，40字内，精选后全场可见"
+              placeholder="发一句解说/玩梗，40字内，即时上屏"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
@@ -282,7 +307,7 @@ export default function EpisodesPage() {
               <b id="nGuard">{tally.guard}</b>
             </div>
           </div>
-          <p className="note">Prototype: Season 1 voting opens with the first official bout. Votes stored in your browser.</p>
+          <p className="note">全站计票 · 每人每回合一票，可改票 · 票数每 10 秒刷新</p>
         </div>
       </section>
 
@@ -332,56 +357,20 @@ export default function EpisodesPage() {
               <th>L</th>
               <th>KO</th>
             </tr>
-            <tr>
-              <td>IRON JAW</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>VIPER</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>VOLT</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>GOLIATH-7</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>LA REINA</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>SLEDGE</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>MONSOON</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>THE PROFESSOR</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
+            {FIGHTERS.map((f) => {
+              const r = records[f];
+              return (
+                <tr key={f}>
+                  <td>{f}</td>
+                  <td>{r?.wins ?? 0}</td>
+                  <td>{r?.losses ?? 0}</td>
+                  <td>{r?.kos ?? 0}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+        <p className="note">战绩在赛后结算时自动写入 · 当前赛季尚无完赛记录即为 0-0</p>
       </section>
 
       <footer>

@@ -9,7 +9,8 @@ const DSN = process.env.DATABASE_URL || "";
 
 export const RATE_LIMIT = 20;
 export const RATE_WINDOW_S = 60;
-export const CHOICES = new Set(["heavy", "dodge", "guard"]);
+// rage/fair 属于首页 exhibition 规则投票，与回合战术投票共用 votes 表
+export const CHOICES = new Set(["heavy", "dodge", "guard", "rage", "fair"]);
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS bouts (
@@ -197,6 +198,14 @@ async function ensure(): Promise<void> {
         );
       }
     }
+    // 首页规则投票用的常驻 exhibition 赛程（幂等，老库也会补上）
+    await c.query(
+      `INSERT INTO bouts (id,title,fighter_a,fighter_b,round_no,voting_open,created_at)
+       VALUES ('ex1','EXHIBITION — NEXT RULE','RAGE MODE','FAIR PLAY',1,1,$1)
+       ON CONFLICT (id) DO NOTHING`,
+      [Date.now() / 1000],
+    );
+
     const gates = await c.query<{ n: string }>("SELECT COUNT(*) AS n FROM ops_gates");
     if (Number(gates.rows[0].n) === 0) {
       const now = Date.now() / 1000;

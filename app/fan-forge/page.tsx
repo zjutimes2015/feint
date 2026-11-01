@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
+import TopNav from "@/components/TopNav";
 
 type ForgeEntry = { name: string; persona: string };
 
@@ -46,9 +46,7 @@ export default function FanForgePage() {
 
   return (
     <>
-      <nav className="topnav">
-        <Link href="/">← BRAWLVERSE</Link>
-      </nav>
+      <TopNav />
       <header className="hero small">
         <h1 className="logo">FAN FORGE</h1>
         <p className="tagline">

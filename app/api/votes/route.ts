@@ -21,8 +21,8 @@ export async function GET(req: Request) {
     "SELECT choice, SUM(weight) AS n FROM votes WHERE bout_id = $1 AND round_no = $2 GROUP BY choice",
     [boutId, roundNo],
   );
-  const tally: Record<string, number> = { heavy: 0, dodge: 0, guard: 0 };
-  for (const r of rows) if (r.choice in tally) tally[r.choice] = Number(r.n);
+  const tally: Record<string, number> = { heavy: 0, dodge: 0, guard: 0, rage: 0, fair: 0 };
+  for (const r of rows) tally[r.choice] = Number(r.n);
 
   return json(
     {

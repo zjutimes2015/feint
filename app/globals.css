@@ -94,3 +94,37 @@ footer .aigc{margin-top:8px;font-size:12px;color:#666}
 .adm-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .adm-small{color:#888;font-size:12px}
 .adm-item{border-bottom:1px solid #333;padding:8px 0}
+
+/* Playable pages: /bet, /fantasy, /live */
+.topnav{line-height:1.9}
+.panel{margin:0 auto 26px;background:#161616;border:3px solid #333;border-radius:8px;padding:22px;max-width:760px;text-align:left}
+.panel h3{color:#ffcc00;letter-spacing:2px;margin-bottom:14px;font-size:20px}
+.panel p{color:#bbb;font-size:14px;line-height:1.7}
+.btn{background:#ffcc00;color:#000;border:0;border-radius:6px;padding:10px 18px;font-weight:800;letter-spacing:1px;cursor:pointer;font-family:inherit;font-size:15px}
+.btn:hover{background:#ffe066}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:#2a2a2a;color:#eee;border:1px solid #555}
+.btn.small{padding:6px 12px;font-size:13px}
+.field{background:#1a1a1a;border:1px solid #444;color:#eee;border-radius:8px;padding:10px;font-family:inherit;font-size:15px}
+.field:focus{border-color:#ffcc00;outline:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.gap{margin-top:14px}
+.wallet{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.wallet .cell{background:#0f0f0f;border:1px solid #333;border-radius:8px;padding:14px;text-align:center}
+.wallet .k{color:#888;font-size:12px;letter-spacing:1px}
+.wallet .v{color:#ffcc00;font-size:26px;font-weight:800;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:#222;border:2px solid #444;color:#ddd;border-radius:20px;padding:8px 14px;font-size:14px;letter-spacing:1px;cursor:pointer;font-family:inherit}
+.chip.on{border-color:#39ff6a;color:#39ff6a;background:#0d1a10}
+.mkt{background:#161616;border:3px solid #333;border-radius:8px;padding:20px;margin:0 auto 16px;max-width:760px;text-align:left}
+.mkt h3{color:#ffcc00;font-size:19px;margin-bottom:6px;letter-spacing:1px}
+.mkt .meta{color:#888;font-size:12px;letter-spacing:1px;margin-bottom:12px}
+.sel{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#0f0f0f;border:1px solid #333;border-radius:8px;padding:10px 14px;margin:8px 0;flex-wrap:wrap}
+.sel.on{border-color:#ffcc00}
+.sel .name{font-weight:700;letter-spacing:1px}
+.sel .odd{color:#ffcc00;font-size:14px}
+.sel .pool{color:#888;font-size:12px}
+.countdown{font-size:38px;font-weight:800;color:#ff3333;letter-spacing:3px;font-style:italic;text-align:center;margin:10px 0}
+.tag{display:inline-block;background:#2a2a2a;color:#ffcc00;border-radius:4px;padding:2px 8px;font-size:12px;letter-spacing:1px;margin-left:8px}
+.warn{color:#ff9999;font-size:14px;margin-top:10px}
+.ok{color:#39ff6a;font-size:14px;margin-top:10px}

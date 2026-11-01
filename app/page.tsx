@@ -2,44 +2,70 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import TopNav from "@/components/TopNav";
+import { deviceId } from "@/lib/device";
 
-type RuleVote = { rage: number; fair: number };
+type RuleChoice = "rage" | "fair";
+type RuleTally = { rage: number; fair: number };
 
+// 服务端的常驻 exhibition 赛程，两套规则投票全站共享
+const EX_BOUT = "ex1";
+const EX_ROUND = 1;
 const K = "bv_rulevote";
 
-function readVotes(): RuleVote {
-  try {
-    const raw = localStorage.getItem(K);
-    if (!raw) return { rage: 0, fair: 0 };
-    const v = JSON.parse(raw) as Partial<RuleVote> | null;
-    return { rage: Number(v?.rage) || 0, fair: Number(v?.fair) || 0 };
-  } catch {
-    return { rage: 0, fair: 0 };
-  }
-}
-
 export default function HomePage() {
-  const [votes, setVotes] = useState<RuleVote>({ rage: 0, fair: 0 });
+  const [tally, setTally] = useState<RuleTally>({ rage: 0, fair: 0 });
+  const [mine, setMine] = useState<RuleChoice | "">("");
+  const [msg, setMsg] = useState("");
+  const [voting, setVoting] = useState(false);
+
+  async function refreshTally() {
+    try {
+      const r = await fetch(`/api/votes?op=tally&bout_id=${EX_BOUT}&round_no=${EX_ROUND}`);
+      const j = (await r.json()) as { tally?: Partial<RuleTally> };
+      setTally({ rage: Number(j.tally?.rage) || 0, fair: Number(j.tally?.fair) || 0 });
+    } catch {
+      // 网络异常时保留上一次票数
+    }
+  }
 
   useEffect(() => {
-    setVotes(readVotes());
+    const saved = localStorage.getItem(K);
+    if (saved === "rage" || saved === "fair") setMine(saved);
+    void refreshTally();
+    const t = window.setInterval(() => void refreshTally(), 15000);
+    return () => window.clearInterval(t);
   }, []);
 
-  function vote(k: "rage" | "fair") {
-    const v = readVotes();
-    v[k]++;
-    localStorage.setItem(K, JSON.stringify(v));
-    setVotes(v);
+  async function vote(k: RuleChoice) {
+    setVoting(true);
+    try {
+      const r = await fetch("/api/votes?op=cast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bout_id: EX_BOUT, round_no: EX_ROUND, choice: k, device_id: deviceId() }),
+      });
+      const j = (await r.json().catch(() => ({}))) as { error?: string };
+      if (!r.ok) {
+        setMsg(j.error === "voting is closed for this bout" ? "本轮规则投票已封盘" : "投票失败，稍后再试");
+        return;
+      }
+      localStorage.setItem(K, k);
+      setMine(k);
+      setMsg("已投票，可随时改票");
+      await refreshTally();
+    } catch {
+      setMsg("网络开小差，稍后再试");
+    } finally {
+      setVoting(false);
+    }
   }
 
-  const total = votes.rage + votes.fair || 1;
+  const total = tally.rage + tally.fair;
 
   return (
     <>
-      <nav className="topnav">
-        <Link href="/fighters">FIGHTERS</Link> · <Link href="/episodes">EPISODES</Link> ·{" "}
-        <Link href="/storylines">STORYLINES</Link> · <Link href="/fan-forge">FAN FORGE →</Link>
-      </nav>
+      <TopNav />
       <header className="hero">
         <div className="burst" />
         <h1 className="logo">BRAWLVERSE</h1>
@@ -74,12 +100,12 @@ export default function HomePage() {
         <div className="rulevote">
           <h3>NEXT EXHIBITION — YOU PICK THE RULES</h3>
           <div className="rv-buttons">
-            <button id="voteRage" onClick={() => vote("rage")}>
+            <button id="voteRage" onClick={() => void vote("rage")} disabled={voting}>
               RAGE MODE
               <br />
               <small>no defense, all power</small>
             </button>
-            <button id="voteFair" onClick={() => vote("fair")}>
+            <button id="voteFair" onClick={() => void vote("fair")} disabled={voting}>
               FAIR PLAY
               <br />
               <small>classic 3-round rules</small>
@@ -89,19 +115,23 @@ export default function HomePage() {
             <div className="rv-row">
               <span>RAGE</span>
               <div className="bar">
-                <div id="barRage" style={{ width: (votes.rage / total) * 100 + "%" }} />
+                <div id="barRage" style={{ width: (total ? (tally.rage / total) * 100 : 0) + "%" }} />
               </div>
-              <b id="nRage">{votes.rage}</b>
+              <b id="nRage">{tally.rage}</b>
             </div>
             <div className="rv-row">
               <span>FAIR</span>
               <div className="bar">
-                <div id="barFair" style={{ width: (votes.fair / total) * 100 + "%" }} />
+                <div id="barFair" style={{ width: (total ? (tally.fair / total) * 100 : 0) + "%" }} />
               </div>
-              <b id="nFair">{votes.fair}</b>
+              <b id="nFair">{tally.fair}</b>
             </div>
           </div>
-          <p className="note">Prototype: votes stored in your browser.</p>
+          <p className="note">
+            {total} 票 · 全站实时共享
+            {mine ? ` · 你投了 ${mine === "rage" ? "RAGE MODE" : "FAIR PLAY"}` : " · 点一下就投"}
+            {msg ? ` · ${msg}` : ""}
+          </p>
         </div>
       </section>
 

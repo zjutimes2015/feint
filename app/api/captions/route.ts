@@ -4,14 +4,13 @@ import { checkRate, clientIp, qAll, qOne, qWrite, sha } from "@/lib/db";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// 关键词初筛：明显垃圾/广告/脏话直接 rejected，最终由后台人工精选
+// 关键词初筛：命中明显垃圾/广告/脏话直接 rejected，其余即时上屏（不再人工排队）
 const BLOCK_RE = new RegExp(
   "加微信|微信号|兼职|贷款|赌博|博彩|六合彩|时时彩|代购|客服|代理|日结|赚钱|" +
     "http|www\\.|\\.com|\\.cn|fuck|shit|bitch|asshole|damn",
   "i",
 );
 
-const FEED_WINDOW_S = 30 * 60;
 const FEED_LIMIT = 50;
 
 export async function OPTIONS(req: Request) {
@@ -24,13 +23,21 @@ export async function GET(req: Request) {
 
   if (op === "feed") {
     const sinceId = parseInt(url.searchParams.get("since_id") || "0", 10) || 0;
-    const rows = await qAll(
+    if (sinceId > 0) {
+      const rows = await qAll(
+        `SELECT id, text, nickname, created_at FROM fan_captions
+         WHERE status = 'approved' AND id > $1
+         ORDER BY id ASC LIMIT $2`,
+        [sinceId, FEED_LIMIT],
+      );
+      return json({ captions: rows }, 200, req);
+    }
+    // 首次进入：给最近 20 条做背景弹幕，避免整屏历史刷屏
+    const rows = await qAll<{ id: number; text: string; nickname: string; created_at: number }>(
       `SELECT id, text, nickname, created_at FROM fan_captions
-       WHERE status = 'approved' AND created_at > $1 AND id > $2
-       ORDER BY id ASC LIMIT $3`,
-      [Date.now() / 1000 - FEED_WINDOW_S, sinceId, FEED_LIMIT],
+       WHERE status = 'approved' ORDER BY id DESC LIMIT 20`,
     );
-    return json({ captions: rows }, 200, req);
+    return json({ captions: rows.slice().reverse() }, 200, req);
   }
 
   if (op === "pinned") {
@@ -67,7 +74,7 @@ export async function POST(req: Request) {
   if (!(await checkRate(ip))) return json({ error: "rate limited: slow down" }, 429, req);
 
   const ua = req.headers.get("user-agent") || "";
-  const status = BLOCK_RE.test(text) ? "rejected" : "pending";
+  const status = BLOCK_RE.test(text) ? "rejected" : "approved";
 
   await qWrite(
     `INSERT INTO fan_captions (text, nickname, device_hash, ip, ip_ua, status, pinned, created_at)
@@ -76,7 +83,7 @@ export async function POST(req: Request) {
   );
 
   return json(
-    { ok: true, status, msg: status === "pending" ? "已提交，待精选！" : "内容未通过初筛" },
+    { ok: status === "approved", status, msg: status === "approved" ? "已上屏，马上飘过！" : "内容未通过初筛" },
     200,
     req,
   );

@@ -1,12 +1,9 @@
-import Link from "next/link";
+import TopNav from "@/components/TopNav";
 
 export default function StorylinesPage() {
   return (
     <>
-      <nav className="topnav">
-        <Link href="/">HOME</Link> · <Link href="/fighters">FIGHTERS</Link> ·{" "}
-        <Link href="/episodes">EPISODES</Link> · <Link href="/fan-forge">FAN FORGE →</Link>
-      </nav>
+      <TopNav />
       <header className="hero small">
         <h1 className="logo">THE STORY BIBLE</h1>
         <p className="tagline">
