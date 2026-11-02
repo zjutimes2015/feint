@@ -19,3 +19,8 @@ out/
 
 # 部署与调试临时文件
 *.log
+
+# Mixamo 二进制动作库（本地下载，不进仓；清单见 pipeline/reference/mixamo/MANIFEST.json）
+pipeline/reference/mixamo/fbx/
+pipeline/reference/mixamo/*.fbx
+pipeline/reference/mixamo/*.mp4
