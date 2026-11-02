@@ -1,0 +1,12 @@
+{
+  "name": "LA REINA",
+  "slug": "la_reina",
+  "dna": "regal sharp jawline, long braided raven-black hair with gold cuffs, crimson gloves with gold trim, black-and-gold trunks with crown emblem, rose tattoo on left shoulder",
+  "seed": 50268,
+  "portraits": {
+    "front": "pending",
+    "three_quarter": "pending",
+    "profile": "pending"
+  },
+  "locked": false
+}
