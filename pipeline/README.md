@@ -59,6 +59,10 @@ python3 run_episode.py --bout qf1 --a "IRON JAW" --b "VIPER" \
 | CC0 素材 | `reference/cc0/` | Pexels/Pixabay/Mixkit，搜 boxing training |
 | 自拍 | `reference/shot/` | 手机拍，版权最干净 |
 
+**Mixamo 流程（已定，2026-11-02）**：27 个必下动作清单见 `pipeline/reference/mixamo/MANIFEST.json`（站架/位移/打击/防守/受击/表演 6 类）；
+下载步骤见 `pipeline/reference/mixamo/FETCH_GUIDE.md`（mixamo.com，Adobe 账号免费，FBX Binary + With Skin + 30fps，位移类勾 In Place）；
+下完跑 `python3 pipeline/reference/mixamo/check.py` 验收。FBX/mp4 二进制不进仓（见 `.gitignore`）。
+
 选定底片后，在 brief 的 segment.reference 里填路径或 URL，`produce.py` 会自动处理。
 详见《BRAWLVERSE-实拍动作库方案-v1.0》。
 
