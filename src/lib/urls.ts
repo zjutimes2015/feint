@@ -1,9 +1,26 @@
 import { LOCALES, routing } from '@/i18n/routing';
 import type { Locale } from 'next-intl';
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_BASE_URL ??
-  `http://localhost:${process.env.PORT ?? 3000}`;
+/**
+ * Resolve the public base URL.
+ *
+ * NEXT_PUBLIC_BASE_URL wins when set. On Vercel we fall back to the platform
+ * provided hostnames instead of localhost — an OAuth redirect pointing at
+ * localhost is the most common cause of a silent "something went wrong" on the
+ * callback, because Google then posts back to a host that cannot answer.
+ */
+function resolveBaseUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_BASE_URL?.trim();
+  if (explicit) return explicit.replace(/\/+$/, '');
+
+  const vercelHost =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+  if (vercelHost) return `https://${vercelHost}`;
+
+  return `http://localhost:${process.env.PORT ?? 3000}`;
+}
+
+const baseUrl = resolveBaseUrl();
 
 /**
  * Get the base URL of the application

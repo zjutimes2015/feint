@@ -21,6 +21,15 @@ export async function generateMetadata({
   });
 }
 
-export default async function AuthErrorPage() {
-  return <ErrorCard />;
+export default async function AuthErrorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string; error_description?: string }>;
+}) {
+  // Better Auth appends ?error=<code> to the configured errorURL, e.g.
+  // state_mismatch, invalid_client, access_denied. Surfacing it turns an
+  // opaque "try again" page into something actionable.
+  const { error, error_description } = await searchParams;
+
+  return <ErrorCard errorCode={error} errorDescription={error_description} />;
 }

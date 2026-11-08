@@ -18,6 +18,55 @@ import { isE2ETestMode } from './e2e';
 import { userAdditionalFields } from './auth-user-fields';
 
 /**
+ * Origins allowed to start an OAuth flow.
+ *
+ * Vercel serves every branch/preview under its own hostname, so a preview
+ * deployment that is not listed here fails the callback with a generic
+ * "something went wrong" page (the OAuth state cookie is rejected).
+ */
+function buildTrustedOrigins(): string[] {
+  const origins = new Set<string>([getBaseUrl(), 'http://localhost:3000']);
+
+  for (const host of [
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_BRANCH_URL,
+    process.env.VERCEL_URL,
+  ]) {
+    if (host) origins.add(`https://${host}`);
+  }
+
+  return Array.from(origins);
+}
+
+/**
+ * Only register a social provider when both halves of the credential exist.
+ * Registering an empty client id makes the provider look enabled in the UI and
+ * then fail at the provider with an opaque error.
+ */
+function buildSocialProviders() {
+  const providers: {
+    github?: { clientId: string; clientSecret: string };
+    google?: { clientId: string; clientSecret: string };
+  } = {};
+
+  if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+    providers.github = {
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    };
+  }
+
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    providers.google = {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    };
+  }
+
+  return providers;
+}
+
+/**
  * Better Auth configuration
  *
  * docs:
@@ -26,6 +75,7 @@ import { userAdditionalFields } from './auth-user-fields';
  */
 export const auth = betterAuth({
   baseURL: getBaseUrl(),
+  trustedOrigins: buildTrustedOrigins(),
   appName: defaultMessages.Metadata.name,
   database: drizzleAdapter(await getDb(), {
     provider: 'pg', // or "mysql", "sqlite"
@@ -91,18 +141,9 @@ export const auth = betterAuth({
     },
     sendOnSignIn: true,
   },
-  socialProviders: {
-    // https://www.better-auth.com/docs/authentication/github
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    },
-    // https://www.better-auth.com/docs/authentication/google
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    },
-  },
+  // https://www.better-auth.com/docs/authentication/github
+  // https://www.better-auth.com/docs/authentication/google
+  socialProviders: buildSocialProviders(),
   account: {
     // https://www.better-auth.com/docs/concepts/users-accounts#account-linking
     accountLinking: {
