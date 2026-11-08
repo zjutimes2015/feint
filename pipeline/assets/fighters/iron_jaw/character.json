@@ -4,9 +4,9 @@
   "dna": "square jaw with a crescent scar on left cheek, shaved head, gunmetal-gray Everlast-style gloves, black trunks with white waistband trim, faded dragon tattoo wrapping right bicep",
   "seed": 71042,
   "portraits": {
-    "front": "pending",
-    "three_quarter": "pending",
-    "profile": "pending"
+    "front": "assets/fighters/iron_jaw/front.png",
+    "three_quarter": "assets/fighters/iron_jaw/three_quarter.png",
+    "profile": "assets/fighters/iron_jaw/profile.png"
   },
-  "locked": false
+  "locked": true
 }

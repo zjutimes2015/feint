@@ -1,4 +1,14 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs"
+  "buildCommand": "node scripts/vercel-build.mjs",
+  "functions": {
+    "src/app/api/**/*": {
+      "maxDuration": 300
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/adaptlane/render?op=submit",
+      "schedule": "0 14 * * 3"
+    }
+  ]
 }

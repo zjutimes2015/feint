@@ -4,9 +4,9 @@
   "dna": "neat side-parted brown hair, round spectacles, trimmed goatee, burgundy gloves, brown trunks with subtle tweed pattern, small chess-knight tattoo behind left ear",
   "seed": 31847,
   "portraits": {
-    "front": "pending",
-    "three_quarter": "pending",
-    "profile": "pending"
+    "front": "assets/fighters/the_professor/front.png",
+    "three_quarter": "assets/fighters/the_professor/three_quarter.png",
+    "profile": "assets/fighters/the_professor/profile.png"
   },
-  "locked": false
+  "locked": true
 }

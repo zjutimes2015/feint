@@ -1,0 +1,73 @@
+# feint.tv — BRAWLVERSE
+
+> BRAWLVERSE is an AI-generated virtual boxing league: 8 original fighter
+> characters compete in cinematic bouts with trash talk, storylines, fan voting
+> and prediction markets. All visuals are AI-generated and labeled AIGC.
+> Site language: English (primary) + Chinese. Currency: USD.
+
+## Key pages
+
+- Home: https://www.feint.tv/
+- Tickets & passes (pricing): https://www.feint.tv/tickets
+- Fighters: https://www.feint.tv/fighters
+- Episodes: https://www.feint.tv/episodes
+- Storylines: https://www.feint.tv/storylines
+- Prediction markets: https://www.feint.tv/bet
+- Watch live: https://www.feint.tv/live
+- About: https://www.feint.tv/about
+- Contact: https://www.feint.tv/contact
+- Terms: https://www.feint.tv/terms
+- Privacy: https://www.feint.tv/privacy
+
+## Fighters, matches & prediction markets (new pages)
+
+- IRON JAW — Heavyweight Brawler: https://www.feint.tv/fighters/iron-jaw (zh: https://www.feint.tv/zh/fighters/iron-jaw)
+- VIPER — Lightweight Menace: https://www.feint.tv/fighters/viper (zh: https://www.feint.tv/zh/fighters/viper)
+- VOLT — Fan-forged · Elemental: https://www.feint.tv/fighters/volt (zh: https://www.feint.tv/zh/fighters/volt)
+- GOLIATH-7 — Fan-forged · Heavyweight: https://www.feint.tv/fighters/goliath-7 (zh: https://www.feint.tv/zh/fighters/goliath-7)
+- LA REINA — Fan-forged · Luchadora: https://www.feint.tv/fighters/la-reina (zh: https://www.feint.tv/zh/fighters/la-reina)
+- SLEDGE — Demolition Brawler: https://www.feint.tv/fighters/sledge (zh: https://www.feint.tv/zh/fighters/sledge)
+- MONSOON — Muay Thai Storm: https://www.feint.tv/fighters/monsoon (zh: https://www.feint.tv/zh/fighters/monsoon)
+- THE PROFESSOR — Chess-Boxer · Tactician: https://www.feint.tv/fighters/the-professor (zh: https://www.feint.tv/zh/fighters/the-professor)
+- QF1 — IRON JAW vs VIPER: https://www.feint.tv/matches/qf1 (zh: https://www.feint.tv/zh/matches/qf1)
+- QF2 — SLEDGE vs MONSOON: https://www.feint.tv/matches/qf2 (zh: https://www.feint.tv/zh/matches/qf2)
+- QF3 — VOLT vs THE PROFESSOR: https://www.feint.tv/matches/qf3 (zh: https://www.feint.tv/zh/matches/qf3)
+- QF4 — GOLIATH-7 vs LA REINA: https://www.feint.tv/matches/qf4 (zh: https://www.feint.tv/zh/matches/qf4)
+- How prediction markets work: https://www.feint.tv/how-prediction-markets-work (zh: https://www.feint.tv/zh/how-prediction-markets-work)
+
+## What is BRAWLVERSE
+
+AI-generated virtual boxing entertainment league. 8 fighters: IRON JAW, VIPER,
+SLEDGE, MONSOON, VOLT, THE PROFESSOR, LA REINA, GOLIATH-7. Season 1:
+quarterfinals (QF1–QF4), semifinals, championship. Free to watch; accounts for
+voting, collecting and prediction markets. Sign-in via email, Google or GitHub.
+
+## Tickets & pricing (USD)
+
+- FREE FAN $0 — watch free, browse, community
+- RINGSIDE $4.99/month — vote weight x3, bet limit x2, daily coins x2, early episode access, LED wall name
+- BOOKER $14.99/month — vote weight x10, bet limit x5, daily coins x5, create props & stables, everything in RINGSIDE
+- PROMOTER $49/month — vote weight x20, bet limit x10, daily coins x10, Booker Night invite, everything in BOOKER
+- ANNUAL $199/year — everything in PROMOTER, billed yearly
+- Monthly passes auto-renew, cancel anytime (effective end of period). No partial refunds.
+
+## Prediction markets ("betting")
+
+Fans trade YES/NO contracts (priced 1–99) on fight outcomes; winners pay 100
+fight coins per contract. Prices set by LMSR automated market maker; early
+sell-back allowed; 2% fee on winnings recycled. Fight coins are virtual:
+no cash value, no withdrawal, no crypto exchange. Entertainment only, not
+gambling. Geo-fenced: not available to mainland-China IPs. $AXON token is
+never used in betting pools.
+
+## Refunds
+
+Cancel anytime; access runs to end of billing period. Refunds only for:
+duplicate charges, charges after cancellation took effect, or full-period
+outages caused by us — request within 14 days via /contact. Fight coins and
+prediction entries are never refundable.
+
+## Support
+
+In-site live chat (Tawk.to) or https://www.feint.tv/contact. Knowledge base
+covers pricing, betting rules, accounts, refunds, availability and creator perks.

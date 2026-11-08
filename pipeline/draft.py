@@ -75,7 +75,8 @@ SYSTEM = """你是 BRAWLVERSE 的 booker（剧情策划），WWE 式剧本娱乐
 3. 单集 3 分钟 beat sheet：0:00 钩子 → 0:30 对峙 → 1:00 R1 埋反转 → 1:30 R2 战术投票点 → 2:00 R3 逆转 buff → 2:30 结局+下集预告。
 4. 垃圾话台词必须符合拳手人设，英文，短促有力，适合 TTS 朗读（<20 词/条）。
 5. 连续性：本轮只能在已有伤痕基础上新增（淤青/伤口/破衣/血迹），绝不能消除或"愈合"上一轮的伤。输出 "continuity" 对象：key 为拳手 slug（小写下划线，如 iron_jaw），value 为本轮新增伤痕描述数组；无新增则为空数组。
-6. 只输出 JSON，不要解释。
+6. 镜头数铁律：segments 必须 20–40 个，够 3 分钟正片。fight 镜头 2–4 秒，trash_talk 3–8 秒，必须有开场钩子镜头与结尾定格镜头。
+7. 只输出 JSON，不要解释。
 
 输出 JSON 结构：
 {
@@ -155,6 +156,18 @@ def main():
     brief["bout_id"] = a.bout
     brief["round"] = a.round
     brief["fighters"] = [a.a, a.b]
+
+    # 镜头数验收：P0-1 要的是 20–40 镜的完整正片，不是 5 镜片段。
+    segs = brief.get("segments") or []
+    n = len(segs)
+    total_s = sum(float(s.get("duration_s") or 0) for s in segs)
+    print("shots=%d total=%.1fs" % (n, total_s), file=sys.stderr)
+    if n < 20 or n > 40:
+        print("WARN: 镜头数 %d 不在 20–40 区间，正片时长可能不达标。" % n,
+              file=sys.stderr)
+    if total_s < 150:
+        print("WARN: 总时长 %.1fs < 150s，按 3 分钟正片标准偏短。" % total_s,
+              file=sys.stderr)
 
     # 连续性表：合并本轮新增并写回
     merged = dict(prev_cont)

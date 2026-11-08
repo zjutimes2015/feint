@@ -1,26 +1,109 @@
-# Python
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+/test-results
+/playwright-report
+
+# next.js
+/.next/
+/.next-e2e/
+/.next-production-e2e/
+/.next-stripe-e2e/
+/.next-creem-e2e/
+/.next-waffo-e2e/
+/out/
+
+# production
+/build
+
+# BRAWLVERSE 动作库与成片产物(大文件,只留本地/对象存储)
+# FBX 源文件、渲染出的 mp4 底片、成片都不进仓
+/pipeline/assets/mixamo/fbx/
+/pipeline/assets/mixamo/mp4/
+/pipeline/out/
+/pipeline/rounds/
+/pipeline/briefs/
+*.fbx
+# Blender 场景模板由 setup_scene.py 生成,不重复入库
+/pipeline/blender/*.blend
+/pipeline/blender/*.blend1
+# 一次性调参/基准脚本,不进仓
+/pipeline/blender/_*.py
+# 生成产物的来源 URL 侧车文件,不进仓
+/pipeline/assets/fighters/*/*.png.json
 __pycache__/
-*.py[cod]
-.venv/
-venv/
+*.pyc
 
-# 本地配置与密钥（.env.example 仍要提交）
-.env
-.env.*
-!.env.example
+# misc
+.DS_Store
+*.pem
 
-# 数据库与构建产物
-*.db
-*.sqlite3
-node_modules/
-.next/
-out/
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+certificates
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
 .vercel
 
-# 部署与调试临时文件
-*.log
+# claude code
+.claude
 
-# Mixamo 二进制动作库（本地下载，不进仓；清单见 pipeline/reference/mixamo/MANIFEST.json）
-pipeline/reference/mixamo/fbx/
-pipeline/reference/mixamo/*.fbx
+# codebuddy
+.codebuddy
+
+# conductor
+.conductor
+
+# kiro
+.kiro
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# content collections
+.content-collections
+
+# fumadocs
+.source
+
+# OpenNext build output
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars
+.dev.vars*
+!.dev.vars.example
+
+# BRAWLVERSE footage renders (local only; FBX sources ARE committed under pipeline/assets/mixamo/)
 pipeline/reference/mixamo/*.mp4
+
+# Auto Claude data directory
+.auto-claude/
+
+# Auto Claude generated files
+.auto-claude-security.json
+.auto-claude-status
+.claude_settings.json
+.worktrees/
+.security-key
+logs/security/

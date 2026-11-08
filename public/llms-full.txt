@@ -1,0 +1,152 @@
+# feint.tv — BRAWLVERSE (full)
+
+> BRAWLVERSE is an AI-generated virtual boxing league: 8 original fighter
+> characters compete in cinematic bouts with trash talk, storylines, fan voting
+> and prediction markets. All visuals are AI-generated and labeled AIGC.
+> Site language: English (primary) + Chinese. Currency: USD.
+>
+> This is the full version of /llms.txt: same key pages, plus the complete
+> fighter roster, the Season 1 quarterfinals, and the full prediction-market
+> explainer. Fight records are 0–0 for every fighter — no bouts have been
+> settled yet, and no record is claimed here.
+
+## Key pages
+
+- Home: https://www.feint.tv/
+- Tickets & passes (pricing): https://www.feint.tv/tickets
+- Fighters: https://www.feint.tv/fighters
+- Episodes: https://www.feint.tv/episodes
+- Storylines: https://www.feint.tv/storylines
+- Prediction markets: https://www.feint.tv/bet
+- Watch live: https://www.feint.tv/live
+- About: https://www.feint.tv/about
+- Contact: https://www.feint.tv/contact
+- Terms: https://www.feint.tv/terms
+- Privacy: https://www.feint.tv/privacy
+
+## Fighters, matches & prediction markets (new pages)
+
+- IRON JAW — Heavyweight Brawler: https://www.feint.tv/fighters/iron-jaw (zh: https://www.feint.tv/zh/fighters/iron-jaw)
+- VIPER — Lightweight Menace: https://www.feint.tv/fighters/viper (zh: https://www.feint.tv/zh/fighters/viper)
+- VOLT — Fan-forged · Elemental: https://www.feint.tv/fighters/volt (zh: https://www.feint.tv/zh/fighters/volt)
+- GOLIATH-7 — Fan-forged · Heavyweight: https://www.feint.tv/fighters/goliath-7 (zh: https://www.feint.tv/zh/fighters/goliath-7)
+- LA REINA — Fan-forged · Luchadora: https://www.feint.tv/fighters/la-reina (zh: https://www.feint.tv/zh/fighters/la-reina)
+- SLEDGE — Demolition Brawler: https://www.feint.tv/fighters/sledge (zh: https://www.feint.tv/zh/fighters/sledge)
+- MONSOON — Muay Thai Storm: https://www.feint.tv/fighters/monsoon (zh: https://www.feint.tv/zh/fighters/monsoon)
+- THE PROFESSOR — Chess-Boxer · Tactician: https://www.feint.tv/fighters/the-professor (zh: https://www.feint.tv/zh/fighters/the-professor)
+- QF1 — IRON JAW vs VIPER: https://www.feint.tv/matches/qf1 (zh: https://www.feint.tv/zh/matches/qf1)
+- QF2 — SLEDGE vs MONSOON: https://www.feint.tv/matches/qf2 (zh: https://www.feint.tv/zh/matches/qf2)
+- QF3 — VOLT vs THE PROFESSOR: https://www.feint.tv/matches/qf3 (zh: https://www.feint.tv/zh/matches/qf3)
+- QF4 — GOLIATH-7 vs LA REINA: https://www.feint.tv/matches/qf4 (zh: https://www.feint.tv/zh/matches/qf4)
+- How prediction markets work: https://www.feint.tv/how-prediction-markets-work (zh: https://www.feint.tv/zh/how-prediction-markets-work)
+
+## What is BRAWLVERSE
+
+AI-generated virtual boxing entertainment league. 8 fighters: IRON JAW, VIPER,
+SLEDGE, MONSOON, VOLT, THE PROFESSOR, LA REINA, GOLIATH-7. Season 1:
+quarterfinals (QF1–QF4), semifinals, championship. Free to watch; accounts for
+voting, collecting and prediction markets. Sign-in via email, Google or GitHub.
+
+## Fighters (full roster)
+
+All 8 fighters are original fictional characters. Records are 0–0: no bouts
+have been settled yet.
+
+- IRON JAW — Heavyweight Brawler. Takes a punch like iron, hits back like
+  hell. Street-circuit legend. Zero finesse, all thunder.
+  Trash talk: "VIPER's gonna need more than speed when my fist rearranges
+  his face." Profile: https://www.feint.tv/fighters/iron-jaw
+- VIPER — Lightweight Menace. Coiled. Ready. Lethal. A counter-punching
+  phantom — you never see the punch that ends you.
+  Trash talk: "Jaw's got a chin of iron and a brain of rust. He'll wake up
+  on the canvas." Profile: https://www.feint.tv/fighters/viper
+- VOLT — Fan-forged · Elemental. A lightning spirit in gloves. Undefeated
+  in thunderstorms. Refuses to fight indoors.
+  Trash talk: "I don't dodge punches. I AM the punch."
+  Profile: https://www.feint.tv/fighters/volt
+- GOLIATH-7 — Fan-forged · Heavyweight. Decommissioned war mech, gentle
+  soul. Has never lost — has never wanted to win.
+  Trash talk: "I was built for war. I choose the ring."
+  Profile: https://www.feint.tv/fighters/goliath-7
+- LA REINA — Fan-forged · Luchadora. Masked queen of lucha. ¡Viva la Reina!
+  Opponents don't stay up.
+  Trash talk: "The crown stays on. You won't."
+  Profile: https://www.feint.tv/fighters/la-reina
+- SLEDGE — Demolition Brawler. Swings like a wrecking ball. Once demolished
+  three buildings before breakfast. The ring is smaller.
+  Trash talk: "Everything breaks. You're just next in line."
+  Profile: https://www.feint.tv/fighters/sledge
+- MONSOON — Muay Thai Storm. Elbows like typhoon winds. Fights best in the
+  rain — brings his own.
+  Trash talk: "You can't block the weather."
+  Profile: https://www.feint.tv/fighters/monsoon
+- THE PROFESSOR — Chess-Boxer · Tactician. Sees twelve moves ahead. The only
+  fighter who takes notes mid-round.
+  Trash talk: "I've already won. You're just catching up to move 14."
+  Profile: https://www.feint.tv/fighters/the-professor
+
+## Season 1 quarterfinals
+
+- QF1 — IRON JAW vs VIPER: https://www.feint.tv/matches/qf1
+- QF2 — SLEDGE vs MONSOON: https://www.feint.tv/matches/qf2
+- QF3 — VOLT vs THE PROFESSOR: https://www.feint.tv/matches/qf3
+- QF4 — GOLIATH-7 vs LA REINA: https://www.feint.tv/matches/qf4
+
+Winners advance to the semifinals, then the championship. Live bout status
+(round, voting window) is shown on /bet and /episodes, not on these pages.
+
+## Tickets & pricing (USD)
+
+- FREE FAN $0 — watch free, browse, community
+- RINGSIDE $4.99/month — vote weight x3, bet limit x2, daily coins x2, early episode access, LED wall name
+- BOOKER $14.99/month — vote weight x10, bet limit x5, daily coins x5, create props & stables, everything in RINGSIDE
+- PROMOTER $49/month — vote weight x20, bet limit x10, daily coins x10, Booker Night invite, everything in BOOKER
+- ANNUAL $199/year — everything in PROMOTER, billed yearly
+- Monthly passes auto-renew, cancel anytime (effective end of period). No partial refunds.
+
+## Prediction markets ("betting") — full explainer
+
+Fans trade YES/NO contracts (priced 1–99) on fight outcomes; winners pay 100
+fight coins per contract. Prices set by LMSR automated market maker; early
+sell-back allowed; 2% fee on winnings recycled. Fight coins are virtual:
+no cash value, no withdrawal, no crypto exchange. Entertainment only, not
+gambling. Geo-fenced: not available to mainland-China IPs. $AXON token is
+never used in betting pools.
+
+How a contract works:
+
+- Price 1–99: the price is the market's probability, in percent.
+- Buy Yes if you think it happens, No if you think it doesn't.
+- Sell anytime before settlement — you don't have to wait for the result.
+- Settlement: Yes pays 100 if the event happened, 0 if it didn't.
+- A 2% fee in points applies to trades — points, never cash.
+
+FAQ:
+
+- How much is a Yes contract worth? A Yes contract is worth 100 points if
+  the event happens, 0 if it doesn't. The price you pay, 1–99, is what the
+  market thinks the chance is.
+- Can I sell before the event ends? Yes. You can sell your contracts anytime
+  before settlement at the current market price.
+- What is the fee? A 2% fee in points applies to trades. It is charged in
+  points, never in cash.
+- Is this real-money betting? No. BRAWLVERSE uses virtual points only.
+  Points have no cash value and can never be cashed out.
+- How do markets settle? Match markets settle on the bout result; storyline
+  markets settle on the announced storyline outcome. Every market states its
+  settlement rule before trading opens.
+- What is LMSR? LMSR is the automated market maker that prices BRAWLVERSE
+  contracts. It keeps a price available at all times, so you can always
+  trade — the price moves with every buy and sell.
+
+## Refunds
+
+Cancel anytime; access runs to end of billing period. Refunds only for:
+duplicate charges, charges after cancellation took effect, or full-period
+outages caused by us — request within 14 days via /contact. Fight coins and
+prediction entries are never refundable.
+
+## Support
+
+In-site live chat (Tawk.to) or https://www.feint.tv/contact. Knowledge base
+covers pricing, betting rules, accounts, refunds, availability and creator perks.

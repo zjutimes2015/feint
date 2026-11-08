@@ -4,9 +4,9 @@
   "dna": "lean angular face with a thin scar splitting right eyebrow, slicked-back black ponytail, emerald-green gloves with white fang logo, dark-green trunks with snakescale pattern, coiled snake tattoo up left forearm",
   "seed": 23117,
   "portraits": {
-    "front": "pending",
-    "three_quarter": "pending",
-    "profile": "pending"
+    "front": "assets/fighters/viper/front.png",
+    "three_quarter": "assets/fighters/viper/three_quarter.png",
+    "profile": "assets/fighters/viper/profile.png"
   },
-  "locked": false
+  "locked": true
 }

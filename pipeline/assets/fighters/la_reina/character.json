@@ -4,9 +4,9 @@
   "dna": "regal sharp jawline, long braided raven-black hair with gold cuffs, crimson gloves with gold trim, black-and-gold trunks with crown emblem, rose tattoo on left shoulder",
   "seed": 50268,
   "portraits": {
-    "front": "pending",
-    "three_quarter": "pending",
-    "profile": "pending"
+    "front": "assets/fighters/la_reina/front.png",
+    "three_quarter": "assets/fighters/la_reina/three_quarter.png",
+    "profile": "assets/fighters/la_reina/profile.png"
   },
-  "locked": false
+  "locked": true
 }

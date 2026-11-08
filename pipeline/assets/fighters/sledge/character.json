@@ -4,9 +4,9 @@
   "dna": "massive blocky head with flat-top buzz cut, heavy brow, construction-orange gloves, hi-vis yellow trunks with black hazard chevrons, sledgehammer tattoo across chest",
   "seed": 88420,
   "portraits": {
-    "front": "pending",
-    "three_quarter": "pending",
-    "profile": "pending"
+    "front": "assets/fighters/sledge/front.png",
+    "three_quarter": "assets/fighters/sledge/three_quarter.png",
+    "profile": "assets/fighters/sledge/profile.png"
   },
-  "locked": false
+  "locked": true
 }

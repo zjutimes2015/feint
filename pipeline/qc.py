@@ -2,15 +2,19 @@
 """Step 2.5 — 一致性门（导演喊卡）：抽帧 + OpenRouter 视觉模型对比定妆照。
 
 每段成片装配前自动跑：
-  1. 抽首/中/尾 3 帧；
-  2. 视觉模型对比定妆照："是否同一人？手套/短裤/纹身是否一致？"；
-  3. PASS 才进装配。
+  1. 抽首/中/尾 3 帧，每帧再裁一张近景（头部/上半身放大）；
+  2. 视觉模型对比定妆照：脸是否同一人、手套/短裤/纹身是否一致；
+  3. 只有明确不一致才 FAIL。
+
+三态（2026-11-08 实测）：全景全身镜头里脸只有 20~30px，直接判脸必然误判。
+看不清时必须给 unverifiable，不能猜 false —— 所以 verdict 用 match/mismatch/unverifiable，
+只有出现 mismatch 才阻断装配。
 
 Usage:
   OPENROUTER_API_KEY=sk-... python3 qc.py --video assets/qf1_r1/s1.mp4 \\
       --fighter "IRON JAW" [--ref assets/portraits/IRON_JAW.png] [--out qc/qf1_r1_s1.json]
 
-Exit code: 0 = PASS, 1 = FAIL, 2 = SKIP（无 key / 缺 ffmpeg，装配时按通过处理并打印警告）
+Exit code: 0 = PASS 或 UNKNOWN（看不清，按通过放行）, 1 = FAIL, 2 = SKIP（无 key / 缺 ffmpeg）
 """
 import argparse
 import base64
@@ -26,13 +30,22 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 QC_MODEL = os.environ.get("QC_MODEL", "google/gemini-2.5-flash")
 
 SYSTEM = """你是影视连续性总监（continuity supervisor），铁面无私。
-REFERENCE 是该角色的官方定妆照，FRAMES 是生成片段的首/中/尾 3 帧。
-只回答 JSON，不要解释。标准从严：任何存疑一律判 false。
-{
-  "same_person": true/false,   // 3 帧里的人是否都是 REFERENCE 同一个人（脸/发型完全一致）
-  "gear_consistent": true/false, // 手套（颜色/款式）、短裤、纹身是否与 REFERENCE 一致
-  "notes": "一句话原因"
-}"""
+REFERENCE 是该角色的官方定妆照。FRAMES 是待检片段的首/中/尾帧，每帧给两张图：全身图 + 同帧近景（头部/上半身放大）。
+只回答 JSON，不要解释。判定规则：
+- 先用近景图认五官；近景里五官仍模糊、背对镜头、低头或出画时，identity 必须写 "unverifiable"，禁止靠猜测判 mismatch。
+- 能明确看出不是同一人（脸型/年龄/发型/人种特征明显不同）才写 "mismatch"。
+- 用全身图看手套（颜色/款式）、短裤、纹身；看不清就写 "unverifiable"，明确不同才写 "mismatch"。
+按帧返回 JSON 数组（3 条，顺序对应第 1/2/3 帧）：
+[
+  {
+    "identity": "match|mismatch|unverifiable",  // 脸/发型是否与 REFERENCE 同一人
+    "gear": "match|mismatch|unverifiable",      // 手套/短裤/纹身是否与 REFERENCE 一致
+    "notes": "一句话原因"
+  }
+]"""
+
+# 近景取景窗：按 arena 模板的固定机位标定（人物居中、头顶留白约 4%）。
+CLOSEUP_FILTER = "crop=iw*0.62:ih*0.72:iw*0.19:ih*0.04,scale=1024:-2:flags=lanczos"
 
 
 def b64img(path):
@@ -64,15 +77,32 @@ def extract_frames(video, tmpdir):
     return outs
 
 
-def judge(ref_path, frames):
+def closeups(frames, tmpdir):
+    """每帧裁一张近景放大图 -> [paths]，单张失败给 None（不影响判定）。"""
+    outs = []
+    for i, fp in enumerate(frames):
+        out = os.path.join(tmpdir, "cu%d.png" % i)
+        r = subprocess.run(
+            ["ffmpeg", "-y", "-v", "error", "-i", fp, "-vf", CLOSEUP_FILTER,
+             "-vframes", "1", out],
+            capture_output=True, text=True)
+        outs.append(out if r.returncode == 0 and os.path.exists(out) else None)
+    return outs
+
+
+def judge(ref_path, frames, crops):
     key = os.environ.get("OPENROUTER_API_KEY", "")
     if not key:
         return None  # SKIP
     content = [{"type": "text",
-                "text": "REFERENCE 是官方定妆照，下面 3 张是待检片段的首/中/尾帧。按 system 指令只输出 JSON。"}]
+                "text": "REFERENCE 是官方定妆照；下面是待检片段的首/中/尾帧，每帧先全身、后近景。按 system 指令只输出 JSON。"}]
     content.append({"type": "image_url", "image_url": {"url": b64img(ref_path)}})
-    for fp in frames:
+    for i, fp in enumerate(frames):
+        content.append({"type": "text", "text": "第 %d 帧 全身" % (i + 1)})
         content.append({"type": "image_url", "image_url": {"url": b64img(fp)}})
+        if crops and i < len(crops) and crops[i]:
+            content.append({"type": "text", "text": "第 %d 帧 近景" % (i + 1)})
+            content.append({"type": "image_url", "image_url": {"url": b64img(crops[i])}})
     body = json.dumps({
         "model": QC_MODEL,
         "messages": [{"role": "system", "content": SYSTEM},
@@ -91,6 +121,27 @@ def judge(ref_path, frames):
         d = json.loads(r.read().decode())
     raw = d["choices"][0]["message"]["content"]
     return json.loads(raw)
+
+
+def aggregate(verdict):
+    """模型按帧返回数组（或单对象）—— 聚合成一条：任一帧判不一致即 mismatch。"""
+    items = verdict if isinstance(verdict, list) else [verdict]
+    items = [v for v in items if isinstance(v, dict)]
+    if not items:
+        return {"identity": "unverifiable", "gear": "unverifiable", "notes": "模型返回为空"}
+
+    def worst(field):
+        vals = [str(v.get(field, "")).lower() for v in items]
+        if "mismatch" in vals:
+            return "mismatch"
+        if all(v == "match" for v in vals):
+            return "match"
+        return "unverifiable"
+
+    notes = " / ".join(dict.fromkeys(
+        str(v.get("notes", "")).strip() for v in items if v.get("notes")))
+    return {"identity": worst("identity"), "gear": worst("gear"),
+            "notes": notes, "frames": items}
 
 
 def main():
@@ -122,23 +173,32 @@ def main():
     except RuntimeError as e:
         print("QC SKIP: " + str(e), file=sys.stderr)
         sys.exit(2)
+    crops = closeups(frames, tmpdir)
 
-    verdict = judge(ref, frames)
+    verdict = judge(ref, frames, crops)
     if verdict is None:
         print("QC SKIP: OPENROUTER_API_KEY 未设置（装配继续，人工看）", file=sys.stderr)
         sys.exit(2)
+    verdict = aggregate(verdict)
 
-    passed = bool(verdict.get("same_person")) and bool(verdict.get("gear_consistent"))
+    identity = str(verdict.get("identity", "")).lower()
+    gear = str(verdict.get("gear", "")).lower()
+    if "mismatch" in (identity, gear):
+        status = "fail"          # 明确换脸/换装 —— 阻断装配
+    elif identity == "match" and gear == "match":
+        status = "pass"
+    else:
+        status = "unknown"       # 看不清 —— 不阻断，留人工
+    passed = status != "fail"
+
     report = {"video": a.video, "fighter": a.fighter, "ref": ref,
-              "passed": passed, "verdict": verdict}
+              "status": status, "passed": passed, "verdict": verdict}
     if a.out:
         os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
         json.dump(report, open(a.out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         print("qc report -> " + a.out)
-    print("QC %s: %s | same_person=%s gear=%s | %s" % (
-        "PASS" if passed else "FAIL", a.video,
-        verdict.get("same_person"), verdict.get("gear_consistent"),
-        verdict.get("notes", "")))
+    print("QC %s: %s | identity=%s gear=%s | %s" % (
+        status.upper(), a.video, identity, gear, verdict.get("notes", "")))
     sys.exit(0 if passed else 1)
 
 

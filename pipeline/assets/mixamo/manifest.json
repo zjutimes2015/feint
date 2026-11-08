@@ -1,0 +1,453 @@
+{
+  "version": "3.0",
+  "game": "BRAWLVERSE",
+  "source": "Mixamo (mixamo.com), FBX Binary / With Skin / 30fps, commercial use free",
+  "target_height": 1.8,
+  "asset_dir": "pipeline/assets/mixamo",
+  "paths": {
+    "fbx_dir": "assets/mixamo/fbx",
+    "mp4_dir": "assets/mixamo/mp4",
+    "portrait_dir": "assets/fighters"
+  },
+  "render": {
+    "resolution": "1280x720",
+    "fps": 24,
+    "codec": "H264"
+  },
+  "render_dir": "assets/mixamo/mp4",
+  "notes": [
+    "动作库单一事实源。clips[].id 是逻辑动作名（也是渲染产物名），fbx 是 fbx_dir 下的源文件名。",
+    "status: present = 有自己的 FBX；mirror = 无独立文件，Blender 里 Scale X = -1 由 mirror_of 生成；fallback = 无独立动作，画面借用 approx_of 的片段。",
+    "moves / events / combos 对应引擎招式、回合事件与连招；TS 镜像在 src/lib/arena/actions.ts，漂移会被 tests/unit/lib/arena-actions.test.ts 检出。",
+    "tactic_sequences 是战术投票真正生效的地方：round.py 与 src/lib/brawlverse/actions.ts 都读它，不同 tactical 出不同动作序列。",
+    "FBX 与 mp4 都不进仓（见 .gitignore），本地/对象存储各自保存。"
+  ],
+  "clips": [
+    {
+      "id": "stance_idle_a",
+      "category": "stance",
+      "fbx": "stance_idle_a.fbx",
+      "status": "present",
+      "wanted_id": "stance_idle_a",
+      "engine": ["idle"],
+      "move_ids": [],
+      "tactics": ["guard"],
+      "in_place": true,
+      "note": "基本格斗站架，防守/对峙起手"
+    },
+    {
+      "id": "stance_idle_b",
+      "category": "stance",
+      "fbx": "stance_idle_b.fbx",
+      "status": "present",
+      "wanted_id": "stance_idle_b",
+      "engine": ["idle_alt"],
+      "move_ids": [],
+      "tactics": ["fair"],
+      "in_place": true,
+      "note": "第二站架，剪辑换手用"
+    },
+    {
+      "id": "move_advance",
+      "category": "movement",
+      "fbx": "move_advance.fbx",
+      "status": "present",
+      "wanted_id": "move_advance",
+      "engine": ["advance"],
+      "move_ids": [],
+      "tactics": ["heavy", "rage"],
+      "in_place": true,
+      "note": "向前逼近"
+    },
+    {
+      "id": "move_retreat",
+      "category": "movement",
+      "fbx": "move_retreat.fbx",
+      "status": "present",
+      "wanted_id": "move_retreat",
+      "engine": ["retreat"],
+      "move_ids": [],
+      "tactics": ["dodge", "fair"],
+      "in_place": true,
+      "note": "后撤"
+    },
+    {
+      "id": "move_circle_l",
+      "category": "movement",
+      "fbx": "move_circle_l.fbx",
+      "status": "present",
+      "wanted_id": "move_circle_l",
+      "engine": ["circle_left"],
+      "move_ids": [],
+      "tactics": ["dodge"],
+      "in_place": true,
+      "note": "向左绕步"
+    },
+    {
+      "id": "move_circle_r",
+      "category": "movement",
+      "fbx": "move_circle_r.fbx",
+      "status": "present",
+      "wanted_id": "move_circle_r",
+      "engine": ["circle_right"],
+      "move_ids": [],
+      "tactics": ["heavy", "rage"],
+      "in_place": true,
+      "note": "向右绕步"
+    },
+    {
+      "id": "move_swagger",
+      "category": "movement",
+      "fbx": "move_swagger.fbx",
+      "status": "present",
+      "wanted_id": "show_entrance",
+      "engine": ["entrance"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": false,
+      "note": "入场 swagger 步（允许位移）"
+    },
+    {
+      "id": "strike_jab",
+      "category": "strikes",
+      "fbx": "strike_jab.fbx",
+      "status": "present",
+      "wanted_id": "strike_jab",
+      "engine": ["jab", "feint"],
+      "move_ids": ["jab", "feint"],
+      "tactics": ["heavy", "rage"],
+      "in_place": true,
+      "note": "前手刺拳；佯攻无独立 FBX，画面借用刺拳起手前段"
+    },
+    {
+      "id": "strike_cross",
+      "category": "strikes",
+      "fbx": "strike_cross.fbx",
+      "status": "present",
+      "wanted_id": "strike_cross",
+      "engine": ["cross"],
+      "move_ids": ["cross"],
+      "tactics": ["heavy", "rage", "fair"],
+      "in_place": true,
+      "note": "后手直拳"
+    },
+    {
+      "id": "strike_hook",
+      "category": "strikes",
+      "fbx": "strike_hook.fbx",
+      "status": "present",
+      "wanted_id": "strike_hook_l",
+      "engine": ["hook"],
+      "move_ids": ["hook"],
+      "tactics": ["heavy", "rage"],
+      "in_place": true,
+      "note": "勾拳（左）"
+    },
+    {
+      "id": "strike_hook_b",
+      "category": "strikes",
+      "fbx": "strike_hook_b.fbx",
+      "status": "present",
+      "wanted_id": "strike_hook_r",
+      "engine": [],
+      "move_ids": ["hook"],
+      "tactics": ["rage"],
+      "in_place": true,
+      "note": "勾拳（右，镜像版）；由 power_combo 与 rage 序列调用"
+    },
+    {
+      "id": "strike_uppercut",
+      "category": "strikes",
+      "fbx": "strike_uppercut.fbx",
+      "status": "present",
+      "wanted_id": "strike_uppercut",
+      "engine": ["uppercut"],
+      "move_ids": ["uppercut"],
+      "tactics": ["heavy", "rage"],
+      "in_place": true,
+      "note": "上勾拳"
+    },
+    {
+      "id": "strike_body",
+      "category": "strikes",
+      "fbx": "strike_body.fbx",
+      "status": "present",
+      "wanted_id": "strike_body",
+      "engine": ["body"],
+      "move_ids": ["body"],
+      "tactics": ["rage"],
+      "in_place": true,
+      "note": "击腹"
+    },
+    {
+      "id": "defense_block",
+      "category": "defense",
+      "fbx": "defense_block.fbx",
+      "status": "present",
+      "wanted_id": "defense_block",
+      "engine": ["block"],
+      "move_ids": ["block"],
+      "tactics": ["guard", "fair"],
+      "in_place": true,
+      "note": "抱架格挡"
+    },
+    {
+      "id": "defense_dodge_r",
+      "category": "defense",
+      "fbx": "defense_dodge_r.fbx",
+      "status": "present",
+      "wanted_id": "defense_dodge_r",
+      "engine": ["dodge"],
+      "move_ids": ["dodge"],
+      "tactics": ["dodge"],
+      "in_place": true,
+      "note": "向右闪躲"
+    },
+    {
+      "id": "defense_dodge_l",
+      "category": "defense",
+      "fbx": null,
+      "status": "mirror",
+      "mirror_of": "defense_dodge_r",
+      "wanted_id": "defense_dodge_l",
+      "engine": [],
+      "move_ids": ["dodge"],
+      "tactics": ["dodge"],
+      "in_place": true,
+      "note": "无独立文件；Blender 里 Scale X = -1 镜像 defense_dodge_r 生成"
+    },
+    {
+      "id": "defense_duck",
+      "category": "defense",
+      "fbx": "defense_duck.fbx",
+      "status": "present",
+      "wanted_id": "defense_duck",
+      "engine": ["duck"],
+      "move_ids": ["duck"],
+      "tactics": ["dodge", "fair"],
+      "in_place": true,
+      "note": "下潜躲闪"
+    },
+    {
+      "id": "defense_clinch",
+      "category": "defense",
+      "fbx": null,
+      "status": "fallback",
+      "approx_of": "defense_block",
+      "approximate": true,
+      "wanted_id": "defense_clinch",
+      "engine": [],
+      "move_ids": ["block"],
+      "tactics": ["guard"],
+      "in_place": true,
+      "reason": "Mixamo 站内无合适的缠抱动作；用格挡片段近似，引擎也无 clinch 招式，不阻塞主线",
+      "note": "近身缠抱（用 defense_block 近似替代）"
+    },
+    {
+      "id": "react_head_hit",
+      "category": "reactions",
+      "fbx": "react_head_hit.fbx",
+      "status": "present",
+      "wanted_id": "react_head_hit",
+      "engine": ["hit_head"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": true,
+      "note": "头部受击反应"
+    },
+    {
+      "id": "react_body_hit",
+      "category": "reactions",
+      "fbx": "react_body_hit.fbx",
+      "status": "present",
+      "wanted_id": "react_body_hit",
+      "engine": ["hit_body"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": true,
+      "note": "腹部受击反应"
+    },
+    {
+      "id": "react_stagger",
+      "category": "reactions",
+      "fbx": "react_stagger.fbx",
+      "status": "present",
+      "wanted_id": "react_stagger",
+      "engine": ["stagger"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": true,
+      "note": "踉跄"
+    },
+    {
+      "id": "react_knockdown",
+      "category": "reactions",
+      "fbx": "reaction_knockdown.fbx",
+      "status": "present",
+      "wanted_id": "react_knockdown",
+      "engine": ["knockdown"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": true,
+      "note": "站立受击后屈膝的击倒反应（Livershot Knockdown，85 帧），2026-11-07 入库"
+    },
+    {
+      "id": "react_getup",
+      "category": "reactions",
+      "fbx": "react_getup.fbx",
+      "status": "present",
+      "wanted_id": "react_getup",
+      "engine": ["getup"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": false,
+      "note": "读秒起身"
+    },
+    {
+      "id": "react_ko",
+      "category": "reactions",
+      "fbx": "react_ko.fbx",
+      "status": "present",
+      "wanted_id": "react_ko",
+      "engine": ["ko"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": false,
+      "note": "KO 倒地不起"
+    },
+    {
+      "id": "react_taunt",
+      "category": "show",
+      "fbx": "react_taunt.fbx",
+      "status": "present",
+      "wanted_id": "show_taunt",
+      "engine": ["taunt"],
+      "move_ids": ["taunt"],
+      "tactics": [],
+      "in_place": true,
+      "note": "挑衅（WWE 味）"
+    },
+    {
+      "id": "react_victory",
+      "category": "show",
+      "fbx": "react_victory.fbx",
+      "status": "present",
+      "wanted_id": "show_victory",
+      "engine": ["victory"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": true,
+      "note": "胜利庆祝"
+    },
+    {
+      "id": "react_defeat",
+      "category": "show",
+      "fbx": "react_defeat.fbx",
+      "status": "present",
+      "wanted_id": "show_defeat",
+      "engine": ["defeat"],
+      "move_ids": [],
+      "tactics": [],
+      "in_place": true,
+      "note": "战败"
+    }
+  ],
+  "moves": {
+    "block": { "clip": "defense_block", "status": "ready" },
+    "body": { "clip": "strike_body", "status": "ready" },
+    "cross": { "clip": "strike_cross", "status": "ready" },
+    "dodge": {
+      "clip": "defense_dodge_r",
+      "status": "ready",
+      "note": "右闪；左闪为其镜像（defense_dodge_l）"
+    },
+    "duck": { "clip": "defense_duck", "status": "ready" },
+    "feint": {
+      "clip": "strike_jab",
+      "status": "fallback",
+      "note": "佯攻无独立 FBX；画面用刺拳起手前段作假动作，渲染时截断"
+    },
+    "hook": {
+      "clip": "strike_hook",
+      "status": "ready",
+      "note": "左勾拳；右勾拳见 strike_hook_b"
+    },
+    "jab": { "clip": "strike_jab", "status": "ready" },
+    "taunt": { "clip": "react_taunt", "status": "ready" },
+    "uppercut": { "clip": "strike_uppercut", "status": "ready" }
+  },
+  "events": {
+    "advance": { "clip": "move_advance", "status": "ready" },
+    "circle_left": { "clip": "move_circle_l", "status": "ready" },
+    "circle_right": { "clip": "move_circle_r", "status": "ready" },
+    "defeat": { "clip": "react_defeat", "status": "ready" },
+    "entrance": { "clip": "move_swagger", "status": "ready" },
+    "getup": { "clip": "react_getup", "status": "ready" },
+    "hit_body": { "clip": "react_body_hit", "status": "ready" },
+    "hit_head": { "clip": "react_head_hit", "status": "ready" },
+    "idle": { "clip": "stance_idle_a", "status": "ready" },
+    "idle_alt": { "clip": "stance_idle_b", "status": "ready" },
+    "knockdown": { "clip": "react_knockdown", "status": "ready" },
+    "ko": { "clip": "react_ko", "status": "ready" },
+    "retreat": { "clip": "move_retreat", "status": "ready" },
+    "stagger": { "clip": "react_stagger", "status": "ready" },
+    "victory": { "clip": "react_victory", "status": "ready" }
+  },
+  "combos": {
+    "opening_combo": {
+      "clips": ["strike_jab", "strike_cross", "strike_hook", "react_head_hit"],
+      "note": "标准开场连招：刺拳 + 直拳 + 勾拳 + 对手头部受击反应"
+    },
+    "power_combo": {
+      "clips": [
+        "strike_cross",
+        "strike_hook_b",
+        "strike_uppercut",
+        "react_stagger"
+      ],
+      "note": "重击连招：直拳 + 右勾拳 + 上勾拳 + 对手踉跄"
+    }
+  },
+  "tactic_sequences": {
+    "heavy": [
+      "move_advance",
+      "strike_jab",
+      "strike_cross",
+      "strike_hook",
+      "strike_uppercut",
+      "react_head_hit"
+    ],
+    "rage": [
+      "move_circle_r",
+      "strike_jab",
+      "strike_body",
+      "strike_hook_b",
+      "strike_uppercut",
+      "react_stagger"
+    ],
+    "dodge": [
+      "move_retreat",
+      "defense_dodge_l",
+      "defense_dodge_r",
+      "defense_duck",
+      "strike_jab",
+      "react_body_hit"
+    ],
+    "guard": [
+      "stance_idle_a",
+      "defense_block",
+      "defense_clinch",
+      "move_advance",
+      "strike_jab",
+      "react_body_hit"
+    ],
+    "fair": [
+      "stance_idle_b",
+      "move_retreat",
+      "defense_block",
+      "defense_duck",
+      "strike_cross",
+      "react_head_hit"
+    ]
+  }
+}

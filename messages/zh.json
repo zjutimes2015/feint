@@ -1,0 +1,1602 @@
+{
+  "Metadata": {
+    "name": "BRAWLVERSE",
+    "title": "BRAWLVERSE — AI 拳击联盟",
+    "description": "八名虚拟选手,一座漫画擂台。在 AI 拳击联盟用虚拟积分下注 Yes/No 预测盘——观众投票,剧情爆炸。"
+  },
+  "Common": {
+    "login": "登录",
+    "logout": "退出",
+    "signUp": "注册",
+    "language": "切换语言",
+    "mode": {
+      "label": "切换模式",
+      "light": "浅色模式",
+      "dark": "深色模式",
+      "system": "跟随系统"
+    },
+    "copy": "复制",
+    "save": "保存",
+    "saving": "保存中...",
+    "loading": "加载中...",
+    "cancel": "取消",
+    "logoutFailed": "退出失败",
+    "table": {
+      "totalRecords": "总共 {count} 条记录",
+      "noResults": "无结果",
+      "loading": "加载中...",
+      "columns": "列",
+      "rowsPerPage": "每页行数",
+      "page": "页",
+      "firstPage": "第一页",
+      "lastPage": "最后一页",
+      "nextPage": "下一页",
+      "previousPage": "上一页",
+      "ascending": "升序",
+      "descending": "降序",
+      "resetSorting": "重置",
+      "hideColumn": "隐藏",
+      "viewOptions": "视图",
+      "toggleColumns": "切换列显示",
+      "searchColumns": "搜索列...",
+      "noColumns": "未找到列",
+      "clearFilters": "清除筛选"
+    }
+  },
+  "PricingPage": {
+    "title": "门票",
+    "description": "选择适合你的观赛方式",
+    "subtitle": "选择适合你的观赛方式",
+    "monthly": "按月",
+    "yearly": "按年",
+    "PricingCard": {
+      "freePrice": "$0",
+      "perMonth": "/月",
+      "perYear": "/年",
+      "popular": "热门",
+      "currentPlan": "当前方案",
+      "yourCurrentPlan": "你的当前方案",
+      "getStartedForFree": "免费开始",
+      "getLifetimeAccess": "永久解锁",
+      "getStarted": "开始",
+      "notAvailable": "暂不可用",
+      "daysTrial": "{days} 天免费试用"
+    },
+    "CheckoutButton": {
+      "loading": "加载中...",
+      "checkoutFailed": "打不开收银台"
+    }
+  },
+  "PricePlans": {
+    "free": {
+      "name": "FREE FAN",
+      "description": "看比赛,投战术票",
+      "features": {
+        "feature-1": "每个战术回合都能投票",
+        "feature-2": "每日虚拟积分",
+        "feature-3": "参加梦幻联赛",
+        "feature-4": "在擂台发弹幕"
+      },
+      "limits": {
+        "limit-1": "投票权重 ×1",
+        "limit-2": "单注上限 ×1",
+        "limit-3": "不能提前看剧集"
+      }
+    },
+    "ringside": {
+      "name": "RINGSIDE",
+      "description": "每一回合,都在最前排",
+      "features": {
+        "feature-1": "投票权重 ×3",
+        "feature-2": "单注上限 ×2",
+        "feature-3": "每日积分 ×2",
+        "feature-4": "提前观看剧集"
+      },
+      "limits": {
+        "limit-1": "你的名字上 LED 墙",
+        "limit-2": "随时可取消",
+        "limit-3": "积分无现金价值"
+      }
+    },
+    "booker": {
+      "name": "BOOKER",
+      "description": "你不只是看比赛,你来安排比赛",
+      "features": {
+        "feature-1": "投票权重 ×10",
+        "feature-2": "单注上限 ×5",
+        "feature-3": "每日积分 ×5",
+        "feature-4": "可创建道具与阵容",
+        "feature-5": "包含 RINGSIDE 全部权益"
+      },
+      "limits": {
+        "limit-1": "随时可取消",
+        "limit-2": "积分无现金价值",
+        "limit-3": "每个账号仅限一个订阅"
+      }
+    },
+    "promoter": {
+      "name": "PROMOTER",
+      "description": "整张推广,都是你的",
+      "features": {
+        "feature-1": "投票权重 ×20",
+        "feature-2": "单注上限 ×10",
+        "feature-3": "每日积分 ×10",
+        "feature-4": "Booker Night 邀请",
+        "feature-5": "包含 BOOKER 全部权益",
+        "feature-6": "你的名字上 LED 墙"
+      },
+      "limits": {
+        "limit-1": "随时可取消",
+        "limit-2": "积分无现金价值"
+      }
+    },
+    "annual": {
+      "name": "ANNUAL",
+      "description": "一年一付,拥有整张推广",
+      "features": {
+        "feature-1": "包含 PROMOTER 全部权益",
+        "feature-2": "每年计费 $199",
+        "feature-3": "投票权重 ×20",
+        "feature-4": "单注上限 ×10",
+        "feature-5": "Booker Night 邀请",
+        "feature-6": "可创建道具与阵容",
+        "feature-7": "你的名字上 LED 墙"
+      },
+      "limits": {
+        "limit-1": "随时可取消"
+      }
+    }
+  },
+  "NotFoundPage": {
+    "title": "404",
+    "message": "抱歉，您正在寻找的页面不存在",
+    "backToHome": "返回首页"
+  },
+  "ErrorPage": {
+    "title": "哎呀！出错了！",
+    "tryAgain": "重试",
+    "backToHome": "返回首页"
+  },
+  "AuthPage": {
+    "verification": {
+      "pending": "请验证邮箱后继续。",
+      "sendFailed": "发送失败，请重试。",
+      "requested": "已请求发送验证邮件，请查看收件箱。",
+      "sending": "发送中…",
+      "cooldown": "{seconds}秒后重发",
+      "resend": "重新发送"
+    },
+    "login": {
+      "title": "登录",
+      "welcomeBack": "欢迎回来",
+      "email": "邮箱",
+      "password": "密码",
+      "signIn": "登录",
+      "signUpHint": "没有账号？注册",
+      "forgotPassword": "忘记密码？",
+      "signInWithGoogle": "使用 Google 登录",
+      "signInWithGitHub": "使用 GitHub 登录",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "or": "或以社媒账号登录",
+      "emailRequired": "请输入邮箱",
+      "passwordRequired": "请输入密码",
+      "captchaInvalid": "验证码验证失败",
+      "captchaError": "验证码验证出错"
+    },
+    "register": {
+      "title": "注册",
+      "createAccount": "创建账号",
+      "name": "姓名",
+      "email": "邮箱",
+      "password": "密码",
+      "signUp": "注册",
+      "signInHint": "已经有账号？登录",
+      "checkEmail": "请检查您的邮箱",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "nameRequired": "请输入姓名",
+      "emailRequired": "请输入邮箱",
+      "passwordRequired": "请输入密码",
+      "captchaInvalid": "验证码验证失败",
+      "captchaError": "验证码验证出错"
+    },
+    "forgotPassword": {
+      "title": "忘记密码",
+      "email": "邮箱",
+      "send": "发送重置密码链接",
+      "backToLogin": "返回登录",
+      "checkEmail": "请检查您的邮箱",
+      "emailRequired": "请输入邮箱"
+    },
+    "resetPassword": {
+      "title": "重置密码",
+      "password": "密码",
+      "reset": "重置密码",
+      "backToLogin": "返回登录",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "minLength": "密码必须至少包含 8 个字符"
+    },
+    "error": {
+      "title": "哎呀！出错了！",
+      "tryAgain": "请重试",
+      "backToLogin": "返回登录",
+      "checkEmail": "请检查您的邮箱",
+      "codes": {
+        "verification_token_expired": "验证链接已失效，请重新获取。",
+        "verification_failed": "验证失败，请重新获取验证邮件。",
+        "email_not_verified": "请重新登录，系统会发送新的验证邮件。"
+      }
+    },
+    "common": {
+      "termsOfService": "服务条款",
+      "privacyPolicy": "隐私政策",
+      "byClickingContinue": "继续即表示您同意我们的 ",
+      "and": " 和 "
+    }
+  },
+  "Marketing": {
+    "navbar": {
+      "title": "探索"
+    },
+    "footer": {
+      "tagline": "AI 拳击联盟 —— 你来指挥这场比赛。"
+    },
+    "avatar": {
+      "dashboard": "工作台",
+      "billing": "账单",
+      "settings": "设置"
+    }
+  },
+  "Dashboard": {
+    "dashboard": {
+      "title": "我的战绩"
+    },
+    "myRecord": {
+      "title": "我的战绩",
+      "subtitle": "{name}，这里记录你投过的每一票、押过的每一局。",
+      "statsTitle": "你的数据",
+      "votesLabel": "累计投票",
+      "weightLabel": "票权 {weight}",
+      "accuracyLabel": "预测命中率",
+      "accuracyDetail": "{wins}/{total} 个已结算回合",
+      "noPredictions": "还没有已结算的回合",
+      "creditsLabel": "拳场币",
+      "betsDetail": "{count} 注 · 命中 {wins}",
+      "noBets": "还没有下注",
+      "rankLabel": "段位",
+      "scoreLabel": "{score} 分",
+      "ranks": {
+        "rookie": "新拳手",
+        "contender": "挑战者",
+        "ringsworn": "擂台老兵",
+        "champion": "冠军"
+      },
+      "unlockTitle": "下一档解锁",
+      "unlockBody": "下一档：{tier} —— {perk}",
+      "unlockMax": "你已在最高档位，所有权益已解锁。",
+      "tiers": {
+        "ringside": {
+          "name": "RINGSIDE",
+          "perk": "投票 ×3、下注 ×2、提前看片、名字上 LED 墙"
+        },
+        "booker": {
+          "name": "BOOKER",
+          "perk": "投票 ×10、下注 ×5、自建选手与赛事卡"
+        },
+        "promoter": {
+          "name": "PROMOTER",
+          "perk": "投票 ×20、下注 ×10、主办自己的 Booker Night"
+        }
+      },
+      "ctaLive": "去投下一回合 →",
+      "ctaBet": "去下注 →",
+      "ctaForge": "去锻造选手 →"
+    },
+    "admin": {
+      "title": "系统管理",
+      "users": {
+        "title": "用户管理",
+        "fakeData": "注：只为演示功能，数据为假数据，封禁功能不可用",
+        "error": "获取用户失败",
+        "search": "搜索用户...",
+        "noResults": "没有找到用户",
+        "columns": {
+          "columns": "显示列",
+          "name": "姓名",
+          "email": "邮箱",
+          "role": "角色",
+          "createdAt": "创建时间",
+          "customerId": "客户ID",
+          "status": "状态",
+          "banReason": "封禁原因",
+          "banExpires": "封禁到期时间"
+        },
+        "admin": "管理员",
+        "user": "用户",
+        "email": {
+          "verified": "邮箱已验证",
+          "unverified": "邮箱未验证"
+        },
+        "emailCopied": "邮箱已复制到剪贴板",
+        "banned": "账号被封禁",
+        "active": "账号正常",
+        "inactive": "账号封禁",
+        "clearSearch": "清除搜索",
+        "joined": "加入时间",
+        "updated": "更新时间",
+        "ban": {
+          "reason": "封禁原因",
+          "reasonPlaceholder": "请输入封禁该用户的原因",
+          "defaultReason": "垃圾信息",
+          "never": "永不解禁",
+          "expires": "封禁到期时间",
+          "selectDate": "选择日期",
+          "button": "封禁用户",
+          "success": "用户已被封禁",
+          "error": "封禁用户失败"
+        },
+        "unban": {
+          "button": "解除封禁",
+          "success": "用户已被解除封禁",
+          "error": "解除封禁失败"
+        },
+        "close": "关闭"
+      },
+      "booker": {
+        "title": "Booker 后台"
+      }
+    },
+    "settings": {
+      "title": "设置",
+      "profile": {
+        "title": "账户",
+        "description": "管理您的账户信息",
+        "avatar": {
+          "title": "头像",
+          "description": "点击上传按钮上传自定义头像",
+          "recommendation": "头像是可选的，但强烈推荐设置",
+          "uploading": "上传中...",
+          "uploadAvatar": "上传头像",
+          "success": "头像更新成功",
+          "fail": "更新头像失败"
+        },
+        "name": {
+          "title": "名字",
+          "description": "请输入您的名字",
+          "placeholder": "名字",
+          "minLength": "请至少使用 3 个字符",
+          "maxLength": "请最多使用 30 个字符",
+          "hint": "请使用 3-30 个字符",
+          "success": "名字更新成功",
+          "fail": "更新名字失败",
+          "saving": "保存中...",
+          "save": "保存"
+        }
+      },
+      "billing": {
+        "title": "账单",
+        "description": "管理您的订阅和账单信息",
+        "status": {
+          "active": "已激活",
+          "trial": "试用中",
+          "free": "免费版",
+          "lifetime": "终身版"
+        },
+        "interval": {
+          "month": "月",
+          "year": "年",
+          "oneTime": "一次性"
+        },
+        "currentPlan": {
+          "title": "当前方案",
+          "description": "您当前的方案详情",
+          "noPlan": "您没有激活的方案"
+        },
+        "CustomerPortalButton": {
+          "loading": "加载中...",
+          "createCustomerPortalFailed": "打开Stripe客户界面失败"
+        },
+        "price": "价格：",
+        "periodStartDate": "周期开始日期：",
+        "periodEndDate": "周期结束日期：",
+        "trialEnds": "试用结束日期：",
+        "freePlanMessage": "您当前使用的是功能有限的免费方案",
+        "lifetimeMessage": "您拥有所有高级功能的终身使用权限",
+        "manageSubscription": "管理订阅和账单",
+        "manageBilling": "管理账单",
+        "upgradePlan": "升级方案",
+        "retry": "重试",
+        "errorMessage": "获取数据失败",
+        "paymentSuccess": "支付成功"
+      },
+      "payment": {
+        "processing": {
+          "title": "正在处理支付",
+          "description": "请稍候，我们正在确认您的支付..."
+        },
+        "success": {
+          "title": "支付成功",
+          "description": "页面自动跳转中..."
+        },
+        "failed": {
+          "title": "支付失败",
+          "description": "您的支付出现了问题"
+        },
+        "timeout": {
+          "title": "处理超时",
+          "description": "支付处理超时，请你稍后重试"
+        },
+        "retry": "重试"
+      },
+      "notification": {
+        "title": "通知",
+        "description": "管理您的通知设置",
+        "newsletter": {
+          "title": "订阅",
+          "description": "管理您的邮件列表订阅偏好",
+          "label": "订阅邮件列表",
+          "hint": "您可以随时更改订阅偏好",
+          "emailRequired": "订阅邮件列表需要邮箱",
+          "subscribeSuccess": "成功订阅邮件列表",
+          "subscribeFail": "订阅邮件列表失败",
+          "unsubscribeSuccess": "成功取消订阅邮件列表",
+          "unsubscribeFail": "取消订阅邮件列表失败",
+          "error": "更新订阅时发生错误"
+        }
+      },
+      "security": {
+        "title": "安全",
+        "description": "管理您的安全设置",
+        "updatePassword": {
+          "title": "修改密码",
+          "description": "输入您的当前密码和新密码",
+          "currentPassword": "当前密码",
+          "currentRequired": "当前密码是必填项",
+          "newPassword": "新密码",
+          "newMinLength": "密码必须至少包含 8 个字符",
+          "hint": "请至少使用 8 个字符作为密码",
+          "showPassword": "显示密码",
+          "hidePassword": "隐藏密码",
+          "success": "密码更新成功",
+          "fail": "更新密码失败",
+          "saving": "保存中...",
+          "save": "保存"
+        },
+        "resetPassword": {
+          "title": "重置密码",
+          "description": "重置密码以启用邮箱登录",
+          "info": "重置密码将允许您除了社交登录方式外，还可以使用邮箱和密码登录，您将收到一封包含重置密码链接的电子邮件",
+          "button": "重置密码"
+        },
+        "deleteAccount": {
+          "title": "删除账号",
+          "description": "永久删除您的账号和所有内容",
+          "warning": "此操作是不可逆的，请谨慎操作",
+          "button": "删除账号",
+          "confirmTitle": "删除账号",
+          "confirmDescription": "您确定要删除您的账号吗？此操作无法撤销",
+          "confirm": "删除",
+          "cancel": "取消",
+          "deleting": "删除中...",
+          "success": "账号删除成功",
+          "fail": "删除账号失败"
+        }
+      },
+      "apiKeys": {
+        "title": "API 密钥",
+        "description": "管理您的 API 密钥以进行身份验证",
+        "createButton": "创建 API 密钥",
+        "createDialogTitle": "创建新的 API 密钥",
+        "createDialogDescription": "为您的 API 密钥命名以便后续识别",
+        "keyNameLabel": "密钥名称",
+        "keyNamePlaceholder": "请输入 API 密钥的名称",
+        "cancel": "取消",
+        "create": "创建",
+        "creating": "创建中...",
+        "noResults": "未找到 API 密钥",
+        "createSuccess": "API 密钥创建成功",
+        "createError": "创建 API 密钥失败",
+        "deleteSuccess": "API 密钥已删除",
+        "deleteError": "删除 API 密钥失败",
+        "never": "永不过期",
+        "delete": "删除",
+        "done": "完成",
+        "newKeyDialogTitle": "您的新 API 密钥",
+        "newKeyDialogDescription": "请立即复制并保存此密钥，您将无法再次查看它！",
+        "columns": {
+          "name": "名称",
+          "key": "密钥",
+          "createdAt": "创建时间",
+          "expiresAt": "过期时间",
+          "actions": "操作"
+        }
+      }
+    },
+    "upgrade": {
+      "title": "升级到 RINGSIDE",
+      "description": "更高投票权重、更高单注上限、更多每日积分。",
+      "button": "查看门票"
+    }
+  },
+  "Mail": {
+    "common": {
+      "team": "{name} 团队",
+      "copyright": "©️ {year} 版权所有。"
+    },
+    "verifyEmail": {
+      "title": "你好，{name}。",
+      "body": "请点击下面的链接验证您的邮箱地址。",
+      "confirmEmail": "确认邮箱",
+      "subject": "验证您的邮箱"
+    },
+    "forgotPassword": {
+      "title": "你好，{name}。",
+      "body": "请点击下面的链接重置您的密码。",
+      "resetPassword": "重置密码",
+      "subject": "重置您的密码"
+    },
+    "subscribeNewsletter": {
+      "body": "感谢您订阅我们的邮件列表，我们将为您提供最新的新闻和更新。",
+      "subject": "感谢您的订阅"
+    },
+    "contactMessage": {
+      "name": "姓名: {name}",
+      "email": "邮箱: {email}",
+      "message": "消息: {message}",
+      "subject": "来自网站的联系消息"
+    }
+  },
+  "Brawlverse": {
+    "common": {
+      "aigc": "所有选手、影像与美术均为 AI 生成。"
+    },
+    "fighters": {
+      "metaTitle": "选手阵容",
+      "metaDescription": "第一季阵容:八名 AI 选手,一个王座。战绩、风格与垃圾话一览。",
+      "title": "THE FIGHTERS",
+      "taglinePre": "第一季 — ",
+      "taglineHighlight": "八人入场,一人称王。",
+      "stance": "站架",
+      "forgeCta": "打造你自己的选手 →",
+      "viewProfile": "查看档案 →",
+      "list": {
+        "ironJaw": {
+          "name": "IRON JAW",
+          "style": "重量级重炮手",
+          "trash": "\"等我拳头给 VIPER 的脸重新排个版,他光快可没用。\"",
+          "bio": "挨拳如铁,还手如锤。街头巡回赛传奇。没有技巧,全是雷霆。",
+          "stance": "正架"
+        },
+        "viper": {
+          "name": "VIPER",
+          "style": "轻量级毒刺",
+          "trash": "\"JAW 下巴是铁打的,脑子是锈的。他会在擂台上醒来。\"",
+          "bio": "蛰伏。就绪。致命。一个反击幻影——终结你的那一拳,你永远看不见。",
+          "stance": "左架"
+        },
+        "volt": {
+          "name": "VOLT",
+          "style": "粉丝共创 · 元素系",
+          "trash": "\"我不躲拳。我就是那一拳。\"",
+          "bio": "戴拳套的一道闪电。雷暴天保持不败。拒绝在室内比赛。",
+          "stance": "???"
+        },
+        "goliath7": {
+          "name": "GOLIATH-7",
+          "style": "粉丝共创 · 重量级",
+          "trash": "\"我为战争而生。我选择了擂台。\"",
+          "bio": "退役战争机甲,温柔的灵魂。从未输过——也从未想赢。",
+          "stance": "正架"
+        },
+        "laReina": {
+          "name": "LA REINA",
+          "style": "粉丝共创 · 摔角女王",
+          "trash": "\"王冠不会掉。你会。\"",
+          "bio": "蒙面摔角女王。¡Viva la Reina! 对手没有一个能站着离开。",
+          "stance": "正架"
+        },
+        "sledge": {
+          "name": "SLEDGE",
+          "style": "拆迁型重炮手",
+          "trash": "\"万物皆可碎。你只是下一个。\"",
+          "bio": "挥拳如破碎锤。曾在早餐前拆过三栋楼。擂台小多了。",
+          "stance": "正架"
+        },
+        "monsoon": {
+          "name": "MONSOON",
+          "style": "泰拳风暴",
+          "trash": "\"你挡不住天气。\"",
+          "bio": "肘击如台风过境。雨天状态最佳——他自带降雨。",
+          "stance": "左架"
+        },
+        "professor": {
+          "name": "THE PROFESSOR",
+          "style": "国际象棋拳手 · 战术家",
+          "trash": "\"我已经赢了。你只是刚追到第 14 手。\"",
+          "bio": "能看穿十二步之后。唯一一个回合间隙还在做笔记的选手。",
+          "stance": "正架"
+        }
+      }
+    },
+    "fighterDetail": {
+      "record": "战绩",
+      "noBoutsYet": "还没有已结算的比赛——第一季四分之一决赛是首批比赛。",
+      "style": "风格",
+      "stance": "站架",
+      "trashTalk": "垃圾话",
+      "engineStats": "引擎数据",
+      "aggression": "进攻性",
+      "feintRate": "佯攻率",
+      "tauntRate": "嘲讽率",
+      "dodgeRate": "闪避率",
+      "favoredMoves": "常用招式",
+      "nextFight": "下一场比赛",
+      "betCta": "去盘口选一边",
+      "rosterCta": "返回全部选手",
+      "faqTitle": "常见问题",
+      "faqStyleQ": "{name} 的打法风格是什么？",
+      "faqStyleA": "{name} 是{style}。{bio}",
+      "faqRecordQ": "{name} 的战绩如何？",
+      "faqRecordA": "{name} 目前 0–0——第一季还没有比赛结算。战绩会在每场比赛结算后更新。",
+      "faqNextQ": "{name} 下一场打谁？",
+      "faqNextA": "{name} 将在 {bout} 迎战 {opponent}——第一季四分之一决赛。去盘口选一边。"
+    },
+    "matchDetail": {
+      "quarterfinal": "第一季四分之一决赛",
+      "metaDescription": "{a} 对 {b}，第一季四分之一决赛谁会赢？Yes/No 合约价格 1–99，纯虚拟积分——去盘口选一边。",
+      "betCta": "去盘口选一边",
+      "howContracts": "Yes/No 合约怎么玩",
+      "contractsBody": "每场比赛都有一个 Yes/No 合约，价格 1–99——价格就是市场认为的概率。认为会发生就买 Yes，认为不会就买 No。结算前随时可以按市价卖出。纯虚拟积分——没有现金价值，不涉及真钱。",
+      "learnMore": "预测市场怎么运作",
+      "fightersTitle": "对阵选手",
+      "faqTitle": "常见问题",
+      "faqWhoQ": "{a} 对 {b}，谁会赢？",
+      "faqWhoA": "市场说了算——价格 1–99 的 Yes/No 合约反映了大家的看法。用虚拟积分去盘口选一边。",
+      "faqBetQ": "怎么给 {a} 对 {b} 下注？",
+      "faqBetA": "去盘口，找到 {bout} 市场，用虚拟积分买 Yes 或 No 合约。结算前随时可以卖出。",
+      "faqMoneyQ": "这是真钱赌博吗？",
+      "faqMoneyA": "不是。BRAWLVERSE 只用虚拟积分。积分没有现金价值，永远不能提现。"
+    },
+    "predictionMarkets": {
+      "metaTitle": "预测市场怎么运作",
+      "metaDescription": "Yes/No 合约价格 1–99，纯虚拟积分，没有现金价值。BRAWLVERSE 预测市场怎么运作、怎么结算。",
+      "title": "预测市场怎么运作",
+      "taglinePre": "YES 或 NO——",
+      "taglineHighlight": "价格由大家定。",
+      "whatIsTitle": "什么是预测市场？",
+      "whatIsBody": "预测市场让人对未来事件的结果进行交易。每个市场只问一个 Yes/No 问题——IRON JAW 会赢 QF1 吗？——Yes 合约的价格（1 到 99）就是大家认为它发生的概率。事件结算时，如果发生了，Yes 合约值 100；没发生，值 0。",
+      "howTitle": "Yes/No 合约怎么运作",
+      "howBullets": [
+        "价格 1–99：价格就是市场认为的概率（百分比）。",
+        "认为会发生就买 Yes，认为不会就买 No。",
+        "结算前随时可以按当前市价卖出——不用等到结果出来。",
+        "结算：事件发生，Yes 合约值 100；没发生，值 0。",
+        "每笔交易收 2% 手续费（积分计，不收现金）。"
+      ],
+      "pointsTitle": "纯虚拟积分——没有现金价值",
+      "pointsBody": "BRAWLVERSE 的市场只用虚拟积分交易，不涉及金钱。积分没有现金价值，永远不能提现，也不会兑换成真实货币。注册、每日领取和赢下市场都能赚积分——输了也只输积分。",
+      "settleTitle": "BRAWLVERSE 的市场怎么结算",
+      "settleBody": "比赛市场按比赛结果结算，剧情市场按节目公布的剧情结果结算。每个市场在开盘前都会公示结算口径，结果会在站内公布。",
+      "faqTitle": "常见问题",
+      "faqs": [
+        {
+          "q": "一张 Yes 合约值多少？",
+          "a": "事件发生，Yes 合约值 100 积分；没发生，值 0。你付的价格（1–99）就是市场认为的概率。"
+        },
+        {
+          "q": "事件结束前可以卖出吗？",
+          "a": "可以。结算前随时可以按当前市价卖出合约。"
+        },
+        {
+          "q": "手续费是多少？",
+          "a": "每笔交易收 2% 手续费，用积分计，不收现金。"
+        },
+        {
+          "q": "这是真钱赌博吗？",
+          "a": "不是。BRAWLVERSE 只用虚拟积分。积分没有现金价值，永远不能提现。"
+        },
+        {
+          "q": "市场怎么结算？",
+          "a": "比赛市场按比赛结果结算，剧情市场按公布的剧情结果结算。每个市场开盘前都会公示结算口径。"
+        },
+        {
+          "q": "LMSR 是什么？",
+          "a": "LMSR 是给 BRAWLVERSE 合约定价的自动做市商。它随时提供报价，所以你随时可以交易——价格随每一笔买卖而变动。"
+        }
+      ]
+    },
+    "storylines": {
+      "metaTitle": "剧情圣经",
+      "metaDescription": "五段恩怨,八条弧线,一个王座——每一集 BRAWLVERSE 都从这个剧本里长出来。",
+      "title": "THE STORY BIBLE",
+      "taglinePre": "每一拳都有",
+      "taglineHighlight": "理由。",
+      "intro": "你追的不是比赛,是人。五段恩怨,八条弧线,一个王座——每一集都从这个剧本里长出来。",
+      "feudsTitle": "五段恩怨",
+      "liveResultTitle": "上一集 — 观众投票结果",
+      "liveResultSub": "你为下一场表演赛选出的规则,全站实时计票。",
+      "liveResultEmpty": "还没有人投票——来定下这条规则。",
+      "liveRage": "狂暴模式",
+      "liveFair": "公平竞技",
+      "liveResultTotal": "已计入 {count} 票",
+      "liveResultCta": "去投票 →",
+      "labels": {
+        "incident": "起因:",
+        "escalation": "升级:",
+        "blowoff": "了结:"
+      },
+      "feuds": [
+        {
+          "q": "QF1",
+          "title": "IRON JAW vs VIPER",
+          "style": "重炮 vs 毒牙",
+          "body": "JAW 放话三回合拆了他。VIPER 笑了:\"我只需要一次反击。\"EP0 证明毒牙更狠——复仇从零秒开始。",
+          "incident": "EP0 的 K.O.——VIPER 的反击让 JAW 仰望天花板灯光。",
+          "escalation": "JAW 冲进 VIPER 的训练营;VIPER 把 K.O. 截图发出来,配文\"再来?\"",
+          "blowoff": "JAW 挥出复仇之拳。VIPER 只等那一拳。",
+          "color": "red"
+        },
+        {
+          "q": "QF2",
+          "title": "SLEDGE vs MONSOON",
+          "style": "拆迁 vs 风暴",
+          "body": "SLEDGE 誓要夷平擂台。MONSOON 回敬:\"你拆楼。我拆人。\"",
+          "incident": "称重仪式推搡——SLEDGE 一脚踏裂舞台地板。",
+          "escalation": "MONSOON 在飓风模拟器里训练;SLEDGE 把一辆喷着\"MONSOON\"字样的汽车砸成铁饼。",
+          "blowoff": "纯粹的力量 vs 纯粹的速度。谁先倒下。",
+          "color": "orange"
+        },
+        {
+          "q": "QF3",
+          "title": "VOLT vs THE PROFESSOR",
+          "style": "混沌 vs 秩序",
+          "body": "\"计划?我就是闪电。\"教授写下了一份 14 步必胜剧本。当不可预测遇上全知全能——剧本会被撕碎吗?",
+          "incident": "教授公开发布逐回合预测;VOLT 在镜头前逐条反着来。",
+          "escalation": "剧本扩到 28 步;VOLT 在宣传片里把白板电焦了。",
+          "blowoff": "十四步逻辑,对抗一道混沌闪电。",
+          "color": "purple"
+        },
+        {
+          "q": "QF4",
+          "title": "GOLIATH-7 vs LA REINA",
+          "style": "温柔巨人 vs 女王",
+          "body": "他从不想赢——只想不伤人。她宣言:\"王座之下,无人能站着离开。\"最不想打的人 vs 最想赢的人——谁先背叛自己的本性?",
+          "incident": "更衣室偷拍——GOLIATH-7 被拍到给对手递水。",
+          "escalation": "LA REINA 嘲讽他是\"拒绝开火的武器\";他的工程师朋友恳求他真正打一场。",
+          "blowoff": "仁慈 vs 王冠。",
+          "color": "gold"
+        },
+        {
+          "q": "F",
+          "title": "王座 — 总决赛",
+          "style": "第一季总冠军",
+          "body": "两条恩怨线在此清算。每一回合的战术由观众投票决定——你来指挥这场比赛。剧本由十万人共同写就。",
+          "incident": "对阵表出炉。",
+          "escalation": "半决赛。",
+          "blowoff": "直播。一个王座。",
+          "color": ""
+        }
+      ],
+      "arcsTitle": "赛季弧线 — 八名选手,八段旅程",
+      "arcsHeader": {
+        "fighter": "选手",
+        "arc": "弧线"
+      },
+      "arcs": [
+        {
+          "fighter": "IRON JAW",
+          "arc": "复仇——被击碎的下颌,回来时更硬"
+        },
+        {
+          "fighter": "VIPER",
+          "arc": "傲慢——毒牙越长越狂,直到有人拔掉它"
+        },
+        {
+          "fighter": "SLEDGE",
+          "arc": "不可撼动之物——第一次遇到拆不动的东西"
+        },
+        {
+          "fighter": "MONSOON",
+          "arc": "风暴加冕"
+        },
+        {
+          "fighter": "VOLT",
+          "arc": "混沌脱缰——拒绝一切剧本,包括自己的"
+        },
+        {
+          "fighter": "THE PROFESSOR",
+          "arc": "第一次算错"
+        },
+        {
+          "fighter": "GOLIATH-7",
+          "arc": "救赎——从\"不想赢\"到\"为朋友而战\""
+        },
+        {
+          "fighter": "LA REINA",
+          "arc": "要么王冠,要么一无所有"
+        }
+      ],
+      "arcsNote": "一条弧线。每集推进一步。这就是全部秘诀。",
+      "anatomyTitle": "一集的解剖 — 3 分钟",
+      "anatomyHeader": {
+        "time": "时间",
+        "beat": "节拍",
+        "what": "发生什么"
+      },
+      "anatomy": [
+        {
+          "time": "0:00",
+          "beat": "钩子",
+          "what": "上集 3 个高光 + 一句恩怨回顾"
+        },
+        {
+          "time": "0:30",
+          "beat": "对视",
+          "what": "垃圾话 + 身体数据对比条"
+        },
+        {
+          "time": "1:00",
+          "beat": "第一回合",
+          "what": "试探——埋下一个钩子(他挨了一拳……却笑了)"
+        },
+        {
+          "time": "1:30",
+          "beat": "第二回合",
+          "what": "战术投票窗口——观众操纵比赛走向"
+        },
+        {
+          "time": "2:00",
+          "beat": "第三回合",
+          "what": "高潮——翻盘 buff 触发,悬念拉满"
+        },
+        {
+          "time": "2:30",
+          "beat": "收束",
+          "what": "K.O./判定 → 胜者金句 → 下一场预告"
+        }
+      ],
+      "programmingTitle": "擂台之外 — 节目矩阵",
+      "programming": [
+        {
+          "title": "⚖️ 称重对视",
+          "style": "60 秒 · 赛前 48 小时",
+          "body": "两名选手,一次对视,一条数据条。结尾引导评论区押注胜者。零新增素材。"
+        },
+        {
+          "title": "🎤 垃圾话专访",
+          "style": "30–45 秒竖屏 · Shorts/Reels",
+          "body": "一名选手,直面镜头,一句狠话。涨粉引擎。"
+        },
+        {
+          "title": "📰 赛后复盘",
+          "style": "60 秒 · 赛后 24 小时内",
+          "body": "\"你错过的 3 件事\"——高光 + 字幕 + 最新积分榜。"
+        },
+        {
+          "title": "📹 更衣室偷拍",
+          "style": "30 秒 · 伪纪录片",
+          "body": "\"偷拍\"到某个弱点或秘密——为下一集埋钩子。菜单上最便宜的悬念。"
+        }
+      ],
+      "footer": "BRAWLVERSE · 剧情圣经 v1.0"
+    },
+    "fanForge": {
+      "metaTitle": "粉丝锻造",
+      "metaDescription": "你来创造选手,AI 来锻造。留下一句人设,加入第二季投票队列。",
+      "title": "FAN FORGE",
+      "taglinePre": "你来创造选手 — ",
+      "taglineHighlight": "AI 来锻造",
+      "sub1": "留下一句人设。我们的 AI 会锻造名字、背景故事和对战卡。",
+      "sub2Pre": "得票最高的粉丝选手将进入 ",
+      "sub2Bold": "第二季",
+      "formTitle": "锻造你的选手",
+      "namePlaceholder": "选手名字 — 例如 TURBO GRANNY",
+      "personaPlaceholder": "一句人设 — 例如:一个穿零重力靴打拳的退役宇航员",
+      "submit": "锻造 →",
+      "submitBusy": "锻造中…",
+      "baseLabel": "选择基础拳手（可选）",
+      "baseNone": "不选 — 全新原创角色",
+      "baseOption": "基于 {fighter} 做变体",
+      "variantsTitle": "变体工坊",
+      "variantsNote": "在已有拳手的外观上做你的版本——更快进正片，也更容易被锻造成功。",
+      "variantsEmpty": "还没有变体投稿——挑一位拳手来改造。",
+      "submitOk": "已提交——你的选手进入第二季投票队列。",
+      "submitFailed": "提交失败,请稍后再试。",
+      "submitNetwork": "网络异常,请稍后再试。",
+      "submitInvalid": "名字需 2–24 字,人设需 3–120 字。",
+      "submitTurnstile": "人机校验未通过,请刷新后重试。",
+      "rejected": "该投稿被初筛拦截——请勿包含链接或广告。",
+      "prototypeNote": "每次提交都会真实存入下方队列,无需登录。",
+      "queueTitle": "社区队列",
+      "queueLoading": "正在载入队列…",
+      "queueEmpty": "还没有粉丝投稿——来做第一个。",
+      "queueTotal": "已有 {count} 名选手进入第二季投票队列。",
+      "queuedBio": "已进入第二季投票队列。",
+      "fanSubmission": "粉丝投稿:",
+      "examplesTitle": "锻造示例",
+      "examplesNote": "一句话能变成什么——按粉丝风格投稿生成的 AI 卡片。",
+      "examples": [
+        {
+          "name": "VOLT",
+          "persona": "一个会打拳的闪电精灵",
+          "bio": "他不躲拳。他就是那一拳。雷暴天保持不败。",
+          "img": "/brawlverse/assets/fan-volt.jpg"
+        },
+        {
+          "name": "GOLIATH-7",
+          "persona": "一台退役战争机甲,在拳击中找到了平静",
+          "bio": "为战争而生。为擂台重生。从未输过——也从未想赢。",
+          "img": "/brawlverse/assets/fan-goliath7.jpg"
+        },
+        {
+          "name": "LA REINA",
+          "persona": "一位捍卫王冠的蒙面摔角女王",
+          "bio": "王冠不会掉。对手站不起来。¡Viva la Reina!",
+          "img": "/brawlverse/assets/fan-lareina.jpg"
+        }
+      ],
+      "footer": "BRAWLVERSE · FAN FORGE"
+    },
+    "home": {
+      "metaTitle": "BRAWLVERSE — AI 拳击联盟",
+      "metaDescription": "八名虚拟选手,一座漫画擂台。在 AI 拳击联盟用虚拟积分下注 Yes/No 预测盘——观众投票,剧情爆炸。",
+      "heroTitle": "BRAWLVERSE",
+      "heroTaglinePre": "AI 拳击联盟 — ",
+      "heroTaglineHighlight": "你来指挥这场比赛",
+      "heroSub1": "八名虚拟选手。一座漫画擂台。",
+      "heroSub2": "观众投票,剧情爆炸。",
+      "nextEventTitle": "下一场",
+      "nextEventStarting": "正在确认擂台状态…",
+      "nextEventLive": "正在直播 —— 第 {round} 回合",
+      "nextEventReveal": "刚刚揭晓 —— 第 {round} 回合",
+      "nextEventFighters": "{a} vs {b}",
+      "nextEventIdle": "周五格斗之夜 —— 每周五 21:00(UTC+8)",
+      "nextEventCta": "去投下一回合 →",
+      "quickTitle": "现在就能做的三件事",
+      "quickLiveTitle": "看正在打的回合",
+      "quickLiveBody": "每一回合由全场观众决定,赢的招式会改写剧情。",
+      "quickLiveCta": "进入直播 →",
+      "quickVoteTitle": "定下一周的规则",
+      "quickVoteBody": "狂暴模式还是公平竞技 —— 一键投票,实时计入。",
+      "quickVoteCta": "去投票 →",
+      "quickForgeTitle": "锻造一名选手",
+      "quickForgeBody": "一句人设,AI 给你名字、背景和对战卡。",
+      "quickForgeCta": "打开粉丝锻造 →",
+      "sampleTitle": "▶ 样片 — IRON JAW vs VIPER",
+      "sampleNote": "AI 生成样片 · 第一季即将上线",
+      "trainingTitle": "训练场 — 全天 24/7",
+      "trainingNote": "这周没有比赛?拳馆永不打烊。选手们全天候对练——规则由你定。",
+      "ruleTitle": "下一场表演赛 — 规则由你决定",
+      "rageLabel": "狂怒模式",
+      "rageHint": "不防守,纯力量",
+      "fairLabel": "公平竞技",
+      "fairHint": "经典三回合规则",
+      "votesSuffix": " 票 · 全站实时共享",
+      "youVoted": "你投了",
+      "tapToVote": "点一下就投",
+      "voteClosed": "本轮规则投票已封盘",
+      "voteFailed": "投票失败,稍后再试",
+      "voteOk": "已投票,可随时改票",
+      "voteNetwork": "网络开小差,稍后再试",
+      "fightersTitle": "选手阵容",
+      "lockedName": "???",
+      "lockedStyle": "即将揭晓",
+      "lockedStat": "KO 率 —",
+      "forgeCta": "打造你自己的选手 →",
+      "howTitle": "玩法说明",
+      "how1": "观看 —— 每周 3 分钟漫画风对打",
+      "how2": "投票 —— 逐回合为选手选择战术",
+      "how3": "决胜 —— 能量票触发终结技,逆袭票点燃爆冷",
+      "seasonSoon": "第一季投票即将开启。",
+      "footer": "BRAWLVERSE · 第一季制作中",
+      "pricing": {
+        "title": "选择你的席位",
+        "subtitle": "所有计划都从看比赛开始，高阶解锁游戏。",
+        "mostPopular": "最受欢迎",
+        "perMonth": "/月",
+        "ctaFree": "开始观看",
+        "ctaPaid": "立即开通",
+        "cancelNote": "随时取消 · 虚拟积分无现金价值",
+        "tiers": {
+          "free": {
+            "name": "免费观众",
+            "price": "$0",
+            "tagline": "看比赛，为战术投票",
+            "features": [
+              "观看所有正片与预告",
+              "投票权重 ×1",
+              "每天 3 场人机对战",
+              "每日虚拟积分",
+              "梦幻联赛 + 弹幕"
+            ]
+          },
+          "ringside": {
+            "name": "场边席",
+            "price": "$4.99",
+            "tagline": "前排每一回合——无限畅玩",
+            "features": [
+              "无限人机对战",
+              "异步真人 PvP 挑战",
+              "投票 ×3 · 下注 ×2 · 积分 ×2",
+              "正片抢先看",
+              "名字上 LED 大屏",
+              "排行榜排名"
+            ]
+          },
+          "booker": {
+            "name": "经纪人",
+            "price": "$14.99",
+            "tagline": "你不看比赛——你安排比赛",
+            "features": [
+              "包含场边席全部权益",
+              "自定义拳手（名字+垃圾话）",
+              "每周锦标赛参赛资格",
+              "投票 ×10 · 下注 ×5 · 积分 ×5",
+              "优先匹配",
+              "竞技场人气获取 ×2"
+            ]
+          },
+          "promoter": {
+            "name": "推广人",
+            "price": "$49",
+            "tagline": "拥有整个联盟",
+            "features": [
+              "包含经纪人全部权益",
+              "冠名一个比赛之夜",
+              "赞助一名拳手",
+              "投票 ×20 · 下注 ×10 · 积分 ×10",
+              "经纪人之夜邀请",
+              "VIP 徽章"
+            ]
+          }
+        }
+      }
+    },
+    "episodes": {
+      "metaTitle": "剧集",
+      "metaDescription": "第一季四分之一决赛:实时弹幕 + 由观众掌舵的战术投票。",
+      "title": "EPISODES",
+      "taglinePre": "第一季 — ",
+      "taglineHighlight": "四分之一决赛",
+      "publishedTitle": "最新正片",
+      "publishedNote": "每周自动出片 · 人工审核后发布",
+      "sampleTitle": "EP0 — 样片:IRON JAW vs VIPER",
+      "pinnedBadge": "🔥 观众精选",
+      "nickPlaceholder": "昵称(默认匿名拳迷)",
+      "textPlaceholder": "发一句解说/玩梗,40字内,即时上屏",
+      "send": "发送弹幕",
+      "emptyText": "先写一句话!",
+      "sent": "已提交!",
+      "sendFailed": "发送失败",
+      "networkErr": "网络开小差,稍后再试",
+      "tacticsTitle": "战术投票(演示) — 第二回合:VIPER 该怎么打?",
+      "tacticNotePrefix": "📢 上回合观众投票已执行:",
+      "heavy": "重拳",
+      "heavyHint": "直接冲 KO",
+      "dodge": "闪避",
+      "dodgeHint": "躲开再反击",
+      "guard": "防守",
+      "guardHint": "硬扛风暴",
+      "tacticsNote": "全站计票 · 每人每回合一票,可改票 · 票数每 10 秒刷新",
+      "upcomingTitle": "即将到来的比赛",
+      "readFeuds": "看看这些恩怨 —— 每一拳都有理由 →",
+      "standingsTitle": "积分榜",
+      "standingsNote": "战绩在赛后结算时自动写入 · 当前赛季尚无完赛记录即为 0-0",
+      "footer": "BRAWLVERSE · 第一季制作中",
+      "upcoming": [
+        {
+          "q": "QF2",
+          "title": "SLEDGE vs MONSOON",
+          "style": "力量遇上风暴"
+        },
+        {
+          "q": "QF3",
+          "title": "VOLT vs THE PROFESSOR",
+          "style": "混沌遇上算计"
+        },
+        {
+          "q": "QF4",
+          "title": "GOLIATH-7 vs LA REINA",
+          "style": "温柔巨人遇上女王"
+        },
+        {
+          "q": "SF",
+          "title": "半决赛",
+          "style": "待定"
+        },
+        {
+          "q": "F",
+          "title": "总决赛",
+          "style": "待定 · 在 Kick 直播"
+        }
+      ]
+    },
+    "bet": {
+      "metaTitle": "盘口",
+      "metaDescription": "选一边,赢积分。纯虚拟积分,无现金价值。",
+      "title": "THE BOOK",
+      "taglinePre": "选一边 — ",
+      "taglineHighlight": "赢积分",
+      "walletTitle": "我的钱包",
+      "kBalance": "余额",
+      "kDaily": "每日领取",
+      "kMaxBet": "单注上限",
+      "kTier": "档位",
+      "claimTomorrow": "明日再领",
+      "claimNow": "领取 {amount} 积分",
+      "refresh": "刷新",
+      "claimed": "领到 {amount} 积分 · 余额 {balance}",
+      "alreadyClaimed": "今天已经领过了,明天再来",
+      "claimFailed": "领取失败:{error}",
+      "networkErr": "网络开小差,稍后再试",
+      "walletNote": "纯娱乐虚拟积分,无现金价值、不可兑换。注册即送 1000 分,每天可再领一次。",
+      "marketsTitle": "开放中的盘口",
+      "noMarkets": "暂时没有开放的市场",
+      "noMarketsBody": "新的赛程一开盘就会出现在这里。先去 EPISODES 看比赛、投战术票吧。",
+      "totalPool": "总池",
+      "locked": "已封盘",
+      "waitingFirst": "等待第一注",
+      "pool": "池",
+      "betAmountPlaceholder": "下注额 1-{max}",
+      "placeBet": "下注",
+      "betNote": "赔率按同注分彩实时浮动 · 封盘后不可下注",
+      "pickFirst": "先点一个选项",
+      "invalidAmount": "输入有效的下注额",
+      "insufficient": "余额不足,先领每日积分",
+      "marketLocked": "这个市场已封盘",
+      "betFailed": "下注失败:{error}",
+      "betOk": "下注成功:{sel} × {amount} · 余额 {balance}",
+      "leaderboardTitle": "排行榜",
+      "noPlayers": "还没有人开户,第一注就是你的。",
+      "player": "玩家",
+      "balance": "余额",
+      "leaderboardNote": "玩家 ID 为设备指纹前 8 位 · 同一设备同一账户",
+      "footer": "BRAWLVERSE · 第一季制作中",
+      "howItWorks": "预测市场怎么运作",
+      "loadFailed": "加载失败,刷新页面重试",
+      "contract": {
+        "title": "合约市场",
+        "subtitle": "Yes/No 二值合约，价格即概率，锁盘前随时买卖。",
+        "feeNote": "交易收 2% 手续费进入回收池（抗通胀）。纯虚拟积分。",
+        "loadFailed": "加载失败。",
+        "noMarkets": "暂无开放的合约盘口，稍后再来。",
+        "kind_winner": "胜负",
+        "kind_method": "终结方式",
+        "kind_round": "回合",
+        "kind_storyline": "剧情",
+        "trade": "交易",
+        "collapse": "收起",
+        "rules": "结算口径",
+        "locked": "已锁盘",
+        "settled": "已结算",
+        "buy": "买入",
+        "sell": "卖出",
+        "amountCredits": "花多少拳场币",
+        "amountContracts": "卖几张合约",
+        "execute": "下单",
+        "contracts": "张",
+        "fee": "手续费",
+        "receive": "到手",
+        "tradeOk": "成交：{n} 张 {side}，手续费 {fee}",
+        "tradeFailed": "交易失败。",
+        "soldOk": "已卖出 {n} 张。",
+        "tape": "实时成交",
+        "positions": "我的持仓",
+        "sellAll": "全卖",
+        "pnlBoard": "盈亏榜",
+        "player": "玩家"
+      }
+    },
+    "fantasy": {
+      "metaTitle": "梦幻联赛",
+      "metaDescription": "组建三人阵容,跟着战绩赢积分。",
+      "title": "FANTASY LEAGUE",
+      "taglinePre": "组建阵容 — ",
+      "taglineHighlight": "跟着战绩走",
+      "stableTitle": "我的阵容",
+      "currentTeam": "当前阵容",
+      "emptyPicks": "空(还没选人)",
+      "createFirst": "先建一支队伍",
+      "createFirstBody": "一个设备一支队伍。建队后从下面 8 名 S1 选手里挑 3 人。",
+      "teamPlaceholder": "队伍名,例如 CAGE KINGS",
+      "createTeam": "建队",
+      "savePicks": "保存阵容({count}/3)",
+      "scoring": "胜=3 分 · KO 胜=5 分 · 负=0 分",
+      "teamCreated": "建队成功,现在选 3 名选手",
+      "teamFailed": "建队失败:{error}",
+      "picksSaved": "阵容已保存 · 积分随真实战绩实时更新",
+      "picksFailed": "保存失败:{error}",
+      "mustPickThree": "必须正好选 3 名选手",
+      "networkErr": "网络开小差,稍后再试",
+      "loadFailed": "加载失败,刷新页面重试",
+      "leaderboardTitle": "第一季排行榜",
+      "noTeams": "还没有人组队,第一个上场的就是榜首。",
+      "team": "队伍",
+      "picks": "阵容",
+      "pts": "积分",
+      "leaderboardNote": "积分由赛后写入的真实战绩计算,赛季结束按榜首派奖。",
+      "footer": "BRAWLVERSE · 第一季制作中"
+    },
+    "live": {
+      "metaTitle": "周五格斗之夜",
+      "metaDescription": "直播回合投票 —— 全场观众决定下一招。",
+      "title": "FRIDAY FIGHT NIGHT",
+      "taglinePre": "全场观众决定下一招 — ",
+      "taglineHighlight": "直播",
+      "noRound": "本周暂无直播回合",
+      "noRoundBody": "每个回合开场时,这里会出现两套打法。票数高的那套会在下一回合真的执行,并放出对应的分支视频。先去看 EPISODES,或在首页投出你想要的 exhibition 规则。",
+      "connecting": "正在连接直播…",
+      "connectFailed": "连接直播服务失败,正在重试…",
+      "optionA": "A 方案",
+      "optionB": "B 方案",
+      "yourChoice": "你的选择",
+      "voted": "已投票 · 可改票",
+      "voteFailed": "投票失败:{error}",
+      "closed": "已封盘,等主播揭晓结果…",
+      "voteClosed": "本回合已封盘,等下一回合",
+      "revealResult": "结果",
+      "winner": "胜出({branch} 分支)",
+      "noWinner": "未设置",
+      "videoMissing": "这一分支的视频还没上传,等下回合。",
+      "scheduled": "回合还没开始投票,请稍等。",
+      "pollNote": "票数每 5 秒刷新 · 投票权重随会员档位提升 · 封盘后不可改票",
+      "winningShare": "{pct}% 的人押中了兑现的分支",
+      "nextFightNight": "下一场开赛",
+      "ticketsCta": "你现在一票算 1×。Ringside 会员一票算 3×——同一个票箱,更大的话语权。",
+      "ticketsLink": "查看会员权益 →",
+      "footer": "BRAWLVERSE · 第一季制作中",
+      "networkErr": "网络开小差,稍后再试"
+    },
+    "tickets": {
+      "metaTitle": "门票",
+      "metaDescription": "选好座位,买下你的影响力。BRAWLVERSE 三档会员。",
+      "title": "TICKETS",
+      "taglinePre": "选你的座位 — ",
+      "taglineHighlight": "买你的影响力",
+      "currentTier": "当前身份",
+      "tierNote": "订阅即时生效,可随时取消。所有权益都在同一个钱包与票箱里生效。",
+      "yourPass": "你的通行证",
+      "active": "生效中",
+      "opening": "正在跳转…",
+      "getPass": "获取通行证 →",
+      "paidDone": "支付已完成,权益将在几分钟内自动开通。",
+      "notConfigured": "支付通道尚未开通(缺少 Waffo 商户配置),请稍后再来。",
+      "notAvailable": "即将开放",
+      "checkoutFailed": "下单失败,稍后再试。",
+      "networkErr": "网络开小差,稍后再试。",
+      "legalNote": "订阅仅解锁站内玩法权益,不涉及现金返利;积分与下注均为娱乐虚拟道具。",
+      "voteWeight": "票重",
+      "betCap": "竞猜上限",
+      "earlyAccess": "提前",
+      "footer": "BRAWLVERSE · TICKETS",
+      "tiers": [
+        {
+          "id": "ringside",
+          "name": "RINGSIDE",
+          "price": 4.99,
+          "tagline": "每一回合,都在最前排。",
+          "perks": [
+            "投票权重 ×3",
+            "单注上限 ×2",
+            "每日积分 ×2",
+            "提前观看剧集",
+            "你的名字上 LED 墙"
+          ]
+        },
+        {
+          "id": "booker",
+          "name": "BOOKER",
+          "price": 14.99,
+          "tagline": "你不只是看比赛,你来安排比赛。",
+          "perks": [
+            "投票权重 ×10",
+            "单注上限 ×5",
+            "每日积分 ×5",
+            "可创建道具与阵容",
+            "包含 RINGSIDE 全部权益"
+          ]
+        },
+        {
+          "id": "promoter",
+          "name": "PROMOTER",
+          "price": 49.0,
+          "tagline": "整张推广,都是你的。",
+          "perks": [
+            "投票权重 ×20",
+            "单注上限 ×10",
+            "每日积分 ×10",
+            "Booker Night 邀请",
+            "包含 BOOKER 全部权益"
+          ]
+        },
+        {
+          "id": "annual",
+          "name": "ANNUAL",
+          "price": 199.0,
+          "tagline": "一年一次付费,整张推广都是你的。",
+          "perks": [
+            "包含 PROMOTER 全部权益",
+            "每年 199 美元",
+            "投票权重 ×20",
+            "单注上限 ×10",
+            "Booker Night 邀请",
+            "可创建道具与阵容",
+            "你的名字上 LED 墙"
+          ]
+        }
+      ],
+      "tierLabels": {
+        "free": "FREE FAN",
+        "ringside": "RINGSIDE",
+        "booker": "BOOKER",
+        "promoter": "PROMOTER",
+        "annual": "ANNUAL"
+      }
+    },
+    "admin": {
+      "metaTitle": "Booker 后台",
+      "metaDescription": "BRAWLVERSE 后台控制台。",
+      "title": "BOOKER CONSOLE",
+      "taglinePre": "后台 — ",
+      "taglineHighlight": "掌控全场",
+      "signIn": "以管理员身份登录,管理对局、盘口、弹幕与直播回合。",
+      "signInCta": "前往登录",
+      "forbidden": "需要管理员角色。",
+      "tabs": {
+        "bouts": "对局",
+        "markets": "盘口",
+        "captions": "弹幕",
+        "gates": "闸门",
+        "live": "直播回合",
+        "subs": "订阅",
+        "votes": "投票",
+        "episodes": "正片",
+        "content": "内容库"
+      },
+      "contentNote": "统一内容库:周更正片与回合战术分支都在这里,发布后 /episodes 立即可播。",
+      "episodesPublish": "发布",
+      "episodesWatch": "看片",
+      "refresh": "刷新",
+      "save": "保存",
+      "close": "关闭",
+      "noRows": "暂无数据。",
+      "player": "玩家",
+      "tier": "档位",
+      "status": "状态",
+      "periodEnd": "到期时间",
+      "boutId": "对局 ID",
+      "boutTitle": "标题",
+      "fighterA": "选手 A",
+      "fighterB": "选手 B",
+      "roundNo": "回合数",
+      "votingOpen": "投票开放",
+      "tacticNote": "战术备注",
+      "marketId": "盘口 ID",
+      "marketType": "类型",
+      "question": "问题",
+      "selections": "选项(逗号分隔)",
+      "housePool": "庄家注(JSON)",
+      "create": "创建",
+      "lock": "封盘",
+      "settle": "结算",
+      "winningSelection": "获胜选项",
+      "approve": "通过",
+      "reject": "拒绝",
+      "pin": "置顶",
+      "unpin": "取消置顶",
+      "delete": "删除",
+      "captionText": "内容",
+      "captionNick": "昵称",
+      "createBout": "创建对局",
+      "createMarket": "创建盘口",
+      "saveNote": "保存备注",
+      "roundId": "回合 ID",
+      "tacticA": "战术 A",
+      "tacticB": "战术 B",
+      "branchAUrl": "A 分支视频地址",
+      "branchBUrl": "B 分支视频地址",
+      "state": "状态",
+      "deadline": "投票截止(unix 秒)",
+      "createRound": "创建回合",
+      "tally": "计票",
+      "done": "完成",
+      "failed": "失败:{error}",
+      "footer": "BRAWLVERSE · BOOKER CONSOLE"
+    },
+    "nav": {
+      "episodes": {
+        "title": "剧集"
+      },
+      "fighters": {
+        "title": "选手"
+      },
+      "storylines": {
+        "title": "剧情"
+      },
+      "live": {
+        "title": "周五格斗之夜"
+      },
+      "play": {
+        "title": "玩法",
+        "items": {
+          "bet": {
+            "title": "盘口",
+            "description": "选一边,赢虚拟积分。"
+          },
+          "fantasy": {
+            "title": "梦幻联赛",
+            "description": "组建三人阵容,跟着战绩赢积分。"
+          }
+        }
+      },
+      "universe": {
+        "title": "宇宙",
+        "items": {
+          "forge": {
+            "title": "粉丝锻造",
+            "description": "你来创造选手,AI 来锻造。"
+          },
+          "tickets": {
+            "title": "门票",
+            "description": "选你的座位,买你的影响力。"
+          }
+        }
+      },
+      "more": {
+        "title": "更多",
+        "items": {
+          "about": {
+            "title": "关于",
+            "description": "BRAWLVERSE 是什么,怎么玩"
+          },
+          "contact": {
+            "title": "联系",
+            "description": "联系 Booker 团队"
+          },
+          "cookiePolicy": {
+            "title": "Cookie 政策",
+            "description": "本站如何使用 Cookie"
+          },
+          "privacyPolicy": {
+            "title": "隐私政策",
+            "description": "我们如何保护和处理你的数据"
+          },
+          "termsOfService": {
+            "title": "服务条款",
+            "description": "擂台上的规矩"
+          }
+        }
+      }
+    },
+    "about": {
+      "title": "关于 BRAWLVERSE",
+      "description": "BRAWLVERSE 是什么、观众如何掌舵比赛、虚拟积分值多少。",
+      "tagline": "AI 拳击联盟,由观众来写这场比赛。",
+      "introduction": "BRAWLVERSE 是一座完全由 AI 生成选手、影像与美术构成的漫画风拳击联盟。八名虚拟选手进入一个赛季,观众逐回合投票决定战术,胜出的分支会在下一集真的演出来。每名选手都有战绩、恩怨与弧线,剧本是随票数长出来的,而不是提前写死的。",
+      "facts": [
+        {
+          "label": "第一季选手",
+          "value": "8"
+        },
+        {
+          "label": "每场回合数",
+          "value": "3"
+        },
+        {
+          "label": "每回合战术数",
+          "value": "3"
+        }
+      ],
+      "missionTitle": "我们的使命",
+      "mission": "做一档真正由观众掌舵结果的节目。投票不是贴在成片后面的问卷,而是票数直接决定下一段渲染哪个分支——整个赛季是观众实时写出来的。",
+      "disclaimerTitle": "积分与下注",
+      "disclaimer": "所有积分均为娱乐用虚拟道具,没有现金价值、不可兑换,BRAWLVERSE 也不会返还任何现金。会员权益解锁的是站内玩法加成,例如投票权重与单注上限。",
+      "cta": "去买票",
+      "contactCta": "联系 Booker"
+    },
+    "contact": {
+      "title": "联系我们",
+      "description": "关于某场比赛、会员权益或剧情设定有疑问?Booker 团队都会看。",
+      "subtitle": "关于某场比赛、会员权益或剧情设定有疑问?Booker 团队都会看。",
+      "form": {
+        "title": "发一条消息",
+        "description": "说说你想聊什么,我们会回复你。",
+        "name": "称呼",
+        "email": "邮箱",
+        "message": "内容",
+        "submit": "提交",
+        "submitting": "提交中...",
+        "success": "消息已发送",
+        "fail": "发送失败",
+        "nameMinLength": "称呼至少 3 个字符",
+        "nameMaxLength": "称呼不能超过 30 个字符",
+        "emailValidation": "请输入有效的邮箱地址",
+        "messageMinLength": "内容至少 10 个字符",
+        "messageMaxLength": "内容不能超过 500 个字符"
+      },
+      "modal": {
+        "title": "联系我们",
+        "description": "问题、合作、媒体——我们都会看。",
+        "name": "姓名",
+        "email": "邮箱",
+        "message": "留言",
+        "submit": "发送",
+        "submitting": "发送中…",
+        "success": "已发送，我们会尽快回复。",
+        "fail": "发送失败，请稍后再试。"
+      }
+    },
+    "newsletter": {
+      "title": "订阅比赛夜提醒",
+      "placeholder": "you@email.com",
+      "subscribe": "订阅",
+      "success": "订阅成功！请查收邮件。",
+      "fail": "邮箱格式不正确。"
+    },
+    "viral": {
+      "nearMiss": {
+        "title": "就差一点。",
+        "subtitlePrice": "你这一方在最终回合前曾涨到 {price}¢。一个摆拳改变了全部。",
+        "subtitleClose": "距离翻盘只差几个点位。",
+        "runItBack": "再来一场 →",
+        "seeAll": "查看全部市场"
+      },
+      "gated": {
+        "lockedTitle": "🔒 录像已锁定",
+        "lockedShare": "在 X 上分享你的预测即可解锁。",
+        "lockedShareFighter": "在 X 上分享你的投注单，解锁 {fighter} 的隐藏背景故事。",
+        "shareOnX": "分享到 X",
+        "iveShared": "已分享 — 去解锁",
+        "unlockedTitle": "已解锁",
+        "unlockedBody": "镜头之外没拍到的部分。",
+        "milestoneProgress": "{current} / {threshold} 票 — 解锁 QF2 垃圾话录像",
+        "milestoneDone": "由全场观众解锁 🥊",
+        "milestoneHint": "在 QF2 投票，推动观众解锁。",
+        "tierHint": "会员专享 — 升级到 BOOKER 或更高档位即可解锁。"
+      },
+      "lossCta": {
+        "titleFighter": "{fighter} 倒下了。",
+        "titleGeneric": "那一下溜走了。",
+        "subtitle": "你的选手输了。你的选择：",
+        "betRematch": "押注复仇赛 →",
+        "walkAway": "就此离场"
+      }
+    }
+  },
+  "Arena": {
+    "metaTitle": "格斗竞技场",
+    "metaDescription": "踏入 BRAWLVERSE 竞技场：选你的拳手，智取 AI，冲击排位榜。",
+    "title": "格斗竞技场",
+    "tagline": "不止是看拳——亲自下场打！",
+    "chooseFighter": "选择你的拳手",
+    "chooseOpponent": "选择对手（AI）",
+    "startFight": "进入竞技场",
+    "fightStart": "{a} 对阵 {b}——开打！",
+    "round": "第",
+    "finisherReady": "终结技就绪！",
+    "keyboardHint": "键盘：J 刺拳 · K 直拳 · L 勾拳 · U 上勾拳 · B 击腹 · I 格挡 · O 闪避 · D 下潜 · F 佯攻 · 空格 嘲讽。也可直接点按钮。",
+    "draw": "平局",
+    "wins": "获胜",
+    "rounds": "共 {n} 回合",
+    "rematch": "再来一场",
+    "leaderboard": "排位榜",
+    "player": "玩家",
+    "winsCol": "胜",
+    "lossesCol": "负",
+    "fighterAnon": "拳手 {n}",
+    "moves": {
+      "jab": "刺拳",
+      "cross": "直拳",
+      "hook": "勾拳",
+      "uppercut": "上勾拳",
+      "body": "击腹",
+      "block": "格挡",
+      "dodge": "闪避",
+      "duck": "下潜",
+      "feint": "佯攻",
+      "taunt": "嘲讽"
+    }
+  }
+}

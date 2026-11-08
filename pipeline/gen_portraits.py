@@ -47,7 +47,7 @@ def char_path(slug):
 
 
 def replicate_run_image(inputs, save):
-    r = subprocess.run([sys.executable, HELPER, "run", "--model", MODEL,
+    r = subprocess.run([sys.executable, HELPER, "run", MODEL,
                         "--input-json", json.dumps(inputs),
                         "--save", save + ".json", "--timeout", "900"],
                        capture_output=True, text=True)

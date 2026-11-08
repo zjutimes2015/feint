@@ -1,0 +1,36 @@
+.cursor
+.claude
+.conductor
+.kiro
+.github
+.next
+.open-next
+.source
+.vscode
+.git
+.wrangler
+.dockerignore
+node_modules
+**/node_modules
+Dockerfile
+LICENSE
+
+# Local configuration and credentials (including nested files)
+**/.env*
+**/.dev.vars*
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/certificates
+**/.ssh
+.vercel
+
+# Browser authentication state and test artifacts
+**/.auth
+playwright-report
+test-results
+coverage
+
+# Alternate local Next.js build directories
+.next-*

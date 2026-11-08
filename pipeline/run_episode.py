@@ -68,23 +68,32 @@ def main():
     ap.add_argument("--model", default="deepseek/deepseek-chat")
     ap.add_argument("--brief", default=None, help="跳过 draft，直接用现成 brief")
     ap.add_argument("--format", default="vertical", choices=["vertical", "horizontal"])
+    ap.add_argument("--profile", default=os.environ.get("HOOK_COST_PROFILE", "standard"),
+                    choices=["full", "standard", "lean"],
+                    help="成本档位(P2-8):full/standard/lean")
     ap.add_argument("--execute", action="store_true")
     ap.add_argument("--yes", action="store_true")
+    ap.add_argument("--publish", action="store_true",
+                    help="合成后写进内容库并置 published（需 CONTENT_PUBLISH_TOKEN）")
+    ap.add_argument("--week-key", default="")
+    ap.add_argument("--api-base", default=os.environ.get("HOOK_API_BASE", "http://localhost:3000"))
+    ap.add_argument("--title", default="")
     a = ap.parse_args()
 
     brief_path = a.brief
     if not brief_path:
         if not a.feud:
             sys.exit("--feud 必填（或用 --brief 跳过 draft）")
-        print("=== 1/4 draft（OpenRouter，几分钱）===")
+        print("=== 1/5 draft（OpenRouter，几分钱）===")
         sh(os.path.join(HERE, "draft.py"), "--bout", a.bout, "--a", a.a, "--b", a.b,
            "--feud", a.feud, "--round", a.round, "--model", a.model)
         brief_path = os.path.join(HERE, "briefs", "%s_r%s.json" % (a.bout, a.round))
     else:
-        print("=== 1/4 draft skipped（用现成 brief）===")
+        print("=== 1/5 draft skipped（用现成 brief）===")
 
-    print("=== 2/4 produce（Replicate，带 --qc 一致性门）===")
-    pargs = [os.path.join(HERE, "produce.py"), "--brief", brief_path, "--qc"]
+    print("=== 2/5 produce（Replicate，带 --qc 一致性门）===")
+    pargs = [os.path.join(HERE, "produce.py"), "--brief", brief_path, "--qc",
+             "--profile", a.profile]
     if a.execute:
         pargs += ["--execute"]
         if a.yes:
@@ -92,14 +101,30 @@ def main():
     sh(*pargs)
 
     if a.execute and a.yes:
-        print("=== 3/4 QC 门（装配前强制检查）===")
+        print("=== 3/5 QC 门（装配前强制检查）===")
         qc_gate(brief_path)
-        print("=== 4/4 assemble（ffmpeg）===")
+        print("=== 4/5 assemble（ffmpeg）===")
         sh(os.path.join(HERE, "assemble.py"), "--brief", brief_path, "--format", a.format)
+        if a.publish:
+            print("=== 5/5 publish（写进内容库 → published）===")
+            brief = json.load(open(brief_path, encoding="utf-8-sig"))
+            shots = len(brief.get("segments") or [])
+            out = os.path.join(
+                HERE, "out", "%s_r%s_%s.mp4"
+                % (a.bout, a.round, "16x9" if a.format == "horizontal" else "9x16")
+            )
+            title = a.title or "%s vs %s — R%s" % (a.a, a.b, a.round)
+            sh(os.path.join(HERE, "publish.py"),
+               "--video", out, "--id", "ep-%s-r%s" % (a.bout, a.round),
+               "--title", title, "--week-key", a.week_key,
+               "--shots", str(shots), "--api-base", a.api_base)
+        else:
+            print("=== 5/5 publish skipped（加 --publish 才写入内容库）===")
     else:
-        print("=== 3/4 QC 门 skipped（dry-run）===")
-        print("=== 4/4 assemble skipped（dry-run）===")
-        print("真跑：加 --execute --yes")
+        print("=== 3/5 QC 门 skipped（dry-run）===")
+        print("=== 4/5 assemble skipped（dry-run）===")
+        print("=== 5/5 publish skipped（dry-run）===")
+        print("真跑：加 --execute --yes（要上线再加 --publish）")
 
 
 if __name__ == "__main__":

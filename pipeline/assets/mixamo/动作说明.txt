@@ -1,0 +1,42 @@
+BRAWLVERSE 格斗动作参考库（Mixamo）
+共 25 个动作，FBX Binary / With Skin / 30fps
+下载日期：2026-11-04 ｜ 用途：Blender 渲染 → AI 换角色 → 正赛 footage
+解压后建议放到 E:\BRAWLVERSE动作库\
+
+
+stance_idle_a.fbx 格斗待机 A（Fighting Idle）
+stance_idle_b.fbx 格斗待机 B（Standing Idle）
+move_advance.fbx 前进
+move_retreat.fbx 后退
+move_circle_l.fbx 向左绕圈
+move_circle_r.fbx 向右绕圈
+move_swagger.fbx 入场 swagger 步（Swagger Walk）
+
+
+strike_jab.fbx 刺拳（Boxing）
+strike_cross.fbx 后手直拳（Cross Punch）
+strike_hook.fbx 左勾拳（Hook Punch）
+strike_hook_b.fbx 右勾拳（Right Hook，镜像版）
+strike_uppercut.fbx 上勾拳（Uppercut）
+strike_body.fbx 身体击打（Body Punch To The Knee）
+
+
+defense_block.fbx 双臂格挡（Block）
+defense_dodge_r.fbx 闪躲（Dodging Right，镜像版）
+defense_duck.fbx 下蹲躲闪（Ducking）
+
+
+react_head_hit.fbx 头部受击
+react_body_hit.fbx 身体受击
+react_stagger.fbx 踉跄（Injured Stumble Idle）
+reaction_knockdown.fbx 肝部重击倒地（Livershot Knockdown，85 帧）—— 2026-11-07 已入库
+
+react_ko.fbx        击倒（Knocked Out, Falling To Back）
+react_getup.fbx 倒地起身（Getting Up）
+
+
+react_taunt.fbx 嘲讽（Boxing Taunt）
+react_victory.fbx 胜利（Victory From A Boxing Win）
+react_defeat.fbx 落败（Defeat From A Boxing Loss）
+
+备注：defense_clinch（缠抱）Mixamo 站内无合适动作，暂缺。

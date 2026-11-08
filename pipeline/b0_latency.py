@@ -43,7 +43,7 @@ def main():
         t0 = time.time()
         try:
             produce.replicate_run(WAN, {"video": ref_url, "character_image": portrait,
-                                        "resolution": "720p", "merge_audio": True},
+                                        "resolution": "720", "merge_audio": True},
                                   "/tmp/b0_%d.json" % i)
             dt = time.time() - t0
             lat.append(dt)

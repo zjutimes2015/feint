@@ -4,9 +4,9 @@
   "dna": "wild asymmetric bleached-blond mohawk, jagged yellow lightning-bolt face paint across eyes, neon-yellow gloves, black trunks with electric-crackle print, no tattoos",
   "seed": 61093,
   "portraits": {
-    "front": "pending",
-    "three_quarter": "pending",
-    "profile": "pending"
+    "front": "assets/fighters/volt/front.png",
+    "three_quarter": "assets/fighters/volt/three_quarter.png",
+    "profile": "assets/fighters/volt/profile.png"
   },
-  "locked": false
+  "locked": true
 }

@@ -1,0 +1,1602 @@
+{
+  "Metadata": {
+    "name": "BRAWLVERSE",
+    "title": "BRAWLVERSE — The AI Boxing League",
+    "description": "Eight virtual fighters, one comic-book ring. Bet virtual points on Yes/No prediction markets in the AI boxing league — the audience votes, the story explodes."
+  },
+  "Common": {
+    "login": "Log in",
+    "logout": "Log out",
+    "signUp": "Sign up",
+    "language": "Switch language",
+    "mode": {
+      "label": "Toggle mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "copy": "Copy",
+    "saving": "Saving...",
+    "save": "Save",
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "logoutFailed": "Failed to log out",
+    "table": {
+      "totalRecords": "Total {count} records",
+      "noResults": "No results",
+      "loading": "Loading...",
+      "columns": "Columns",
+      "rowsPerPage": "Rows per page",
+      "page": "Page",
+      "firstPage": "First Page",
+      "lastPage": "Last Page",
+      "nextPage": "Next Page",
+      "previousPage": "Previous Page",
+      "ascending": "Asc",
+      "descending": "Desc",
+      "resetSorting": "Reset",
+      "hideColumn": "Hide",
+      "viewOptions": "View",
+      "toggleColumns": "Toggle columns",
+      "searchColumns": "Search columns...",
+      "noColumns": "No columns found.",
+      "clearFilters": "Clear filters"
+    }
+  },
+  "PricingPage": {
+    "title": "Tickets",
+    "description": "Choose the ticket that fits how you watch",
+    "subtitle": "Choose the ticket that fits how you watch",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "PricingCard": {
+      "freePrice": "$0",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "popular": "Popular",
+      "currentPlan": "Current Plan",
+      "yourCurrentPlan": "Your Current Plan",
+      "getStartedForFree": "Get Started For Free",
+      "getLifetimeAccess": "Get Lifetime Access",
+      "getStarted": "Get Started",
+      "notAvailable": "Not Available",
+      "daysTrial": "{days}-day free trial"
+    },
+    "CheckoutButton": {
+      "loading": "Loading...",
+      "checkoutFailed": "Failed to open checkout page"
+    }
+  },
+  "PricePlans": {
+    "free": {
+      "name": "Free Fan",
+      "description": "Watch the card and cast your vote",
+      "features": {
+        "feature-1": "Vote on every tactics round",
+        "feature-2": "Daily virtual credits",
+        "feature-3": "Join the fantasy league",
+        "feature-4": "Post danmaku in the arena"
+      },
+      "limits": {
+        "limit-1": "Vote weight ×1",
+        "limit-2": "Bet limit ×1",
+        "limit-3": "No early episode access"
+      }
+    },
+    "ringside": {
+      "name": "RINGSIDE",
+      "description": "Front row, every round",
+      "features": {
+        "feature-1": "Vote weight ×3",
+        "feature-2": "Bet limit ×2",
+        "feature-3": "Daily credits ×2",
+        "feature-4": "Early access to episodes"
+      },
+      "limits": {
+        "limit-1": "Your name on the LED wall",
+        "limit-2": "Cancel any time",
+        "limit-3": "Points have no cash value"
+      }
+    },
+    "booker": {
+      "name": "BOOKER",
+      "description": "You don't watch the card — you book it",
+      "features": {
+        "feature-1": "Vote weight ×10",
+        "feature-2": "Bet limit ×5",
+        "feature-3": "Daily credits ×5",
+        "feature-4": "Create props and stables",
+        "feature-5": "Everything in RINGSIDE"
+      },
+      "limits": {
+        "limit-1": "Cancel any time",
+        "limit-2": "Points have no cash value",
+        "limit-3": "One subscription per account"
+      }
+    },
+    "promoter": {
+      "name": "PROMOTER",
+      "description": "Own the whole promotion",
+      "features": {
+        "feature-1": "Vote weight ×20",
+        "feature-2": "Bet limit ×10",
+        "feature-3": "Daily credits ×10",
+        "feature-4": "Booker Night invite",
+        "feature-5": "Everything in BOOKER",
+        "feature-6": "Your name on the LED wall"
+      },
+      "limits": {
+        "limit-1": "Cancel any time",
+        "limit-2": "Points have no cash value"
+      }
+    },
+    "annual": {
+      "name": "ANNUAL",
+      "description": "One payment a year. Own the promotion.",
+      "features": {
+        "feature-1": "Everything in PROMOTER",
+        "feature-2": "Billed $199 yearly",
+        "feature-3": "Vote weight ×20",
+        "feature-4": "Bet limit ×10",
+        "feature-5": "Booker Night invite",
+        "feature-6": "Create props and stables",
+        "feature-7": "Your name on the LED wall"
+      },
+      "limits": {
+        "limit-1": "Cancel any time"
+      }
+    }
+  },
+  "NotFoundPage": {
+    "title": "404",
+    "message": "Sorry, the page you are looking for does not exist.",
+    "backToHome": "Back to home"
+  },
+  "ErrorPage": {
+    "title": "Oops! Something went wrong!",
+    "tryAgain": "Try again",
+    "backToHome": "Back to home"
+  },
+  "AuthPage": {
+    "verification": {
+      "pending": "Verify your email to continue.",
+      "sendFailed": "Could not send. Please try again.",
+      "requested": "Email requested. Check your inbox.",
+      "sending": "Sending…",
+      "cooldown": "Resend in {seconds}s",
+      "resend": "Resend"
+    },
+    "login": {
+      "title": "Login",
+      "welcomeBack": "Welcome back",
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Sign In",
+      "signUpHint": "Don't have an account? Sign up",
+      "forgotPassword": "Forgot Password?",
+      "signInWithGoogle": "Sign In with Google",
+      "signInWithGitHub": "Sign In with GitHub",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "or": "Or continue with",
+      "emailRequired": "Please enter your email",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Captcha verification failed",
+      "captchaError": "Captcha verification error"
+    },
+    "register": {
+      "title": "Register",
+      "createAccount": "Create an account",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "signUp": "Sign Up",
+      "signInHint": "Already have an account? Sign in",
+      "checkEmail": "Please check your email inbox",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email",
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Captcha verification failed",
+      "captchaError": "Captcha verification error"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "email": "Email",
+      "send": "Send reset link",
+      "backToLogin": "Back to login",
+      "checkEmail": "Please check your email inbox",
+      "emailRequired": "Please enter your email"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "password": "Password",
+      "reset": "Reset password",
+      "backToLogin": "Back to login",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "minLength": "Password must be at least 8 characters"
+    },
+    "error": {
+      "title": "Oops! Something went wrong!",
+      "tryAgain": "Please try again.",
+      "backToLogin": "Back to login",
+      "checkEmail": "Please check your email inbox",
+      "codes": {
+        "verification_token_expired": "This verification link has expired. Please request a new one.",
+        "verification_failed": "Invalid verification token. Please request a new verification email.",
+        "email_not_verified": "Please sign in again to receive a new verification email."
+      }
+    },
+    "common": {
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "byClickingContinue": "By clicking continue, you agree to our ",
+      "and": " and "
+    }
+  },
+  "Marketing": {
+    "navbar": {
+      "title": "Explore"
+    },
+    "footer": {
+      "tagline": "The AI boxing league — you call the fight."
+    },
+    "avatar": {
+      "dashboard": "Dashboard",
+      "billing": "Billing",
+      "settings": "Settings"
+    }
+  },
+  "Dashboard": {
+    "dashboard": {
+      "title": "My Record"
+    },
+    "myRecord": {
+      "title": "MY RECORD",
+      "subtitle": "Every vote, pick and credit you've earned, {name}.",
+      "statsTitle": "YOUR NUMBERS",
+      "votesLabel": "VOTES CAST",
+      "weightLabel": "weight {weight}",
+      "accuracyLabel": "PREDICTION HIT RATE",
+      "accuracyDetail": "{wins}/{total} settled rounds",
+      "noPredictions": "No settled rounds yet",
+      "creditsLabel": "RING CREDITS",
+      "betsDetail": "{count} bets · {wins} won",
+      "noBets": "No bets yet",
+      "rankLabel": "RANK",
+      "scoreLabel": "{score} pts",
+      "ranks": {
+        "rookie": "ROOKIE",
+        "contender": "CONTENDER",
+        "ringsworn": "RINGSWORN",
+        "champion": "CHAMPION"
+      },
+      "unlockTitle": "WHAT UNLOCKS NEXT",
+      "unlockBody": "Next up: {tier} — {perk}",
+      "unlockMax": "You're at the top tier. Every perk is already unlocked.",
+      "tiers": {
+        "ringside": {
+          "name": "RINGSIDE",
+          "perk": "vote ×3, bet ×2, early access, your name on the LED wall"
+        },
+        "booker": {
+          "name": "BOOKER",
+          "perk": "vote ×10, bet ×5, create your own fighter and cards"
+        },
+        "promoter": {
+          "name": "PROMOTER",
+          "perk": "vote ×20, bet ×10, run your own Booker Night"
+        }
+      },
+      "ctaLive": "VOTE THE NEXT ROUND →",
+      "ctaBet": "OPEN THE BOOK →",
+      "ctaForge": "FORGE A FIGHTER →"
+    },
+    "admin": {
+      "title": "Admin",
+      "users": {
+        "title": "Users",
+        "fakeData": "Note: Faked data for demonstration, some features are disabled",
+        "error": "Failed to get users",
+        "search": "Search users...",
+        "noResults": "No users found",
+        "columns": {
+          "columns": "Columns",
+          "name": "Name",
+          "email": "Email",
+          "role": "Role",
+          "createdAt": "Created At",
+          "customerId": "Customer ID",
+          "status": "Status",
+          "banReason": "Ban Reason",
+          "banExpires": "Ban Expires"
+        },
+        "admin": "Admin",
+        "user": "User",
+        "email": {
+          "verified": "Email Verified",
+          "unverified": "Email Unverified"
+        },
+        "emailCopied": "Email copied to clipboard",
+        "banned": "Banned",
+        "active": "Active",
+        "inactive": "Inactive",
+        "clearSearch": "Clear search",
+        "joined": "Joined at",
+        "updated": "Updated at",
+        "ban": {
+          "reason": "Ban Reason",
+          "reasonPlaceholder": "Enter the reason for banning this user",
+          "defaultReason": "Spamming",
+          "never": "Never",
+          "expires": "Ban Expires",
+          "selectDate": "Select Date",
+          "button": "Ban User",
+          "success": "User has been banned",
+          "error": "Failed to ban user"
+        },
+        "unban": {
+          "button": "Unban User",
+          "success": "User has been unbanned",
+          "error": "Failed to unban user"
+        },
+        "close": "Close"
+      },
+      "booker": {
+        "title": "Booker Console"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": {
+        "title": "Profile",
+        "description": "Manage your account information",
+        "avatar": {
+          "title": "Avatar",
+          "description": "Click upload button to upload a custom one",
+          "recommendation": "An avatar is optional but strongly recommended",
+          "uploading": "Uploading...",
+          "uploadAvatar": "Upload Avatar",
+          "success": "Avatar updated successfully",
+          "fail": "Failed to update avatar"
+        },
+        "name": {
+          "title": "Name",
+          "description": "Please enter your display name",
+          "placeholder": "Enter your name",
+          "minLength": "Please use 3 characters at minimum",
+          "maxLength": "Please use 30 characters at maximum",
+          "hint": "Please use 3-30 characters for your name",
+          "success": "Name updated successfully",
+          "fail": "Failed to update name",
+          "saving": "Saving...",
+          "save": "Save"
+        }
+      },
+      "billing": {
+        "title": "Billing",
+        "description": "Manage your subscription and billing details",
+        "status": {
+          "active": "Active",
+          "trial": "Trial",
+          "free": "Free",
+          "lifetime": "Lifetime"
+        },
+        "interval": {
+          "month": "month",
+          "year": "year",
+          "oneTime": "one-time"
+        },
+        "currentPlan": {
+          "title": "Current Plan",
+          "description": "Your current plan details",
+          "noPlan": "You have no active plan"
+        },
+        "CustomerPortalButton": {
+          "loading": "Loading...",
+          "createCustomerPortalFailed": "Failed to open Stripe customer portal"
+        },
+        "price": "Price:",
+        "periodStartDate": "Period start date:",
+        "periodEndDate": "Period end date:",
+        "trialEnds": "Trial ends:",
+        "freePlanMessage": "You are currently on the free plan with limited features",
+        "lifetimeMessage": "You have lifetime access to all premium features",
+        "manageSubscription": "Manage Subscription and Billing",
+        "manageBilling": "Manage Billing",
+        "upgradePlan": "Upgrade Plan",
+        "retry": "Retry",
+        "errorMessage": "Failed to get data",
+        "paymentSuccess": "Payment success"
+      },
+      "payment": {
+        "processing": {
+          "title": "Processing Payment",
+          "description": "Please wait while we confirm your payment..."
+        },
+        "success": {
+          "title": "Payment Success",
+          "description": "Redirecting automatically..."
+        },
+        "failed": {
+          "title": "Payment Failed",
+          "description": "There was an issue processing your payment."
+        },
+        "timeout": {
+          "title": "Processing Timeout",
+          "description": "Payment processing is taking longer than expected."
+        },
+        "retry": "Retry"
+      },
+      "notification": {
+        "title": "Notification",
+        "description": "Manage your notification preferences",
+        "newsletter": {
+          "title": "Newsletter Subscription",
+          "description": "Manage your newsletter subscription preferences",
+          "label": "Subscribe to newsletter",
+          "hint": "You can change your subscription preferences at any time",
+          "emailRequired": "Email is required to subscribe to the newsletter",
+          "subscribeSuccess": "Successfully subscribed to the newsletter",
+          "subscribeFail": "Failed to subscribe to the newsletter",
+          "unsubscribeSuccess": "Successfully unsubscribed from the newsletter",
+          "unsubscribeFail": "Failed to unsubscribe from the newsletter",
+          "error": "An error occurred while updating your subscription"
+        }
+      },
+      "security": {
+        "title": "Security",
+        "description": "Manage your security settings",
+        "updatePassword": {
+          "title": "Change Password",
+          "description": "Enter your current password and a new password",
+          "currentPassword": "Current Password",
+          "currentRequired": "Current password is required",
+          "newPassword": "New Password",
+          "newMinLength": "Password must be at least 8 characters",
+          "hint": "Please use at least 8 characters for password",
+          "showPassword": "Show password",
+          "hidePassword": "Hide password",
+          "success": "Password updated successfully",
+          "fail": "Failed to update password",
+          "saving": "Saving...",
+          "save": "Save"
+        },
+        "resetPassword": {
+          "title": "Reset Password",
+          "description": "Reset password to enable email login",
+          "info": "Resetting your password will allow you to sign in using your email and password in addition to your social login methods. You will receive an email with instructions to reset your password",
+          "button": "Reset Password"
+        },
+        "deleteAccount": {
+          "title": "Delete Account",
+          "description": "Permanently remove your account and all of its contents",
+          "warning": "This action is not reversible, so please continue with caution",
+          "button": "Delete Account",
+          "confirmTitle": "Delete Account",
+          "confirmDescription": "Are you sure you want to delete your account? This action cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel",
+          "deleting": "Deleting...",
+          "success": "Account deleted successfully",
+          "fail": "Failed to delete account"
+        }
+      },
+      "apiKeys": {
+        "title": "API Keys",
+        "description": "Manage your API keys for authentication",
+        "createButton": "Create API Key",
+        "createDialogTitle": "Create New API Key",
+        "createDialogDescription": "Give your API key a name to identify it later",
+        "keyNameLabel": "Key Name",
+        "keyNamePlaceholder": "Please enter a name for your API key",
+        "cancel": "Cancel",
+        "create": "Create",
+        "creating": "Creating...",
+        "noResults": "No API keys found",
+        "createSuccess": "API key created successfully",
+        "createError": "Failed to create API key",
+        "deleteSuccess": "API key deleted successfully",
+        "deleteError": "Failed to delete API key",
+        "never": "Never",
+        "delete": "Delete",
+        "done": "Done",
+        "newKeyDialogTitle": "Your New API Key",
+        "newKeyDialogDescription": "Please copy and save this key now. You won't be able to see it again!",
+        "columns": {
+          "name": "Name",
+          "key": "Key",
+          "createdAt": "Created At",
+          "expiresAt": "Expires At",
+          "actions": "Actions"
+        }
+      }
+    },
+    "upgrade": {
+      "title": "Upgrade to RINGSIDE",
+      "description": "Get more vote weight, bigger bet limits and daily credits.",
+      "button": "View tickets"
+    }
+  },
+  "Mail": {
+    "common": {
+      "team": "{name} Team",
+      "copyright": "©️ {year} All Rights Reserved."
+    },
+    "verifyEmail": {
+      "title": "Hi, {name}.",
+      "body": "Please click the link below to verify your email address.",
+      "confirmEmail": "Confirm email",
+      "subject": "Verify your email"
+    },
+    "forgotPassword": {
+      "title": "Hi, {name}.",
+      "body": "Please click the link below to reset your password.",
+      "resetPassword": "Reset password",
+      "subject": "Reset your password"
+    },
+    "subscribeNewsletter": {
+      "body": "Thank you for subscribing to the newsletter. We will keep you updated with the latest news and updates.",
+      "subject": "Thanks for subscribing"
+    },
+    "contactMessage": {
+      "name": "Name: {name}",
+      "email": "Email: {email}",
+      "message": "Message: {message}",
+      "subject": "Contact Message from Website"
+    }
+  },
+  "Brawlverse": {
+    "common": {
+      "aigc": "All fighters, footage and artwork are AI-generated."
+    },
+    "fighters": {
+      "metaTitle": "The Fighters",
+      "metaDescription": "Season 1 roster: eight AI fighters, one throne. Records, styles and trash talk.",
+      "title": "THE FIGHTERS",
+      "taglinePre": "SEASON 1 — ",
+      "taglineHighlight": "EIGHT ENTER. ONE REIGNS.",
+      "stance": "Stance",
+      "forgeCta": "Forge your own fighter →",
+      "viewProfile": "View profile →",
+      "list": {
+        "ironJaw": {
+          "name": "IRON JAW",
+          "style": "Heavyweight Brawler",
+          "trash": "\"VIPER's gonna need more than speed when my fist rearranges his face.\"",
+          "bio": "Takes a punch like iron, hits back like hell. Street-circuit legend. Zero finesse, all thunder.",
+          "stance": "Orthodox"
+        },
+        "viper": {
+          "name": "VIPER",
+          "style": "Lightweight Menace",
+          "trash": "\"Jaw's got a chin of iron and a brain of rust. He'll wake up on the canvas.\"",
+          "bio": "Coiled. Ready. Lethal. A counter-punching phantom — you never see the punch that ends you.",
+          "stance": "Southpaw"
+        },
+        "volt": {
+          "name": "VOLT",
+          "style": "Fan-forged · Elemental",
+          "trash": "\"I don't dodge punches. I AM the punch.\"",
+          "bio": "A lightning spirit in gloves. Undefeated in thunderstorms. Refuses to fight indoors.",
+          "stance": "???"
+        },
+        "goliath7": {
+          "name": "GOLIATH-7",
+          "style": "Fan-forged · Heavyweight",
+          "trash": "\"I was built for war. I choose the ring.\"",
+          "bio": "Decommissioned war mech, gentle soul. Has never lost — has never wanted to win.",
+          "stance": "Orthodox"
+        },
+        "laReina": {
+          "name": "LA REINA",
+          "style": "Fan-forged · Luchadora",
+          "trash": "\"The crown stays on. You won't.\"",
+          "bio": "Masked queen of lucha. ¡Viva la Reina! Opponents don't stay up.",
+          "stance": "Orthodox"
+        },
+        "sledge": {
+          "name": "SLEDGE",
+          "style": "Demolition Brawler",
+          "trash": "\"Everything breaks. You're just next in line.\"",
+          "bio": "Swings like a wrecking ball. Once demolished three buildings before breakfast. The ring is smaller.",
+          "stance": "Orthodox"
+        },
+        "monsoon": {
+          "name": "MONSOON",
+          "style": "Muay Thai Storm",
+          "trash": "\"You can't block the weather.\"",
+          "bio": "Elbows like typhoon winds. Fights best in the rain — brings his own.",
+          "stance": "Southpaw"
+        },
+        "professor": {
+          "name": "THE PROFESSOR",
+          "style": "Chess-Boxer · Tactician",
+          "trash": "\"I've already won. You're just catching up to move 14.\"",
+          "bio": "Sees twelve moves ahead. The only fighter who takes notes mid-round.",
+          "stance": "Orthodox"
+        }
+      }
+    },
+    "fighterDetail": {
+      "record": "Record",
+      "noBoutsYet": "No bouts settled yet — Season 1 quarterfinals are the first bouts.",
+      "style": "Style",
+      "stance": "Stance",
+      "trashTalk": "Trash talk",
+      "engineStats": "Engine stats",
+      "aggression": "Aggression",
+      "feintRate": "Feint rate",
+      "tauntRate": "Taunt rate",
+      "dodgeRate": "Dodge rate",
+      "favoredMoves": "Favored moves",
+      "nextFight": "Next fight",
+      "betCta": "Pick a side on The Book",
+      "rosterCta": "Back to all fighters",
+      "faqTitle": "Frequently asked questions",
+      "faqStyleQ": "What is {name}'s fighting style?",
+      "faqStyleA": "{name} fights as a {style}. {bio}",
+      "faqRecordQ": "What is {name}'s record?",
+      "faqRecordA": "{name} is 0–0 — no bouts have settled yet in Season 1. Records update after each settled bout.",
+      "faqNextQ": "Who does {name} fight next?",
+      "faqNextA": "{name} meets {opponent} in {bout} — the Season 1 quarterfinal. Pick a side on The Book."
+    },
+    "matchDetail": {
+      "quarterfinal": "Season 1 Quarterfinal",
+      "metaDescription": "Who will win {a} vs {b} in the Season 1 quarterfinal? Yes/No contracts priced 1–99, virtual points only — pick a side on The Book.",
+      "betCta": "Pick a side on The Book",
+      "howContracts": "How the Yes/No contracts work",
+      "contractsBody": "Each match has a Yes/No contract priced 1–99 — the price is the market's probability. Buy Yes if you think it happens, No if you don't. Sell anytime before settlement. Virtual points only — no cash value, no real money.",
+      "learnMore": "How prediction markets work",
+      "fightersTitle": "The fighters",
+      "faqTitle": "Frequently asked questions",
+      "faqWhoQ": "Who will win {a} vs {b}?",
+      "faqWhoA": "The market decides — Yes/No contracts priced 1–99 show what the crowd thinks. Pick a side on The Book with virtual points.",
+      "faqBetQ": "How do I bet on {a} vs {b}?",
+      "faqBetA": "Go to The Book, pick the {bout} market, and buy Yes or No contracts with virtual points. You can sell anytime before the bout settles.",
+      "faqMoneyQ": "Is this real-money betting?",
+      "faqMoneyA": "No. BRAWLVERSE uses virtual points only. Points have no cash value and can never be cashed out."
+    },
+    "predictionMarkets": {
+      "metaTitle": "How Prediction Markets Work",
+      "metaDescription": "Yes/No contracts priced 1–99, virtual points only, no cash value. How BRAWLVERSE prediction markets work — and how they settle.",
+      "title": "HOW PREDICTION MARKETS WORK",
+      "taglinePre": "YES OR NO — ",
+      "taglineHighlight": "THE CROWD SETS THE PRICE.",
+      "whatIsTitle": "What is a prediction market?",
+      "whatIsBody": "A prediction market lets people trade on the outcome of a future event. Each market asks one Yes/No question — will IRON JAW win QF1? — and the price of the Yes contract, from 1 to 99, is the crowd's probability that it happens. When the event settles, Yes pays 100 if it happened, 0 if it didn't.",
+      "howTitle": "How Yes/No contracts work",
+      "howBullets": [
+        "Price 1–99: the price is the market's probability, in percent.",
+        "Buy Yes if you think it happens, No if you think it doesn't.",
+        "Sell anytime before settlement — you don't have to wait for the result.",
+        "Settlement: Yes pays 100 if the event happened, 0 if it didn't.",
+        "A 2% fee in points applies to trades — points, never cash."
+      ],
+      "pointsTitle": "Virtual points only — no cash value",
+      "pointsBody": "BRAWLVERSE markets trade in virtual points, not money. Points have no cash value, can never be cashed out, and are never exchanged for real currency. You earn points by signing up, claiming daily, and winning markets — and you lose nothing but points when a market goes against you.",
+      "settleTitle": "How BRAWLVERSE markets settle",
+      "settleBody": "Match markets settle on the bout result. Storyline markets settle on the storyline outcome the show announces. Every market states its settlement rule before trading opens, and results are posted on the site.",
+      "faqTitle": "Frequently asked questions",
+      "faqs": [
+        {
+          "q": "How much is a Yes contract worth?",
+          "a": "A Yes contract is worth 100 points if the event happens, 0 if it doesn't. The price you pay, 1–99, is what the market thinks the chance is."
+        },
+        {
+          "q": "Can I sell before the event ends?",
+          "a": "Yes. You can sell your contracts anytime before settlement at the current market price."
+        },
+        {
+          "q": "What is the fee?",
+          "a": "A 2% fee in points applies to trades. It is charged in points, never in cash."
+        },
+        {
+          "q": "Is this real-money betting?",
+          "a": "No. BRAWLVERSE uses virtual points only. Points have no cash value and can never be cashed out."
+        },
+        {
+          "q": "How do markets settle?",
+          "a": "Match markets settle on the bout result; storyline markets settle on the announced storyline outcome. Every market states its settlement rule before trading opens."
+        },
+        {
+          "q": "What is LMSR?",
+          "a": "LMSR is the automated market maker that prices BRAWLVERSE contracts. It keeps a price available at all times, so you can always trade — the price moves with every buy and sell."
+        }
+      ]
+    },
+    "storylines": {
+      "metaTitle": "The Story Bible",
+      "metaDescription": "Five feuds, eight arcs, one throne — the script every BRAWLVERSE episode grows out of.",
+      "title": "THE STORY BIBLE",
+      "taglinePre": "EVERY PUNCH HAS A ",
+      "taglineHighlight": "REASON.",
+      "intro": "You don't follow matches. You follow people. Five feuds, eight arcs, one throne — this is the script every episode grows out of.",
+      "feudsTitle": "THE FIVE FEUDS",
+      "liveResultTitle": "LAST EPISODE — AUDIENCE VOTE",
+      "liveResultSub": "The rule you picked for the next exhibition, counted live across the site.",
+      "liveResultEmpty": "No votes yet — be the first to set the rule.",
+      "liveRage": "RAGE MODE",
+      "liveFair": "FAIR PLAY",
+      "liveResultTotal": "{count} votes counted",
+      "liveResultCta": "CAST YOUR VOTE →",
+      "labels": {
+        "incident": "Incident:",
+        "escalation": "Escalation:",
+        "blowoff": "Blowoff:"
+      },
+      "feuds": [
+        {
+          "q": "QF1",
+          "title": "IRON JAW vs VIPER",
+          "style": "Heavy Artillery vs The Venomous Fang",
+          "body": "JAW promised a three-round demolition. VIPER smiled: \"I only need one counter.\" EP0 proved the fang deadlier — the revenge starts at second zero.",
+          "incident": "EP0's K.O. — VIPER's counter left JAW staring at the lights.",
+          "escalation": "JAW storms VIPER's training session; VIPER posts the K.O. frame captioned \"again?\"",
+          "blowoff": "JAW swings for revenge. VIPER waits for the one punch.",
+          "color": "red"
+        },
+        {
+          "q": "QF2",
+          "title": "SLEDGE vs MONSOON",
+          "style": "Demolition vs The Storm",
+          "body": "SLEDGE vows to level the ring. MONSOON answers: \"You demolish buildings. I demolish people.\"",
+          "incident": "Weigh-in shove — SLEDGE cracks the stage floor.",
+          "escalation": "MONSOON trains inside a hurricane simulator; SLEDGE flattens a car stenciled \"MONSOON\".",
+          "blowoff": "Pure power vs pure speed. Who falls first.",
+          "color": "orange"
+        },
+        {
+          "q": "QF3",
+          "title": "VOLT vs THE PROFESSOR",
+          "style": "Chaos vs Order",
+          "body": "\"Plans? I AM the lightning.\" The Professor has written a 14-step victory script. When the unpredictable meets the all-knowing — does the script get torn up?",
+          "incident": "The Professor publishes his round-by-round prediction; VOLT does the exact opposite, on camera.",
+          "escalation": "The script grows to 28 steps; VOLT fries the whiteboard in a promo.",
+          "blowoff": "Fourteen steps of logic against one bolt of chaos.",
+          "color": "purple"
+        },
+        {
+          "q": "QF4",
+          "title": "GOLIATH-7 vs LA REINA",
+          "style": "The Gentle Giant vs The Queen",
+          "body": "He never wants to win — only to hurt no one. She declares: \"No one leaves alive under the crown.\" The one who least wants to fight vs the one who most wants to win — who betrays their nature first?",
+          "incident": "Locker-room leak — GOLIATH-7 caught handing water to an opponent.",
+          "escalation": "LA REINA mocks \"a weapon that refuses to fire\"; his engineer friend begs him to fight for real.",
+          "blowoff": "Mercy vs the crown.",
+          "color": "gold"
+        },
+        {
+          "q": "F",
+          "title": "THE THRONE — GRAND FINAL",
+          "style": "Season 1 Championship",
+          "body": "Two feud lines settle their accounts here. Every round's tactics are voted by the audience — YOU CALL THE FIGHT. The script is co-written by 100,000 people.",
+          "incident": "The bracket.",
+          "escalation": "The semifinals.",
+          "blowoff": "Live. One throne.",
+          "color": ""
+        }
+      ],
+      "arcsTitle": "SEASON ARCS — EIGHT FIGHTERS, EIGHT JOURNEYS",
+      "arcsHeader": {
+        "fighter": "Fighter",
+        "arc": "Arc"
+      },
+      "arcs": [
+        {
+          "fighter": "IRON JAW",
+          "arc": "Revenge — the jaw that got cracked comes back harder"
+        },
+        {
+          "fighter": "VIPER",
+          "arc": "Hubris — the fang grows bolder until someone pulls it"
+        },
+        {
+          "fighter": "SLEDGE",
+          "arc": "The immovable object — first thing he can't demolish"
+        },
+        {
+          "fighter": "MONSOON",
+          "arc": "Coronation of the storm"
+        },
+        {
+          "fighter": "VOLT",
+          "arc": "Chaos unchained — refuses every script, including his own"
+        },
+        {
+          "fighter": "THE PROFESSOR",
+          "arc": "The first miscalculation"
+        },
+        {
+          "fighter": "GOLIATH-7",
+          "arc": "Redemption — from \"won't win\" to \"fights for a friend\""
+        },
+        {
+          "fighter": "LA REINA",
+          "arc": "The crown or nothing"
+        }
+      ],
+      "arcsNote": "One arc. One step per episode. That's the whole trick.",
+      "anatomyTitle": "ANATOMY OF AN EPISODE — 3 MINUTES",
+      "anatomyHeader": {
+        "time": "Time",
+        "beat": "Beat",
+        "what": "What happens"
+      },
+      "anatomy": [
+        {
+          "time": "0:00",
+          "beat": "The Hook",
+          "what": "3 highlights from last episode + one line on the feud"
+        },
+        {
+          "time": "0:30",
+          "beat": "The Staredown",
+          "what": "Trash-talk + tale-of-the-tape data bar"
+        },
+        {
+          "time": "1:00",
+          "beat": "Round 1",
+          "what": "Feeling-out — plants one hook (he got hit... and smiled)"
+        },
+        {
+          "time": "1:30",
+          "beat": "Round 2",
+          "what": "Tactics vote window — the audience steers the fight"
+        },
+        {
+          "time": "2:00",
+          "beat": "Round 3",
+          "what": "Climax — comeback-buff trigger keeps it alive"
+        },
+        {
+          "time": "2:30",
+          "beat": "The Payoff",
+          "what": "K.O./decision → winner's one-liner → next bout teaser"
+        }
+      ],
+      "programmingTitle": "BEYOND THE RING — THE PROGRAMMING",
+      "programming": [
+        {
+          "title": "⚖️ WEIGH-IN FACEOFF",
+          "style": "60s · 48h before the bout",
+          "body": "Two fighters, one stare, one data bar. Ends with a comment-section bet on the winner. Zero new assets."
+        },
+        {
+          "title": "🎤 TRASH-TALK INTERVIEW",
+          "style": "30–45s vertical · Shorts/Reels",
+          "body": "One fighter, straight to camera, one killer line. The follower-growth engine."
+        },
+        {
+          "title": "📰 FIGHT RECAP",
+          "style": "60s · within 24h after",
+          "body": "\"3 things you missed\" — highlights + subtitles + updated standings."
+        },
+        {
+          "title": "📹 LOCKER-ROOM LEAK",
+          "style": "30s · pseudo-documentary",
+          "body": "\"Stolen\" footage of a weakness or a secret — plants next episode's hook. Cheapest cliffhanger on the menu."
+        }
+      ],
+      "footer": "BRAWLVERSE · The Story Bible v1.0"
+    },
+    "fanForge": {
+      "metaTitle": "Fan Forge",
+      "metaDescription": "You invent the fighter — AI builds them. Drop a one-line persona and join the Season 2 vote queue.",
+      "title": "FAN FORGE",
+      "taglinePre": "YOU INVENT THE FIGHTER — ",
+      "taglineHighlight": "AI BUILDS THEM",
+      "sub1": "Drop a one-line persona. Our AI forges the name, backstory and fight card.",
+      "sub2Pre": "Top-voted fan fighters enter ",
+      "sub2Bold": "Season 2",
+      "formTitle": "FORGE YOUR FIGHTER",
+      "namePlaceholder": "Fighter name — e.g. TURBO GRANNY",
+      "personaPlaceholder": "One-line persona — e.g. a retired astronaut who boxes in zero-g boots",
+      "submit": "FORGE →",
+      "submitBusy": "FORGING…",
+      "baseLabel": "Pick a base fighter (optional)",
+      "baseNone": "None — a brand new original fighter",
+      "baseOption": "Variant of {fighter}",
+      "variantsTitle": "VARIANT FORGE",
+      "variantsNote": "Reskin an existing fighter — faster to reach the episode, far likelier to be forged successfully.",
+      "variantsEmpty": "No variants yet — pick a fighter to remix.",
+      "submitOk": "Submitted — your fighter is in the Season 2 queue.",
+      "submitFailed": "Submission failed, please try again later.",
+      "submitNetwork": "Network hiccup, please try again later.",
+      "submitInvalid": "Name needs 2–24 characters, persona needs 3–120.",
+      "submitTurnstile": "Human check failed, please refresh and retry.",
+      "rejected": "That entry was filtered — keep it clean, no links or ads.",
+      "prototypeNote": "Every submission is saved to the live queue below — no account needed.",
+      "queueTitle": "COMMUNITY QUEUE",
+      "queueLoading": "Loading the queue…",
+      "queueEmpty": "No fan submissions yet — be the first.",
+      "queueTotal": "{count} fighters queued for the Season 2 vote.",
+      "queuedBio": "Queued for Season 2 vote.",
+      "fanSubmission": "Fan submission:",
+      "examplesTitle": "FORGED EXAMPLES",
+      "examplesNote": "What one line becomes — AI-generated cards from fan-style submissions.",
+      "examples": [
+        {
+          "name": "VOLT",
+          "persona": "a lightning spirit that boxes",
+          "bio": "He doesn't dodge punches. He is the punch. Undefeated in thunderstorms.",
+          "img": "/brawlverse/assets/fan-volt.jpg"
+        },
+        {
+          "name": "GOLIATH-7",
+          "persona": "a decommissioned war mech who found peace in boxing",
+          "bio": "Built for war. Rebuilt for the ring. Has never lost — has never wanted to win.",
+          "img": "/brawlverse/assets/fan-goliath7.jpg"
+        },
+        {
+          "name": "LA REINA",
+          "persona": "a masked luchadora queen defending her crown",
+          "bio": "The crown stays on. The opponents don't stay up. ¡Viva la Reina!",
+          "img": "/brawlverse/assets/fan-lareina.jpg"
+        }
+      ],
+      "footer": "BRAWLVERSE · FAN FORGE"
+    },
+    "home": {
+      "metaTitle": "BRAWLVERSE — The AI Boxing League",
+      "metaDescription": "Eight virtual fighters, one comic-book ring. Bet virtual points on Yes/No prediction markets in the AI boxing league — the audience votes, the story explodes.",
+      "heroTitle": "BRAWLVERSE",
+      "heroTaglinePre": "THE AI BOXING LEAGUE — ",
+      "heroTaglineHighlight": "YOU CALL THE FIGHT",
+      "heroSub1": "Eight virtual fighters. One comic-book ring.",
+      "heroSub2": "The audience votes. The story explodes.",
+      "nextEventTitle": "NEXT UP",
+      "nextEventStarting": "Checking the ring…",
+      "nextEventLive": "LIVE NOW — ROUND {round}",
+      "nextEventReveal": "JUST REVEALED — ROUND {round}",
+      "nextEventFighters": "{a} vs {b}",
+      "nextEventIdle": "Friday Fight Night — every Friday, 21:00 (UTC+8)",
+      "nextEventCta": "JOIN THE NEXT VOTE →",
+      "quickTitle": "THREE THINGS YOU CAN DO RIGHT NOW",
+      "quickLiveTitle": "Watch the live round",
+      "quickLiveBody": "The crowd calls each round — the winning move changes the story.",
+      "quickLiveCta": "GO TO LIVE →",
+      "quickVoteTitle": "Set next week's rule",
+      "quickVoteBody": "RAGE MODE or FAIR PLAY — one tap, counted instantly.",
+      "quickVoteCta": "VOTE THE RULE →",
+      "quickForgeTitle": "Forge a fighter",
+      "quickForgeBody": "One line of persona — AI builds the name, bio and card.",
+      "quickForgeCta": "OPEN FAN FORGE →",
+      "sampleTitle": "▶ SAMPLE BOUT — IRON JAW vs VIPER",
+      "sampleNote": "AI-generated sample · Season 1 coming soon",
+      "trainingTitle": "TRAINING GROUND — 24/7",
+      "trainingNote": "No bout this week? The gym never sleeps. Our fighters spar around the clock — and you set the rules.",
+      "ruleTitle": "NEXT EXHIBITION — YOU PICK THE RULES",
+      "rageLabel": "RAGE MODE",
+      "rageHint": "no defense, all power",
+      "fairLabel": "FAIR PLAY",
+      "fairHint": "classic 3-round rules",
+      "votesSuffix": " votes · shared live across the site",
+      "youVoted": "you voted",
+      "tapToVote": "tap to vote",
+      "voteClosed": "This round of rule voting is closed",
+      "voteFailed": "Vote failed, please try again later",
+      "voteOk": "Vote counted — you can change it anytime",
+      "voteNetwork": "Network hiccup, please try again later",
+      "fightersTitle": "THE FIGHTERS",
+      "lockedName": "???",
+      "lockedStyle": "Revealed soon",
+      "lockedStat": "KO rate —",
+      "forgeCta": "FORGE YOUR OWN FIGHTER →",
+      "howTitle": "HOW IT WORKS",
+      "how1": "Watch — weekly 3-minute comic-book bouts",
+      "how2": "Vote — pick each fighter's tactics, round by round",
+      "how3": "Decide — energy votes trigger finishing moves; comeback votes fuel upsets",
+      "seasonSoon": "Season 1 voting opens soon.",
+      "footer": "BRAWLVERSE · Season 1 in production",
+      "pricing": {
+        "title": "Pick Your Seat",
+        "subtitle": "Every plan starts with the show. Higher tiers unlock the game.",
+        "mostPopular": "MOST POPULAR",
+        "perMonth": "/mo",
+        "ctaFree": "Start Watching",
+        "ctaPaid": "Get Access",
+        "cancelNote": "Cancel anytime · Virtual credits have no cash value",
+        "tiers": {
+          "free": {
+            "name": "FREE FAN",
+            "price": "$0",
+            "tagline": "Watch the card and cast your vote",
+            "features": [
+              "Watch all episodes & teasers",
+              "Vote weight ×1",
+              "3 vs-AI battles per day",
+              "Daily virtual credits",
+              "Fantasy league + danmaku"
+            ]
+          },
+          "ringside": {
+            "name": "RINGSIDE",
+            "price": "$4.99",
+            "tagline": "Front row, every round — play without limits",
+            "features": [
+              "Unlimited vs-AI battles",
+              "Async PvP challenges",
+              "Vote ×3 · Bet ×2 · Credits ×2",
+              "Early episode access",
+              "Name on the LED wall",
+              "Leaderboard rank"
+            ]
+          },
+          "booker": {
+            "name": "BOOKER",
+            "price": "$14.99",
+            "tagline": "You don't watch the card — you book it",
+            "features": [
+              "Everything in RINGSIDE",
+              "Custom fighter (name + taunts)",
+              "Weekly tournament entry",
+              "Vote ×10 · Bet ×5 · Credits ×5",
+              "Priority matchmaking",
+              "2× hype gain in arena"
+            ]
+          },
+          "promoter": {
+            "name": "PROMOTER",
+            "price": "$49",
+            "tagline": "Own the whole promotion",
+            "features": [
+              "Everything in BOOKER",
+              "Name a fight night",
+              "Sponsor a fighter",
+              "Vote ×20 · Bet ×10 · Credits ×10",
+              "Booker Night invite",
+              "VIP badge"
+            ]
+          }
+        }
+      }
+    },
+    "episodes": {
+      "metaTitle": "Episodes",
+      "metaDescription": "Season 1 quarterfinals with live danmaku and a tactics vote the audience steers.",
+      "title": "EPISODES",
+      "taglinePre": "SEASON 1 — ",
+      "taglineHighlight": "QUARTERFINALS",
+      "publishedTitle": "LATEST EPISODES",
+      "publishedNote": "Rendered weekly · released after human review",
+      "sampleTitle": "EP0 — SAMPLE BOUT: IRON JAW vs VIPER",
+      "pinnedBadge": "🔥 Audience pick",
+      "nickPlaceholder": "Nickname (anonymous fan by default)",
+      "textPlaceholder": "Drop a comment or a joke, max 40 chars, shown live",
+      "send": "Send danmaku",
+      "emptyText": "Write something first!",
+      "sent": "Sent!",
+      "sendFailed": "Send failed",
+      "networkErr": "Network hiccup, please try again later",
+      "tacticsTitle": "TACTICS VOTE (DEMO) — ROUND 2: WHAT SHOULD VIPER DO?",
+      "tacticNotePrefix": "📢 Last round's audience vote was executed: ",
+      "heavy": "HEAVY",
+      "heavyHint": "go for the KO",
+      "dodge": "DODGE",
+      "dodgeHint": "slip and counter",
+      "guard": "GUARD",
+      "guardHint": "weather the storm",
+      "tacticsNote": "Counted site-wide · one vote per fighter per round, changeable · refreshes every 10s",
+      "upcomingTitle": "UPCOMING BOUTS",
+      "readFeuds": "Read the feuds — every punch has a reason →",
+      "standingsTitle": "STANDINGS",
+      "standingsNote": "Records are written when a bout settles · 0-0 means no completed bout yet",
+      "footer": "BRAWLVERSE · Season 1 in production",
+      "upcoming": [
+        {
+          "q": "QF2",
+          "title": "SLEDGE vs MONSOON",
+          "style": "Power meets storm"
+        },
+        {
+          "q": "QF3",
+          "title": "VOLT vs THE PROFESSOR",
+          "style": "Chaos meets calculation"
+        },
+        {
+          "q": "QF4",
+          "title": "GOLIATH-7 vs LA REINA",
+          "style": "Gentle giant meets queen"
+        },
+        {
+          "q": "SF",
+          "title": "SEMIFINALS",
+          "style": "TBD"
+        },
+        {
+          "q": "F",
+          "title": "GRAND FINAL",
+          "style": "TBD · live on Kick"
+        }
+      ]
+    },
+    "bet": {
+      "metaTitle": "The Book",
+      "metaDescription": "Pick a side and get paid. Virtual points only — no cash value.",
+      "title": "THE BOOK",
+      "taglinePre": "PICK A SIDE — ",
+      "taglineHighlight": "GET PAID",
+      "walletTitle": "YOUR WALLET",
+      "kBalance": "BALANCE",
+      "kDaily": "DAILY CLAIM",
+      "kMaxBet": "MAX BET",
+      "kTier": "TIER",
+      "claimTomorrow": "Claim tomorrow",
+      "claimNow": "Claim {amount} points",
+      "refresh": "Refresh",
+      "claimed": "Claimed {amount} points · balance {balance}",
+      "alreadyClaimed": "Already claimed today, come back tomorrow",
+      "claimFailed": "Claim failed: {error}",
+      "networkErr": "Network hiccup, please try again later",
+      "walletNote": "Virtual points for entertainment only. No cash value, not redeemable. Signup gets 1000 points, plus one more daily claim.",
+      "marketsTitle": "OPEN MARKETS",
+      "noMarkets": "No open markets right now",
+      "noMarketsBody": "New markets appear here as soon as the schedule opens. Go watch EPISODES and cast your tactics vote first.",
+      "totalPool": "Total pool",
+      "locked": "Locked",
+      "waitingFirst": "Waiting for the first bet",
+      "pool": "Pool",
+      "betAmountPlaceholder": "Bet 1-{max}",
+      "placeBet": "Bet",
+      "betNote": "Odds float with pari-mutuel pools · no bets after lock",
+      "pickFirst": "Pick an option first",
+      "invalidAmount": "Enter a valid bet amount",
+      "insufficient": "Not enough balance, claim your daily points first",
+      "marketLocked": "This market is locked",
+      "betFailed": "Bet failed: {error}",
+      "betOk": "Bet placed: {sel} × {amount} · balance {balance}",
+      "leaderboardTitle": "LEADERBOARD",
+      "noPlayers": "No accounts yet — your first bet puts you on top.",
+      "player": "Player",
+      "balance": "Balance",
+      "leaderboardNote": "Player ID is the first 8 characters of the device fingerprint · one account per device",
+      "footer": "BRAWLVERSE · Season 1 in production",
+      "howItWorks": "How prediction markets work",
+      "loadFailed": "Failed to load, refresh the page",
+      "contract": {
+        "title": "Contract Markets",
+        "subtitle": "Yes/No contracts. Price = probability. Trade anytime before lock.",
+        "feeNote": "2% trading fee goes to the sink (anti-inflation). Play money only.",
+        "loadFailed": "Failed to load.",
+        "noMarkets": "No contract markets open right now. Check back soon.",
+        "kind_winner": "WINNER",
+        "kind_method": "METHOD",
+        "kind_round": "ROUND",
+        "kind_storyline": "STORY",
+        "trade": "Trade",
+        "collapse": "Close",
+        "rules": "Settlement rules",
+        "locked": "Locked",
+        "settled": "Settled",
+        "buy": "Buy",
+        "sell": "Sell",
+        "amountCredits": "Credits to spend",
+        "amountContracts": "Contracts to sell",
+        "execute": "Go",
+        "contracts": "contracts",
+        "fee": "fee",
+        "receive": "receive",
+        "tradeOk": "Done: {n} {side} @ fee {fee}",
+        "tradeFailed": "Trade failed.",
+        "soldOk": "Sold {n} contracts.",
+        "tape": "Live tape",
+        "positions": "My positions",
+        "sellAll": "Sell all",
+        "pnlBoard": "P&L leaderboard",
+        "player": "Player"
+      }
+    },
+    "fantasy": {
+      "metaTitle": "Fantasy League",
+      "metaDescription": "Build a stable of three fighters and ride the wins.",
+      "title": "FANTASY LEAGUE",
+      "taglinePre": "BUILD A STABLE — ",
+      "taglineHighlight": "RIDE THE WINS",
+      "stableTitle": "YOUR STABLE",
+      "currentTeam": "Current picks",
+      "emptyPicks": "Empty (nobody picked yet)",
+      "createFirst": "Create a team first",
+      "createFirstBody": "One team per device. After creating it, pick 3 of the 8 Season 1 fighters.",
+      "teamPlaceholder": "Team name, e.g. CAGE KINGS",
+      "createTeam": "Create team",
+      "savePicks": "Save picks ({count}/3)",
+      "scoring": "Win = 3 pts · KO win = 5 pts · Loss = 0 pts",
+      "teamCreated": "Team created — now pick 3 fighters",
+      "teamFailed": "Could not create the team: {error}",
+      "picksSaved": "Lineup saved · points update live from real results",
+      "picksFailed": "Could not save: {error}",
+      "mustPickThree": "You must pick exactly 3 fighters",
+      "networkErr": "Network hiccup, please try again later",
+      "loadFailed": "Failed to load, refresh the page",
+      "leaderboardTitle": "SEASON 1 LEADERBOARD",
+      "noTeams": "No teams yet — the first one on the mat tops the board.",
+      "team": "Team",
+      "picks": "Picks",
+      "pts": "Pts",
+      "leaderboardNote": "Points come from real settled results; the leader takes the pot at season end.",
+      "footer": "BRAWLVERSE · Season 1 in production"
+    },
+    "live": {
+      "metaTitle": "Friday Fight Night",
+      "metaDescription": "Live round voting — the crowd calls the next move.",
+      "title": "FRIDAY FIGHT NIGHT",
+      "taglinePre": "THE CROWD CALLS THE NEXT MOVE — ",
+      "taglineHighlight": "LIVE",
+      "noRound": "No live round this week",
+      "noRoundBody": "When a round opens, both tactics appear here. The one with more votes is actually executed next round, with its branch video. Go watch EPISODES or pick the exhibition rules on the home page.",
+      "connecting": "Connecting to the live feed…",
+      "connectFailed": "Failed to reach the live service, retrying…",
+      "optionA": "Option A",
+      "optionB": "Option B",
+      "yourChoice": "Your choice",
+      "voted": "Vote counted · changeable",
+      "voteFailed": "Vote failed: {error}",
+      "closed": "This round is locked, waiting for the reveal",
+      "voteClosed": "This round is closed, wait for the next one",
+      "revealResult": "Result",
+      "winner": "wins ({branch} branch)",
+      "noWinner": "not set",
+      "videoMissing": "This branch video is not uploaded yet, see you next round.",
+      "scheduled": "The round has not started voting yet, hang tight.",
+      "pollNote": "Tally refreshes every 5s · vote weight scales with membership tier · no changes after lock",
+      "winningShare": "{pct}% of the crowd picked the winning move",
+      "nextFightNight": "Next fight night",
+      "ticketsCta": "Your vote counts 1×. Ringside members vote 3× — same ticket box, more influence.",
+      "ticketsLink": "See member perks →",
+      "footer": "BRAWLVERSE · Season 1 in production",
+      "networkErr": "Network hiccup, please try again later"
+    },
+    "tickets": {
+      "metaTitle": "Tickets",
+      "metaDescription": "Pick your seat and buy your influence. Three membership tiers for BRAWLVERSE.",
+      "title": "TICKETS",
+      "taglinePre": "PICK YOUR SEAT — ",
+      "taglineHighlight": "BUY YOUR INFLUENCE",
+      "currentTier": "Current tier",
+      "tierNote": "Subscriptions activate instantly and can be cancelled anytime. Every perk runs through the same wallet and ticket box.",
+      "yourPass": "YOUR PASS",
+      "active": "ACTIVE",
+      "opening": "OPENING…",
+      "getPass": "GET PASS →",
+      "paidDone": "Payment complete — perks activate within a few minutes.",
+      "notConfigured": "The payment channel is not live yet (Waffo merchant config missing). Please check back later.",
+      "notAvailable": "Coming soon",
+      "checkoutFailed": "Checkout failed, please try again later.",
+      "networkErr": "Network hiccup, please try again later.",
+      "legalNote": "Subscriptions only unlock in-site gameplay perks; no cash rebates. Points and bets are entertainment-only virtual items.",
+      "voteWeight": "Vote",
+      "betCap": "Bet cap",
+      "earlyAccess": "Early",
+      "footer": "BRAWLVERSE · TICKETS",
+      "tiers": [
+        {
+          "id": "ringside",
+          "name": "RINGSIDE",
+          "price": 4.99,
+          "tagline": "Front row, every round.",
+          "perks": [
+            "Vote weight ×3",
+            "Bet limit ×2",
+            "Daily credits ×2",
+            "Early access to episodes",
+            "Your name on the LED wall"
+          ]
+        },
+        {
+          "id": "booker",
+          "name": "BOOKER",
+          "price": 14.99,
+          "tagline": "You don't watch the card — you book it.",
+          "perks": [
+            "Vote weight ×10",
+            "Bet limit ×5",
+            "Daily credits ×5",
+            "Create props & stables",
+            "Everything in RINGSIDE"
+          ]
+        },
+        {
+          "id": "promoter",
+          "name": "PROMOTER",
+          "price": 49.0,
+          "tagline": "Own the whole promotion.",
+          "perks": [
+            "Vote weight ×20",
+            "Bet limit ×10",
+            "Daily credits ×10",
+            "Booker Night invite",
+            "Everything in BOOKER"
+          ]
+        },
+        {
+          "id": "annual",
+          "name": "ANNUAL",
+          "price": 199.0,
+          "tagline": "One payment a year. Own the promotion.",
+          "perks": [
+            "Everything in PROMOTER",
+            "Billed $199 yearly",
+            "Vote weight ×20",
+            "Bet limit ×10",
+            "Booker Night invite",
+            "Create props & stables",
+            "Your name on the LED wall"
+          ]
+        }
+      ],
+      "tierLabels": {
+        "free": "FREE FAN",
+        "ringside": "RINGSIDE",
+        "booker": "BOOKER",
+        "promoter": "PROMOTER",
+        "annual": "ANNUAL"
+      }
+    },
+    "admin": {
+      "metaTitle": "Booker Console",
+      "metaDescription": "BRAWLVERSE backstage console.",
+      "title": "BOOKER CONSOLE",
+      "taglinePre": "BACKSTAGE — ",
+      "taglineHighlight": "RUN THE SHOW",
+      "signIn": "Sign in as an admin to manage bouts, markets, captions and live rounds.",
+      "signInCta": "Go to sign in",
+      "forbidden": "Admin role required.",
+      "tabs": {
+        "bouts": "Bouts",
+        "markets": "Markets",
+        "captions": "Captions",
+        "gates": "Gates",
+        "live": "Live rounds",
+        "subs": "Subscriptions",
+        "votes": "Votes",
+        "episodes": "Episodes",
+        "content": "Content library"
+      },
+      "contentNote": "One library for weekly episodes and tactical round branches — published items go live on /episodes instantly.",
+      "episodesPublish": "Publish",
+      "episodesWatch": "Open",
+      "refresh": "Refresh",
+      "save": "Save",
+      "close": "Close",
+      "noRows": "Nothing here yet.",
+      "player": "Player",
+      "tier": "Tier",
+      "status": "Status",
+      "periodEnd": "Period end",
+      "boutId": "Bout id",
+      "boutTitle": "Title",
+      "fighterA": "Fighter A",
+      "fighterB": "Fighter B",
+      "roundNo": "Round",
+      "votingOpen": "Voting open",
+      "tacticNote": "Tactic note",
+      "marketId": "Market id",
+      "marketType": "Type",
+      "question": "Question",
+      "selections": "Selections (comma separated)",
+      "housePool": "House pool (JSON)",
+      "create": "Create",
+      "lock": "Lock",
+      "settle": "Settle",
+      "winningSelection": "Winning selection",
+      "approve": "Approve",
+      "reject": "Reject",
+      "pin": "Pin",
+      "unpin": "Unpin",
+      "delete": "Delete",
+      "captionText": "Text",
+      "captionNick": "Nickname",
+      "createBout": "Create bout",
+      "createMarket": "Create market",
+      "saveNote": "Save note",
+      "roundId": "Round id",
+      "tacticA": "Tactic A",
+      "tacticB": "Tactic B",
+      "branchAUrl": "Branch A video url",
+      "branchBUrl": "Branch B video url",
+      "state": "State",
+      "deadline": "Vote deadline (unix seconds)",
+      "createRound": "Create round",
+      "tally": "Tally",
+      "done": "Done",
+      "failed": "Failed: {error}",
+      "footer": "BRAWLVERSE · BOOKER CONSOLE"
+    },
+    "nav": {
+      "episodes": {
+        "title": "Episodes"
+      },
+      "fighters": {
+        "title": "Fighters"
+      },
+      "storylines": {
+        "title": "Storylines"
+      },
+      "live": {
+        "title": "Friday Fight Night"
+      },
+      "play": {
+        "title": "Play",
+        "items": {
+          "bet": {
+            "title": "The Book",
+            "description": "Pick a side and win virtual points."
+          },
+          "fantasy": {
+            "title": "Fantasy League",
+            "description": "Build a stable of three and ride the wins."
+          }
+        }
+      },
+      "universe": {
+        "title": "Universe",
+        "items": {
+          "forge": {
+            "title": "Fan Forge",
+            "description": "Invent a fighter — AI builds them."
+          },
+          "tickets": {
+            "title": "Tickets",
+            "description": "Pick your seat and buy your influence."
+          }
+        }
+      },
+      "more": {
+        "title": "More",
+        "items": {
+          "about": {
+            "title": "About",
+            "description": "What BRAWLVERSE is and how it works"
+          },
+          "contact": {
+            "title": "Contact",
+            "description": "Get in touch with the Booker team"
+          },
+          "cookiePolicy": {
+            "title": "Cookie Policy",
+            "description": "How we use cookies on this site"
+          },
+          "privacyPolicy": {
+            "title": "Privacy Policy",
+            "description": "How we protect and handle your data"
+          },
+          "termsOfService": {
+            "title": "Terms of Service",
+            "description": "The rules of the ring"
+          }
+        }
+      }
+    },
+    "about": {
+      "title": "About BRAWLVERSE",
+      "description": "What BRAWLVERSE is, how the audience steers the fights, and what the virtual points are worth.",
+      "tagline": "The AI boxing league where the audience writes the fight.",
+      "introduction": "BRAWLVERSE is a comic-book boxing league made entirely of AI-generated fighters, footage and artwork. Eight virtual contenders enter a season; the audience votes the tactics round by round, and the winning branch actually plays out on screen. Every fighter has a record, a feud and an arc, and the script grows out of the votes rather than a script written in advance.",
+      "facts": [
+        {
+          "label": "Season 1 fighters",
+          "value": "8"
+        },
+        {
+          "label": "Rounds per bout",
+          "value": "3"
+        },
+        {
+          "label": "Tactics per round",
+          "value": "3"
+        }
+      ],
+      "missionTitle": "Our mission",
+      "mission": "Make a show where the crowd genuinely steers the outcome. Voting is not a poll bolted onto a finished episode — the tally decides which branch is rendered next, so the audience is writing the season in real time.",
+      "disclaimerTitle": "Points and bets",
+      "disclaimer": "All points are virtual and for entertainment only. They have no cash value, cannot be redeemed, and BRAWLVERSE never returns cash on a bet. Membership unlocks in-site gameplay perks such as vote weight and bet limits.",
+      "cta": "Get your ticket",
+      "contactCta": "Talk to the Booker"
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Questions about a bout, a membership, or the fiction? The Booker team reads everything.",
+      "subtitle": "Questions about a bout, a membership, or the fiction? The Booker team reads everything.",
+      "form": {
+        "title": "Send a message",
+        "description": "Tell us what you are working on and we will get back to you.",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Submit",
+        "submitting": "Submitting...",
+        "success": "Message sent successfully",
+        "fail": "Failed to send message",
+        "nameMinLength": "Name must be at least 3 characters",
+        "nameMaxLength": "Name must not exceed 30 characters",
+        "emailValidation": "Please enter a valid email address",
+        "messageMinLength": "Message must be at least 10 characters",
+        "messageMaxLength": "Message must not exceed 500 characters"
+      },
+      "modal": {
+        "title": "Contact us",
+        "description": "Questions, partnerships, press — we read everything.",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Send message",
+        "submitting": "Sending...",
+        "success": "Message sent. We’ll get back to you soon.",
+        "fail": "Failed to send. Please try again later."
+      }
+    },
+    "newsletter": {
+      "title": "Get fight night alerts",
+      "placeholder": "you@email.com",
+      "subscribe": "Subscribe",
+      "success": "You’re in! Watch your inbox.",
+      "fail": "That email doesn’t look right."
+    },
+    "viral": {
+      "nearMiss": {
+        "title": "SO CLOSE.",
+        "subtitlePrice": "Your side hit {price}¢ before the final round. One swing changed everything.",
+        "subtitleClose": "Just a few ticks away from flipping it.",
+        "runItBack": "Run it back →",
+        "seeAll": "See all markets"
+      },
+      "gated": {
+        "lockedTitle": "🔒 THE TAPE IS LOCKED",
+        "lockedShare": "Share your prediction on X to unlock this.",
+        "lockedShareFighter": "Share your bet slip on X to unlock {fighter}'s hidden backstory.",
+        "shareOnX": "Share on X",
+        "iveShared": "I've shared — unlock it",
+        "unlockedTitle": "UNLOCKED",
+        "unlockedBody": "What the cameras didn't show.",
+        "milestoneProgress": "{current} / {threshold} votes — unlock the QF2 trash-talk tape",
+        "milestoneDone": "UNLOCKED BY THE CROWD 🥊",
+        "milestoneHint": "Vote in QF2 to push the crowd unlock.",
+        "tierHint": "Members only — upgrade to Booker or higher to unlock."
+      },
+      "lossCta": {
+        "titleFighter": "{fighter} WENT DOWN.",
+        "titleGeneric": "THAT ONE SLIPPED AWAY.",
+        "subtitle": "Your fighter lost. Your call:",
+        "betRematch": "Bet the rematch →",
+        "walkAway": "Walk away"
+      }
+    }
+  },
+  "Arena": {
+    "metaTitle": "Battle Arena",
+    "metaDescription": "Step into the BRAWLVERSE arena: pick your fighter, outsmart the AI, and climb the rankings.",
+    "title": "BATTLE ARENA",
+    "tagline": "YOU DON'T JUST CALL THE FIGHT — YOU FIGHT IT.",
+    "chooseFighter": "Choose your fighter",
+    "chooseOpponent": "Choose your opponent (AI)",
+    "startFight": "ENTER THE ARENA",
+    "fightStart": "{a} vs {b} — FIGHT!",
+    "round": "Round",
+    "finisherReady": "FINISHER READY!",
+    "keyboardHint": "Keyboard: J jab · K cross · L hook · U uppercut · B body · I block · O dodge · D duck · F feint · Space taunt. Or click the buttons.",
+    "draw": "DRAW",
+    "wins": "WINS",
+    "rounds": "{n} rounds",
+    "rematch": "REMATCH",
+    "leaderboard": "Leaderboard",
+    "player": "Player",
+    "winsCol": "W",
+    "lossesCol": "L",
+    "fighterAnon": "Fighter {n}",
+    "moves": {
+      "jab": "Jab",
+      "cross": "Cross",
+      "hook": "Hook",
+      "uppercut": "Uppercut",
+      "body": "Body shot",
+      "block": "Block",
+      "dodge": "Dodge",
+      "duck": "Duck",
+      "feint": "Feint",
+      "taunt": "Taunt"
+    }
+  }
+}
