@@ -14,6 +14,7 @@
     "e2e:creem": "tsx scripts/run-creem-e2e.ts",
     "e2e:waffo": "tsx scripts/run-waffo-e2e.ts",
     "waffo:setup": "tsx scripts/setup-waffo.ts",
+    "mock:adaptlane": "node scripts/adaptlane-mock.mjs",
     "e2e:ui": "playwright test --ui",
     "e2e:install": "playwright install",
     "test": "vitest run",

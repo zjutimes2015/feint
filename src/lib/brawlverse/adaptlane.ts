@@ -18,7 +18,9 @@ const DEFAULT_BASE = 'https://adaptlane.com';
 export type RenderJob = { job_id: string; status: string };
 
 export function adaptlaneConfigured(): boolean {
-  return Boolean(process.env.ADAPTLANE_API_KEY);
+  return Boolean(
+    process.env.ADAPTLANE_API_KEY || process.env.ADAPTLANE_INTERNAL_KEY
+  );
 }
 
 export function autopilotEnabled(): boolean {
@@ -33,7 +35,8 @@ async function call(
   path: string,
   init: RequestInit
 ): Promise<Record<string, any>> {
-  const key = process.env.ADAPTLANE_API_KEY || '';
+  const key =
+    process.env.ADAPTLANE_API_KEY || process.env.ADAPTLANE_INTERNAL_KEY || '';
   if (!key) throw new Error('ADAPTLANE_API_KEY not set');
 
   const ctrl = new AbortController();

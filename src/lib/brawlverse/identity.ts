@@ -49,7 +49,7 @@ export async function resolveIdentity(
  * 2) 浏览器:Better Auth admin 插件角色
  */
 export async function isAdmin(req: Request): Promise<boolean> {
-  const ops = process.env.ADMIN_OPS_TOKEN || '';
+  const ops = process.env.ADMIN_OPS_TOKEN || process.env.ADMIN_TOKEN || '';
   if (ops) {
     const got = req.headers.get('x-admin-token') || '';
     if (got.length === ops.length && got === ops) return true;
