@@ -3,7 +3,7 @@
  * 拼进 src/lib/brawlverse/db.ts 的 ensure() 里执行，与现有表同一风格：原生 SQL。
  *
  * 利润率保证：
- * - 邀请积分是虚拟积分（bet_wallets），零边际成本，不影响利润率。
+ * - 邀请积分是站内虚拟积分（player_credits），无现金价值，零边际成本，不影响利润率。
  * - 联盟佣金 15%：100% - 15%（佣金）- 4%（Waffo 手续费）- 1%（服务器分摊）= 80% 利润率 ✅
  */
 export const GROWTH_SCHEMA = `

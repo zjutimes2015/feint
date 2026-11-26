@@ -11,7 +11,7 @@ const publicPages = [
   { path: '/episodes', name: 'episodes' },
   { path: '/fighters', name: 'fighters' },
   { path: '/storylines', name: 'storylines' },
-  { path: '/bet', name: 'bet' },
+  { path: '/arena', name: 'arena' },
   { path: '/fantasy', name: 'fantasy' },
   { path: '/live', name: 'live' },
   { path: '/fan-forge', name: 'fan forge' },
@@ -58,6 +58,20 @@ test.describe('public page smoke coverage', () => {
     await expect(dialog.locator('input[name="email"]')).toBeVisible();
     await expect(dialog.locator('input[name="password"]')).toBeVisible();
     monitor.expectNoErrors('home login modal');
+  });
+
+  test('redirects retired betting pages to the arena', async ({ request }) => {
+    for (const [from, locale] of [
+      ['/bet', ''],
+      ['/bet', '/zh'],
+      ['/how-prediction-markets-work', ''],
+    ] as const) {
+      const response = await request.get(`${locale}${from}`, {
+        maxRedirects: 0,
+      });
+      expect(response.status()).toBe(301);
+      expect(response.headers()['location']).toContain(`${locale}/arena`);
+    }
   });
 
   test('health check responds with pong', async ({ request }) => {

@@ -59,10 +59,11 @@ errors or page errors.
 
 | # | Test name | Flow |
 |---|---|---|
-| 1 | Public pages render successfully | Open `/`, `/pricing`, `/blog`, `/blog/what-is-fumadocs`, `/docs`, `/ai`, `/about`, `/contact`, `/changelog`, `/roadmap`, `/waitlist`, `/cookie`, `/privacy`, `/terms`, `/auth/login`, `/auth/register`, `/auth/forgot-password`, `/auth/reset-password` for `en` and `zh`. Verify each returns 2xx, renders a document body, and emits no browser errors. |
+| 1 | Public pages render successfully | Open `/`, `/arena`, `/episodes`, `/fighters`, `/storylines`, `/fantasy`, `/live`, `/fan-forge`, `/tickets`, `/about`, `/contact`, `/cookie`, `/privacy`, `/terms`, `/auth/login`, `/auth/register`, `/auth/forgot-password`, `/auth/reset-password` for `en` and `zh`. Verify each returns 2xx, renders a document body, and emits no browser errors. |
 | 2 | Home login modal opens | Open `/`, click the navbar login button, verify the login dialog and credential inputs are visible, and assert no browser errors. |
-| 3 | Health check responds with pong | Call `/api/ping` and verify `{ "message": "pong" }`. |
-| 4 | Locale switch preserves navigation state | Open the English home page with a query string and hash, switch to Chinese through the public language menu, and verify the locale, query string, and hash survive a full navigation without browser errors. |
+| 3 | Retired betting pages redirect | Request `/bet`, `/zh/bet` and `/how-prediction-markets-work` without following redirects; verify `301` with `Location` pointing at the localized `/arena`. |
+| 4 | Health check responds with pong | Call `/api/ping` and verify `{ "message": "pong" }`. |
+| 5 | Locale switch preserves navigation state | Open the English home page with a query string and hash, switch to Chinese through the public language menu, and verify the locale, query string, and hash survive a full navigation without browser errors. |
 
 ## 2. Authentication And Protected Routes
 

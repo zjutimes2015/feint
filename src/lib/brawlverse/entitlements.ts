@@ -5,7 +5,6 @@ export type TierName = 'free' | 'ringside' | 'booker' | 'promoter' | 'annual';
 
 export interface TierEntitlements {
   vote_weight: number;
-  bet_max_mult: number;
   daily_mult: number;
   prop_create: boolean;
   stable_create: boolean;
@@ -19,7 +18,6 @@ export interface TierEntitlements {
 export const TIERS: Record<TierName, TierEntitlements> = {
   free: {
     vote_weight: 1,
-    bet_max_mult: 1,
     daily_mult: 1,
     prop_create: false,
     stable_create: false,
@@ -31,7 +29,6 @@ export const TIERS: Record<TierName, TierEntitlements> = {
   },
   ringside: {
     vote_weight: 3,
-    bet_max_mult: 2,
     daily_mult: 2,
     prop_create: false,
     stable_create: false,
@@ -43,7 +40,6 @@ export const TIERS: Record<TierName, TierEntitlements> = {
   },
   booker: {
     vote_weight: 10,
-    bet_max_mult: 5,
     daily_mult: 5,
     prop_create: true,
     stable_create: true,
@@ -55,7 +51,6 @@ export const TIERS: Record<TierName, TierEntitlements> = {
   },
   promoter: {
     vote_weight: 20,
-    bet_max_mult: 10,
     daily_mult: 10,
     prop_create: true,
     stable_create: true,
@@ -68,7 +63,6 @@ export const TIERS: Record<TierName, TierEntitlements> = {
   // 年付 $199/年,权益等同 promoter
   annual: {
     vote_weight: 20,
-    bet_max_mult: 10,
     daily_mult: 10,
     prop_create: true,
     stable_create: true,

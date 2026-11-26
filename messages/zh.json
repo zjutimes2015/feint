@@ -2,7 +2,7 @@
   "Metadata": {
     "name": "BRAWLVERSE",
     "title": "BRAWLVERSE — AI 拳击联盟",
-    "description": "八名虚拟选手,一座漫画擂台。在 AI 拳击联盟用虚拟积分下注 Yes/No 预测盘——观众投票,剧情爆炸。"
+    "description": "八名虚拟选手,一座漫画擂台。进 Arena 免费打 1v1 战术对决——观众投票,剧情爆炸。"
   },
   "Common": {
     "login": "登录",
@@ -73,14 +73,14 @@
       "description": "看比赛,投战术票",
       "features": {
         "feature-1": "每个战术回合都能投票",
-        "feature-2": "每日虚拟积分",
+        "feature-2": "免费擂台对战",
         "feature-3": "参加梦幻联赛",
         "feature-4": "在擂台发弹幕"
       },
       "limits": {
         "limit-1": "投票权重 ×1",
-        "limit-2": "单注上限 ×1",
-        "limit-3": "不能提前看剧集"
+        "limit-2": "不能提前看剧集",
+        "limit-3": "无下注、无现金返利"
       }
     },
     "ringside": {
@@ -88,14 +88,14 @@
       "description": "每一回合,都在最前排",
       "features": {
         "feature-1": "投票权重 ×3",
-        "feature-2": "单注上限 ×2",
-        "feature-3": "每日积分 ×2",
-        "feature-4": "提前观看剧集"
+        "feature-2": "提前观看剧集",
+        "feature-3": "你的名字上 LED 墙",
+        "feature-4": "包含 FREE FAN 全部权益"
       },
       "limits": {
-        "limit-1": "你的名字上 LED 墙",
-        "limit-2": "随时可取消",
-        "limit-3": "积分无现金价值"
+        "limit-1": "随时可取消",
+        "limit-2": "无下注、无现金返利",
+        "limit-3": "每个账号仅限一个订阅"
       }
     },
     "booker": {
@@ -103,14 +103,14 @@
       "description": "你不只是看比赛,你来安排比赛",
       "features": {
         "feature-1": "投票权重 ×10",
-        "feature-2": "单注上限 ×5",
-        "feature-3": "每日积分 ×5",
-        "feature-4": "可创建道具与阵容",
+        "feature-2": "可创建道具与阵容",
+        "feature-3": "提前观看剧集",
+        "feature-4": "Booker Night 邀请",
         "feature-5": "包含 RINGSIDE 全部权益"
       },
       "limits": {
         "limit-1": "随时可取消",
-        "limit-2": "积分无现金价值",
+        "limit-2": "无下注、无现金返利",
         "limit-3": "每个账号仅限一个订阅"
       }
     },
@@ -119,15 +119,15 @@
       "description": "整张推广,都是你的",
       "features": {
         "feature-1": "投票权重 ×20",
-        "feature-2": "单注上限 ×10",
-        "feature-3": "每日积分 ×10",
-        "feature-4": "Booker Night 邀请",
-        "feature-5": "包含 BOOKER 全部权益",
-        "feature-6": "你的名字上 LED 墙"
+        "feature-2": "Booker Night 邀请",
+        "feature-3": "可创建道具与阵容",
+        "feature-4": "包含 BOOKER 全部权益",
+        "feature-5": "你的名字上 LED 墙",
+        "feature-6": "优先客服支持"
       },
       "limits": {
         "limit-1": "随时可取消",
-        "limit-2": "积分无现金价值"
+        "limit-2": "无下注、无现金返利"
       }
     },
     "annual": {
@@ -137,10 +137,10 @@
         "feature-1": "包含 PROMOTER 全部权益",
         "feature-2": "每年计费 $199",
         "feature-3": "投票权重 ×20",
-        "feature-4": "单注上限 ×10",
-        "feature-5": "Booker Night 邀请",
-        "feature-6": "可创建道具与阵容",
-        "feature-7": "你的名字上 LED 墙"
+        "feature-4": "Booker Night 邀请",
+        "feature-5": "可创建道具与阵容",
+        "feature-6": "你的名字上 LED 墙",
+        "feature-7": "优先客服支持"
       },
       "limits": {
         "limit-1": "随时可取消"
@@ -259,12 +259,12 @@
       "statsTitle": "你的数据",
       "votesLabel": "累计投票",
       "weightLabel": "票权 {weight}",
-      "accuracyLabel": "预测命中率",
+      "accuracyLabel": "回合投票命中率",
       "accuracyDetail": "{wins}/{total} 个已结算回合",
       "noPredictions": "还没有已结算的回合",
       "creditsLabel": "拳场币",
-      "betsDetail": "{count} 注 · 命中 {wins}",
-      "noBets": "还没有下注",
+      "arenaDetail": "{wins} 胜 · {losses} 负 · {kos} KO",
+      "noArena": "还没有对战场次",
       "rankLabel": "段位",
       "scoreLabel": "{score} 分",
       "ranks": {
@@ -279,19 +279,19 @@
       "tiers": {
         "ringside": {
           "name": "RINGSIDE",
-          "perk": "投票 ×3、下注 ×2、提前看片、名字上 LED 墙"
+          "perk": "投票 ×3、提前看片、名字上 LED 墙"
         },
         "booker": {
           "name": "BOOKER",
-          "perk": "投票 ×10、下注 ×5、自建选手与赛事卡"
+          "perk": "投票 ×10、提前看片、自建选手与赛事卡"
         },
         "promoter": {
           "name": "PROMOTER",
-          "perk": "投票 ×20、下注 ×10、主办自己的 Booker Night"
+          "perk": "投票 ×20、提前看片、主办自己的 Booker Night"
         }
       },
       "ctaLive": "去投下一回合 →",
-      "ctaBet": "去下注 →",
+      "ctaArena": "进入擂台 →",
       "ctaForge": "去锻造选手 →"
     },
     "admin": {
@@ -516,7 +516,7 @@
     },
     "upgrade": {
       "title": "升级到 RINGSIDE",
-      "description": "更高投票权重、更高单注上限、更多每日积分。",
+      "description": "更高投票权重、提前看片、名字上 LED 墙。",
       "button": "查看门票"
     }
   },
@@ -633,7 +633,7 @@
       "dodgeRate": "闪避率",
       "favoredMoves": "常用招式",
       "nextFight": "下一场比赛",
-      "betCta": "去盘口选一边",
+      "betCta": "去擂台挑战这位选手",
       "rosterCta": "返回全部选手",
       "faqTitle": "常见问题",
       "faqStyleQ": "{name} 的打法风格是什么？",
@@ -641,71 +641,22 @@
       "faqRecordQ": "{name} 的战绩如何？",
       "faqRecordA": "{name} 目前 0–0——第一季还没有比赛结算。战绩会在每场比赛结算后更新。",
       "faqNextQ": "{name} 下一场打谁？",
-      "faqNextA": "{name} 将在 {bout} 迎战 {opponent}——第一季四分之一决赛。去盘口选一边。"
+      "faqNextA": "{name} 将在 {bout} 迎战 {opponent}——第一季四分之一决赛。进擂台亲手打这一场。"
     },
     "matchDetail": {
       "quarterfinal": "第一季四分之一决赛",
-      "metaDescription": "{a} 对 {b}，第一季四分之一决赛谁会赢？Yes/No 合约价格 1–99，纯虚拟积分——去盘口选一边。",
-      "betCta": "去盘口选一边",
-      "howContracts": "Yes/No 合约怎么玩",
-      "contractsBody": "每场比赛都有一个 Yes/No 合约，价格 1–99——价格就是市场认为的概率。认为会发生就买 Yes，认为不会就买 No。结算前随时可以按市价卖出。纯虚拟积分——没有现金价值，不涉及真钱。",
-      "learnMore": "预测市场怎么运作",
+      "metaDescription": "{a} 对 {b}，第一季四分之一决赛谁会赢？进擂台自己打一场 1v1 战术对决，免费开玩。",
+      "betCta": "进入擂台",
+      "arenaTitle": "亲手打这一场",
+      "arenaBody": "在擂台上任选一边：挑选手，每回合暗选一招——出拳、格挡、虚招、闪避或挑衅——读懂对手的习惯，赢下对决。没有盘口，没有下注，只有对战。",
       "fightersTitle": "对阵选手",
       "faqTitle": "常见问题",
       "faqWhoQ": "{a} 对 {b}，谁会赢？",
-      "faqWhoA": "市场说了算——价格 1–99 的 Yes/No 合约反映了大家的看法。用虚拟积分去盘口选一边。",
-      "faqBetQ": "怎么给 {a} 对 {b} 下注？",
-      "faqBetA": "去盘口，找到 {bout} 市场，用虚拟积分买 Yes 或 No 合约。结算前随时可以卖出。",
-      "faqMoneyQ": "这是真钱赌博吗？",
-      "faqMoneyA": "不是。BRAWLVERSE 只用虚拟积分。积分没有现金价值，永远不能提现。"
-    },
-    "predictionMarkets": {
-      "metaTitle": "预测市场怎么运作",
-      "metaDescription": "Yes/No 合约价格 1–99，纯虚拟积分，没有现金价值。BRAWLVERSE 预测市场怎么运作、怎么结算。",
-      "title": "预测市场怎么运作",
-      "taglinePre": "YES 或 NO——",
-      "taglineHighlight": "价格由大家定。",
-      "whatIsTitle": "什么是预测市场？",
-      "whatIsBody": "预测市场让人对未来事件的结果进行交易。每个市场只问一个 Yes/No 问题——IRON JAW 会赢 QF1 吗？——Yes 合约的价格（1 到 99）就是大家认为它发生的概率。事件结算时，如果发生了，Yes 合约值 100；没发生，值 0。",
-      "howTitle": "Yes/No 合约怎么运作",
-      "howBullets": [
-        "价格 1–99：价格就是市场认为的概率（百分比）。",
-        "认为会发生就买 Yes，认为不会就买 No。",
-        "结算前随时可以按当前市价卖出——不用等到结果出来。",
-        "结算：事件发生，Yes 合约值 100；没发生，值 0。",
-        "每笔交易收 2% 手续费（积分计，不收现金）。"
-      ],
-      "pointsTitle": "纯虚拟积分——没有现金价值",
-      "pointsBody": "BRAWLVERSE 的市场只用虚拟积分交易，不涉及金钱。积分没有现金价值，永远不能提现，也不会兑换成真实货币。注册、每日领取和赢下市场都能赚积分——输了也只输积分。",
-      "settleTitle": "BRAWLVERSE 的市场怎么结算",
-      "settleBody": "比赛市场按比赛结果结算，剧情市场按节目公布的剧情结果结算。每个市场在开盘前都会公示结算口径，结果会在站内公布。",
-      "faqTitle": "常见问题",
-      "faqs": [
-        {
-          "q": "一张 Yes 合约值多少？",
-          "a": "事件发生，Yes 合约值 100 积分；没发生，值 0。你付的价格（1–99）就是市场认为的概率。"
-        },
-        {
-          "q": "事件结束前可以卖出吗？",
-          "a": "可以。结算前随时可以按当前市价卖出合约。"
-        },
-        {
-          "q": "手续费是多少？",
-          "a": "每笔交易收 2% 手续费，用积分计，不收现金。"
-        },
-        {
-          "q": "这是真钱赌博吗？",
-          "a": "不是。BRAWLVERSE 只用虚拟积分。积分没有现金价值，永远不能提现。"
-        },
-        {
-          "q": "市场怎么结算？",
-          "a": "比赛市场按比赛结果结算，剧情市场按公布的剧情结果结算。每个市场开盘前都会公示结算口径。"
-        },
-        {
-          "q": "LMSR 是什么？",
-          "a": "LMSR 是给 BRAWLVERSE 合约定价的自动做市商。它随时提供报价，所以你随时可以交易——价格随每一笔买卖而变动。"
-        }
-      ]
+      "faqWhoA": "自己打一场：在擂台里任选一方 1v1 对决。每回合双方暗选出招，读心更好的一方获胜。",
+      "faqModeQ": "{bout} 这场怎么打？",
+      "faqModeA": "打开擂台，选 {a} 或 {b}，每回合出一招。体力、人气和对手的出招倾向决定每一交换，直到一方被 KO。",
+      "faqCreditsQ": "擂台要花钱吗？",
+      "faqCreditsA": "不用。擂台对战免费、免登录，也永远不涉及真钱。"
     },
     "storylines": {
       "metaTitle": "剧情圣经",
@@ -862,7 +813,7 @@
         {
           "title": "⚖️ 称重对视",
           "style": "60 秒 · 赛前 48 小时",
-          "body": "两名选手,一次对视,一条数据条。结尾引导评论区押注胜者。零新增素材。"
+          "body": "两名选手,一次对视,一条数据条。结尾引导评论区投票胜者。零新增素材。"
         },
         {
           "title": "🎤 垃圾话专访",
@@ -941,7 +892,7 @@
     },
     "home": {
       "metaTitle": "BRAWLVERSE — AI 拳击联盟",
-      "metaDescription": "八名虚拟选手,一座漫画擂台。在 AI 拳击联盟用虚拟积分下注 Yes/No 预测盘——观众投票,剧情爆炸。",
+      "metaDescription": "八名虚拟选手,一座漫画擂台。进 Arena 免费打 1v1 战术对决——观众投票,剧情爆炸。",
       "heroTitle": "BRAWLVERSE",
       "heroTaglinePre": "AI 拳击联盟 — ",
       "heroTaglineHighlight": "你来指挥这场比赛",
@@ -954,7 +905,10 @@
       "nextEventFighters": "{a} vs {b}",
       "nextEventIdle": "周五格斗之夜 —— 每周五 21:00(UTC+8)",
       "nextEventCta": "去投下一回合 →",
-      "quickTitle": "现在就能做的三件事",
+      "quickTitle": "现在就能做的四件事",
+      "quickArenaTitle": "进擂台 1v1 对打",
+      "quickArenaBody": "挑一名选手，每回合暗选一招，靠读心赢下这场战术对决。",
+      "quickArenaCta": "进入擂台 →",
       "quickLiveTitle": "看正在打的回合",
       "quickLiveBody": "每一回合由全场观众决定,赢的招式会改写剧情。",
       "quickLiveCta": "进入直播 →",
@@ -1007,8 +961,7 @@
             "features": [
               "观看所有正片与预告",
               "投票权重 ×1",
-              "每天 3 场人机对战",
-              "每日虚拟积分",
+              "免费擂台对战",
               "梦幻联赛 + 弹幕"
             ]
           },
@@ -1017,9 +970,7 @@
             "price": "$4.99",
             "tagline": "前排每一回合——无限畅玩",
             "features": [
-              "无限人机对战",
-              "异步真人 PvP 挑战",
-              "投票 ×3 · 下注 ×2 · 积分 ×2",
+              "每回合投票 ×3",
               "正片抢先看",
               "名字上 LED 大屏",
               "排行榜排名"
@@ -1033,9 +984,7 @@
               "包含场边席全部权益",
               "自定义拳手（名字+垃圾话）",
               "每周锦标赛参赛资格",
-              "投票 ×10 · 下注 ×5 · 积分 ×5",
-              "优先匹配",
-              "竞技场人气获取 ×2"
+              "优先匹配"
             ]
           },
           "promoter": {
@@ -1046,7 +995,6 @@
               "包含经纪人全部权益",
               "冠名一个比赛之夜",
               "赞助一名拳手",
-              "投票 ×20 · 下注 ×10 · 积分 ×10",
               "经纪人之夜邀请",
               "VIP 徽章"
             ]
@@ -1112,82 +1060,6 @@
           "style": "待定 · 在 Kick 直播"
         }
       ]
-    },
-    "bet": {
-      "metaTitle": "盘口",
-      "metaDescription": "选一边,赢积分。纯虚拟积分,无现金价值。",
-      "title": "THE BOOK",
-      "taglinePre": "选一边 — ",
-      "taglineHighlight": "赢积分",
-      "walletTitle": "我的钱包",
-      "kBalance": "余额",
-      "kDaily": "每日领取",
-      "kMaxBet": "单注上限",
-      "kTier": "档位",
-      "claimTomorrow": "明日再领",
-      "claimNow": "领取 {amount} 积分",
-      "refresh": "刷新",
-      "claimed": "领到 {amount} 积分 · 余额 {balance}",
-      "alreadyClaimed": "今天已经领过了,明天再来",
-      "claimFailed": "领取失败:{error}",
-      "networkErr": "网络开小差,稍后再试",
-      "walletNote": "纯娱乐虚拟积分,无现金价值、不可兑换。注册即送 1000 分,每天可再领一次。",
-      "marketsTitle": "开放中的盘口",
-      "noMarkets": "暂时没有开放的市场",
-      "noMarketsBody": "新的赛程一开盘就会出现在这里。先去 EPISODES 看比赛、投战术票吧。",
-      "totalPool": "总池",
-      "locked": "已封盘",
-      "waitingFirst": "等待第一注",
-      "pool": "池",
-      "betAmountPlaceholder": "下注额 1-{max}",
-      "placeBet": "下注",
-      "betNote": "赔率按同注分彩实时浮动 · 封盘后不可下注",
-      "pickFirst": "先点一个选项",
-      "invalidAmount": "输入有效的下注额",
-      "insufficient": "余额不足,先领每日积分",
-      "marketLocked": "这个市场已封盘",
-      "betFailed": "下注失败:{error}",
-      "betOk": "下注成功:{sel} × {amount} · 余额 {balance}",
-      "leaderboardTitle": "排行榜",
-      "noPlayers": "还没有人开户,第一注就是你的。",
-      "player": "玩家",
-      "balance": "余额",
-      "leaderboardNote": "玩家 ID 为设备指纹前 8 位 · 同一设备同一账户",
-      "footer": "BRAWLVERSE · 第一季制作中",
-      "howItWorks": "预测市场怎么运作",
-      "loadFailed": "加载失败,刷新页面重试",
-      "contract": {
-        "title": "合约市场",
-        "subtitle": "Yes/No 二值合约，价格即概率，锁盘前随时买卖。",
-        "feeNote": "交易收 2% 手续费进入回收池（抗通胀）。纯虚拟积分。",
-        "loadFailed": "加载失败。",
-        "noMarkets": "暂无开放的合约盘口，稍后再来。",
-        "kind_winner": "胜负",
-        "kind_method": "终结方式",
-        "kind_round": "回合",
-        "kind_storyline": "剧情",
-        "trade": "交易",
-        "collapse": "收起",
-        "rules": "结算口径",
-        "locked": "已锁盘",
-        "settled": "已结算",
-        "buy": "买入",
-        "sell": "卖出",
-        "amountCredits": "花多少拳场币",
-        "amountContracts": "卖几张合约",
-        "execute": "下单",
-        "contracts": "张",
-        "fee": "手续费",
-        "receive": "到手",
-        "tradeOk": "成交：{n} 张 {side}，手续费 {fee}",
-        "tradeFailed": "交易失败。",
-        "soldOk": "已卖出 {n} 张。",
-        "tape": "实时成交",
-        "positions": "我的持仓",
-        "sellAll": "全卖",
-        "pnlBoard": "盈亏榜",
-        "player": "玩家"
-      }
     },
     "fantasy": {
       "metaTitle": "梦幻联赛",
@@ -1266,9 +1138,8 @@
       "notAvailable": "即将开放",
       "checkoutFailed": "下单失败,稍后再试。",
       "networkErr": "网络开小差,稍后再试。",
-      "legalNote": "订阅仅解锁站内玩法权益,不涉及现金返利;积分与下注均为娱乐虚拟道具。",
+      "legalNote": "订阅仅解锁站内权益,不涉及现金返利,也不含任何下注;擂台对战对所有玩家免费。",
       "voteWeight": "票重",
-      "betCap": "竞猜上限",
       "earlyAccess": "提前",
       "footer": "BRAWLVERSE · TICKETS",
       "tiers": [
@@ -1277,13 +1148,7 @@
           "name": "RINGSIDE",
           "price": 4.99,
           "tagline": "每一回合,都在最前排。",
-          "perks": [
-            "投票权重 ×3",
-            "单注上限 ×2",
-            "每日积分 ×2",
-            "提前观看剧集",
-            "你的名字上 LED 墙"
-          ]
+          "perks": ["投票权重 ×3", "提前观看剧集", "你的名字上 LED 墙"]
         },
         {
           "id": "booker",
@@ -1292,8 +1157,6 @@
           "tagline": "你不只是看比赛,你来安排比赛。",
           "perks": [
             "投票权重 ×10",
-            "单注上限 ×5",
-            "每日积分 ×5",
             "可创建道具与阵容",
             "包含 RINGSIDE 全部权益"
           ]
@@ -1301,26 +1164,19 @@
         {
           "id": "promoter",
           "name": "PROMOTER",
-          "price": 49.0,
+          "price": 49,
           "tagline": "整张推广,都是你的。",
-          "perks": [
-            "投票权重 ×20",
-            "单注上限 ×10",
-            "每日积分 ×10",
-            "Booker Night 邀请",
-            "包含 BOOKER 全部权益"
-          ]
+          "perks": ["投票权重 ×20", "Booker Night 邀请", "包含 BOOKER 全部权益"]
         },
         {
           "id": "annual",
           "name": "ANNUAL",
-          "price": 199.0,
+          "price": 199,
           "tagline": "一年一次付费,整张推广都是你的。",
           "perks": [
             "包含 PROMOTER 全部权益",
             "每年 199 美元",
             "投票权重 ×20",
-            "单注上限 ×10",
             "Booker Night 邀请",
             "可创建道具与阵容",
             "你的名字上 LED 墙"
@@ -1341,12 +1197,11 @@
       "title": "BOOKER CONSOLE",
       "taglinePre": "后台 — ",
       "taglineHighlight": "掌控全场",
-      "signIn": "以管理员身份登录,管理对局、盘口、弹幕与直播回合。",
+      "signIn": "以管理员身份登录,管理对局、弹幕与直播回合。",
       "signInCta": "前往登录",
       "forbidden": "需要管理员角色。",
       "tabs": {
         "bouts": "对局",
-        "markets": "盘口",
         "captions": "弹幕",
         "gates": "闸门",
         "live": "直播回合",
@@ -1373,15 +1228,7 @@
       "roundNo": "回合数",
       "votingOpen": "投票开放",
       "tacticNote": "战术备注",
-      "marketId": "盘口 ID",
-      "marketType": "类型",
-      "question": "问题",
-      "selections": "选项(逗号分隔)",
-      "housePool": "庄家注(JSON)",
       "create": "创建",
-      "lock": "封盘",
-      "settle": "结算",
-      "winningSelection": "获胜选项",
       "approve": "通过",
       "reject": "拒绝",
       "pin": "置顶",
@@ -1390,7 +1237,6 @@
       "captionText": "内容",
       "captionNick": "昵称",
       "createBout": "创建对局",
-      "createMarket": "创建盘口",
       "saveNote": "保存备注",
       "roundId": "回合 ID",
       "tacticA": "战术 A",
@@ -1421,9 +1267,9 @@
       "play": {
         "title": "玩法",
         "items": {
-          "bet": {
-            "title": "盘口",
-            "description": "选一边,赢虚拟积分。"
+          "arena": {
+            "title": "擂台对战",
+            "description": "暗选出招、读心对手，赢下 1v1。"
           },
           "fantasy": {
             "title": "梦幻联赛",
@@ -1491,8 +1337,8 @@
       ],
       "missionTitle": "我们的使命",
       "mission": "做一档真正由观众掌舵结果的节目。投票不是贴在成片后面的问卷,而是票数直接决定下一段渲染哪个分支——整个赛季是观众实时写出来的。",
-      "disclaimerTitle": "积分与下注",
-      "disclaimer": "所有积分均为娱乐用虚拟道具,没有现金价值、不可兑换,BRAWLVERSE 也不会返还任何现金。会员权益解锁的是站内玩法加成,例如投票权重与单注上限。",
+      "disclaimerTitle": "虚拟积分",
+      "disclaimer": "所有积分均为娱乐用虚拟道具,没有现金价值、不可兑换,BRAWLVERSE 也不会以任何形式返现。会员权益解锁的是站内加成,例如投票权重、提前看片与装扮。",
       "cta": "去买票",
       "contactCta": "联系 Booker"
     },
@@ -1534,35 +1380,6 @@
       "subscribe": "订阅",
       "success": "订阅成功！请查收邮件。",
       "fail": "邮箱格式不正确。"
-    },
-    "viral": {
-      "nearMiss": {
-        "title": "就差一点。",
-        "subtitlePrice": "你这一方在最终回合前曾涨到 {price}¢。一个摆拳改变了全部。",
-        "subtitleClose": "距离翻盘只差几个点位。",
-        "runItBack": "再来一场 →",
-        "seeAll": "查看全部市场"
-      },
-      "gated": {
-        "lockedTitle": "🔒 录像已锁定",
-        "lockedShare": "在 X 上分享你的预测即可解锁。",
-        "lockedShareFighter": "在 X 上分享你的投注单，解锁 {fighter} 的隐藏背景故事。",
-        "shareOnX": "分享到 X",
-        "iveShared": "已分享 — 去解锁",
-        "unlockedTitle": "已解锁",
-        "unlockedBody": "镜头之外没拍到的部分。",
-        "milestoneProgress": "{current} / {threshold} 票 — 解锁 QF2 垃圾话录像",
-        "milestoneDone": "由全场观众解锁 🥊",
-        "milestoneHint": "在 QF2 投票，推动观众解锁。",
-        "tierHint": "会员专享 — 升级到 BOOKER 或更高档位即可解锁。"
-      },
-      "lossCta": {
-        "titleFighter": "{fighter} 倒下了。",
-        "titleGeneric": "那一下溜走了。",
-        "subtitle": "你的选手输了。你的选择：",
-        "betRematch": "押注复仇赛 →",
-        "walkAway": "就此离场"
-      }
     }
   },
   "Arena": {

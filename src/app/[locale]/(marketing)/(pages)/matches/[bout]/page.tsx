@@ -75,16 +75,16 @@ export default async function MatchPage({ params }: MatchPageProps) {
       },
       {
         '@type': 'Question',
-        name: t('faqBetQ', { a, b }),
+        name: t('faqModeQ', { a, b, bout: bout.title }),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: t('faqBetA', { a, b, bout: bout.title }),
+          text: t('faqModeA', { a, b, bout: bout.title }),
         },
       },
       {
         '@type': 'Question',
-        name: t('faqMoneyQ'),
-        acceptedAnswer: { '@type': 'Answer', text: t('faqMoneyA') },
+        name: t('faqCreditsQ'),
+        acceptedAnswer: { '@type': 'Answer', text: t('faqCreditsA') },
       },
     ],
   };
@@ -125,15 +125,10 @@ export default async function MatchPage({ params }: MatchPageProps) {
       </section>
 
       <section className="brawl-section">
-        <h2>{t('howContracts')}</h2>
-        <p className="brawl-bio">{t('contractsBody')}</p>
+        <h2>{t('arenaTitle')}</h2>
+        <p className="brawl-bio">{t('arenaBody')}</p>
         <p>
-          <LocaleLink href="/how-prediction-markets-work">
-            {t('learnMore')} →
-          </LocaleLink>
-        </p>
-        <p>
-          <LocaleLink href="/bet">{t('betCta')} →</LocaleLink>
+          <LocaleLink href="/arena">{t('betCta')} →</LocaleLink>
         </p>
       </section>
 

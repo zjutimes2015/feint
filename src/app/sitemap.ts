@@ -16,7 +16,7 @@ const staticRoutes = [
   '/episodes',
   '/fighters',
   '/storylines',
-  '/bet',
+  '/arena',
   '/fantasy',
   '/live',
   '/fan-forge',
@@ -31,13 +31,11 @@ const staticRoutes = [
 ] as const;
 
 /**
- * SEO routes: one page per fighter, one per Season 1 quarterfinal,
- * plus the prediction-market education page.
+ * SEO routes: one page per fighter, one per Season 1 quarterfinal.
  */
 const seoRoutes = [
   ...FIGHTER_SLUGS.map((slug) => `/fighters/${slug}`),
   ...MATCH_SLUGS.map((id) => `/matches/${id}`),
-  '/how-prediction-markets-work',
 ] as const;
 
 /**
@@ -61,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // add SEO routes (fighters, matches, education)
+  // add SEO routes (fighters, matches)
   sitemapList.push(
     ...seoRoutes.flatMap((route) => {
       return routing.locales.map((locale) => ({

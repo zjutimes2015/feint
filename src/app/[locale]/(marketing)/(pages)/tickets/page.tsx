@@ -36,7 +36,7 @@ const faqSchema = {
       name: 'What is BRAWLVERSE?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'BRAWLVERSE (feint.tv) is an AI-generated virtual boxing league. Eight original fighter characters — IRON JAW, VIPER, SLEDGE, MONSOON, VOLT, THE PROFESSOR, LA REINA and GOLIATH-7 — compete in cinematic bouts with trash talk, storylines, fan voting and prediction markets. All visuals are AI-generated and labeled as such.',
+        text: 'BRAWLVERSE is an AI-generated virtual boxing league. Eight original fighter characters — IRON JAW, VIPER, SLEDGE, MONSOON, VOLT, THE PROFESSOR, LA REINA and GOLIATH-7 — compete in cinematic bouts with trash talk, storylines, fan voting and 1v1 Arena duels. All visuals are AI-generated and labeled as such.',
       },
     },
     {
@@ -49,10 +49,10 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
-      name: 'How does betting work on BRAWLVERSE?',
+      name: 'How does the Arena duel work?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Fans trade YES/NO contracts (priced 1–99) on fight outcomes; each winning contract pays 100 fight coins. Prices are set by an LMSR automated market maker, early sell-back is allowed, and a 2% fee on winnings is recycled. Fight coins are virtual with no cash value and cannot be withdrawn or exchanged — entertainment only, not gambling.',
+        text: 'Fans step into the Arena and duel 1v1: pick one of the eight fighters, then secretly call one move each round — strike, block, feint, dodge or taunt. Stamina, hype and your rival’s tendencies decide the exchanges. It is free to play, needs no account, and never involves real money.',
       },
     },
     {
@@ -68,7 +68,7 @@ const faqSchema = {
       name: 'How do I create a BRAWLVERSE account?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Click Sign In on feint.tv and register with email + password, or continue with Google or GitHub. Your account holds your pass, fight coins, votes and prediction positions across devices.',
+        text: 'Click Sign In on the site and register with email + password, or continue with Google or GitHub. Your account keeps your pass, votes, fantasy picks and Arena record across devices.',
       },
     },
     {
@@ -76,7 +76,7 @@ const faqSchema = {
       name: 'Can I cancel my pass or get a refund?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'You can cancel anytime; access continues to the end of the billing period with no partial refunds. Refunds are granted only for duplicate charges, charges after cancellation took effect, or full-period outages caused by us — request within 14 days via the contact page. Fight coins and prediction entries are never refundable.',
+        text: 'You can cancel anytime; access continues to the end of the billing period with no partial refunds. Refunds are granted only for duplicate charges, charges after cancellation took effect, or full-period outages caused by us — request within 14 days via the contact page.',
       },
     },
     {
@@ -84,7 +84,7 @@ const faqSchema = {
       name: 'Is BRAWLVERSE available in my country?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Watching, collecting and voting are available worldwide. Prediction markets are geo-fenced and not available to visitors connecting from mainland China.',
+        text: 'Watching, voting, fantasy picks and Arena duels are available worldwide. There is no wagering and no real-money play anywhere on the site.',
       },
     },
     {
@@ -92,7 +92,7 @@ const faqSchema = {
       name: 'What are props and stables?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Props are custom prediction markets you create for other fans to trade on; stables are branded teams of fighters competing on a creator leaderboard. Both are included with BOOKER and above.',
+        text: 'Stables are branded teams of fighters competing on a creator leaderboard; props are custom fan cards pinned to your profile. Both are included with BOOKER and above.',
       },
     },
   ],

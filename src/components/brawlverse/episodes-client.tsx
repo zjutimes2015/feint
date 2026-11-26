@@ -185,7 +185,7 @@ export default function EpisodesClient() {
   useEffect(() => {
     (async () => {
       try {
-        const r = await fetch('/api/betting?op=records');
+        const r = await fetch('/api/bouts?op=records');
         const j = (await r.json()) as { records?: FighterRecord[] };
         const map: Record<string, FighterRecord> = {};
         for (const x of j.records ?? []) map[x.fighter.toUpperCase()] = x;

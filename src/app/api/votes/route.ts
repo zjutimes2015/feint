@@ -11,7 +11,6 @@ import { entitlements } from '@/lib/brawlverse/entitlements';
 import { json, opOf, preflight, readJson } from '@/lib/brawlverse/http';
 import { resolveIdentity } from '@/lib/brawlverse/identity';
 import { verifyTurnstile } from '@/lib/brawlverse/turnstile';
-import { milestoneBump } from '@/lib/brawlverse/viral';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -117,13 +116,6 @@ export async function POST(req: Request) {
       now,
     ]
   );
-
-  // 裂变机制二：里程碑计数（幂等 recount，投票/改票都安全）
-  try {
-    await milestoneBump('qf2-trash-talk');
-  } catch {
-    /* 里程碑失败不影响投票主流程 */
-  }
 
   return json(
     { ok: true, bout_id: boutId, round_no: Number(roundNo), choice, weight },

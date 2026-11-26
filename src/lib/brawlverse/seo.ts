@@ -1,12 +1,12 @@
 /**
  * SEO data for BRAWLVERSE indexable pages: one page per fighter, one page
- * per Season 1 quarterfinal, plus the prediction-market education page.
+ * per Season 1 quarterfinal.
  *
  * Facts only — no invented records, prices, or results:
  * - Fighter bios/styles/trash talk live in messages (Brawlverse.fighters.list).
  * - Engine stats come from src/lib/arena/fighters.ts (the game itself).
  * - The QF bracket is the live /api/bouts response (2026-11-07): qf1–qf4.
- * - Records are 0-0 for everyone: the live /api/betting?op=records ledger
+ * - Records are 0-0 for everyone: the live /api/bouts?op=records ledger
  *   is empty — no bout has settled yet in Season 1.
  */
 import { FIGHTERS } from '@/lib/arena/fighters';

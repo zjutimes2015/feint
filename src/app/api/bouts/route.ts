@@ -34,6 +34,13 @@ export async function GET(req: Request) {
   }
   // P1-5:固定档期查询,前端"等下一集"的倒计时读这里。
   if (op === 'schedule') return json(fightNightInfo(), 200, req);
+  // 选手战绩（wins/losses/kos），供选手卡与赛程页展示。
+  if (op === 'records') {
+    const rows = await qAll<any>(
+      'SELECT fighter, wins, losses, kos FROM fighter_records ORDER BY fighter'
+    );
+    return json({ records: rows }, 200, req);
+  }
   if (op === 'health') return json({ ok: true }, 200, req);
   return json({ error: 'unknown op' }, 400, req);
 }

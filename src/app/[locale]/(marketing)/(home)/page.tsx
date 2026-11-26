@@ -60,11 +60,18 @@ export default async function HomePage({ params }: HomePageProps) {
       features: p.raw(`tiers.${key}.features`) as string[],
       popular: key === 'ringside',
       cta: key === 'free' ? p('ctaFree') : p('ctaPaid'),
-      href: key === 'free' ? '/arena' : '/pricing',
+      href: key === 'free' ? Routes.Arena : Routes.Tickets,
     })
   );
   const organizationId = `${getBaseUrl().replace(/\/$/, '')}/#organization`;
   const quickActions = [
+    {
+      key: 'arena',
+      href: Routes.Arena,
+      title: h('quickArenaTitle'),
+      body: h('quickArenaBody'),
+      cta: h('quickArenaCta'),
+    },
     {
       key: 'live',
       href: Routes.Live,

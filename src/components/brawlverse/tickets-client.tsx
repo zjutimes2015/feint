@@ -12,10 +12,7 @@ export default function TicketsClient() {
   const [busy, setBusy] = useState('');
   // 权益数字直接读 TIERS,避免"文案说 3×、系统其实 2×"的错位
   const [perks, setPerks] = useState<
-    Record<
-      string,
-      { vote_weight: number; bet_max_mult: number; early_access: boolean }
-    >
+    Record<string, { vote_weight: number; early_access: boolean }>
   >({});
 
   useEffect(() => {
@@ -151,7 +148,6 @@ export default function TicketsClient() {
               {perks[tier.id] ? (
                 <p className="brawl-q" style={{ fontSize: 13, marginTop: 8 }}>
                   {t('voteWeight')} ×{perks[tier.id].vote_weight} ·{' '}
-                  {t('betCap')} ×{perks[tier.id].bet_max_mult} ·{' '}
                   {t('earlyAccess')} {perks[tier.id].early_access ? '✓' : '—'}
                 </p>
               ) : null}

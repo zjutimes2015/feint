@@ -23,6 +23,9 @@ const PERMANENT_REDIRECTS: Record<string, string> = {
   '/waitlist': '/tickets',
   '/ai': '/episodes',
   '/docs': '/storylines',
+  // 竞猜/预测市场相关旧页已下线，统一指向 Arena 对战
+  '/bet': '/arena',
+  '/how-prediction-markets-work': '/arena',
 };
 
 /**

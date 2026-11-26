@@ -195,7 +195,7 @@ export default async function FighterDetailPage({
             </LocaleLink>
           </p>
           <p>
-            <LocaleLink href="/bet">{t('betCta')} →</LocaleLink>
+            <LocaleLink href="/arena">{t('betCta')} →</LocaleLink>
           </p>
         </section>
       )}

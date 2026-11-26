@@ -27,7 +27,6 @@ export async function GET(req: Request) {
           price_yearly: (v as any).price_yearly ?? 0,
           perks: {
             vote_weight: v.vote_weight,
-            bet_max_mult: v.bet_max_mult,
             early_access: v.early_access,
             led_name: v.led_name,
             booker_night: v.booker_night,

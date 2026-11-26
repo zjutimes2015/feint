@@ -48,7 +48,7 @@
 1. **投票数**：`SELECT COUNT(*), SUM(weight) FROM votes WHERE device_hash = $1`
 2. **预测命中率**：`votes` JOIN `live_rounds`，仅统计 `state IN ('REVEAL','done')` 且 `winning_branch` 有值的回合；`choice = tactic_a` 对应 `a`、`choice = tactic_b` 对应 `b`
 3. **拳场币**：`bet_wallets.balance`
-4. **段位**：`score = 投票数 + 命中数 × 5 + 下注数 × 2`，阈值 0 / 25 / 100 / 300 → ROOKIE / CONTENDER / RINGSWORN / CHAMPION
+4. **段位**：`score = 投票数 + 命中数 × 5 + 擂台胜场 × 2`，阈值 0 / 25 / 100 / 300 → ROOKIE / CONTENDER / RINGSWORN / CHAMPION
 5. **下次解锁**：`getTier(key)` → 展示下一档权益（free→RINGSIDE ×3、ringside→BOOKER ×10、booker/promoter→已满级）
 
 保留 `DashboardHeader` 面包屑与受保护布局；页面内给出 `/live` `/bet` `/fan-forge` 三个行动入口。
@@ -71,7 +71,7 @@
 | --- | --- |
 | `src/components/brawlverse/home-next-event.tsx` | 新建客户端组件：拉 `/api/live?op=state`；有 `VOTING/REVEAL` 回合显示状态 + 倒计时 + 跳 `/live`；无回合显示固定档期「每周五 21:00 (UTC+8)」 |
 | `src/app/[locale]/(marketing)/(home)/page.tsx` | hero 之后插入 `<HomeNextEvent />`；新增「现在就能做」三卡区块（看直播 / 投票改剧情 / 锻造选手），复用 `.brawl-cards` / `.brawl-card` / `.brawl-cta`，不加新 CSS |
-| `src/config/navbar-config.tsx` | `/live` 从 `play.items` 提到一级（Storylines 之后），Play 下拉只留 The Book / Fantasy |
+| `src/config/navbar-config.tsx` | `/live` 从 `play.items` 提到一级（Storylines 之后），Play 下拉只留 Arena / Fantasy |
 | `messages/en.json`、`messages/zh.json` | `Brawlverse.home` 新增 `nextEventTitle` `nextEventLive` `nextEventIdle` `nextEventCta` `quickTitle` `quickLive*` `quickVote*` `quickForge*`；`Brawlverse.nav` 新增顶层 `live.title`，删除 `play.items.live` |
 
 **验证**

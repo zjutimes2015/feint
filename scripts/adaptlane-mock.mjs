@@ -145,9 +145,7 @@ async function postCallback(job, extra) {
       log(`callback ${extra.event} → ${res.status} ${text.slice(0, 160)}`);
       if (res.ok) return true;
     } catch (e) {
-      log(
-        `callback ${extra.event} 第 ${attempt} 次失败: ${e?.message ?? e}`
-      );
+      log(`callback ${extra.event} 第 ${attempt} 次失败: ${e?.message ?? e}`);
     }
     if (attempt < CALLBACK_RETRIES) await sleep(800 * attempt);
   }
@@ -186,7 +184,10 @@ async function runJob(job) {
 function createJob(payload) {
   const jobId = `mock_${crypto.randomBytes(6).toString('hex')}`;
   const shots = Array.isArray(payload.shots) ? payload.shots : [];
-  const totalSeconds = shots.reduce((sum, s) => sum + Number(s.seconds || 0), 0);
+  const totalSeconds = shots.reduce(
+    (sum, s) => sum + Number(s.seconds || 0),
+    0
+  );
   const job = {
     job_id: jobId,
     week_key: String(payload.week_key || ''),

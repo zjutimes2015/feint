@@ -61,7 +61,7 @@ export default function FightersGrid() {
   useEffect(() => {
     (async () => {
       try {
-        const r = await fetch('/api/betting?op=records');
+        const r = await fetch('/api/bouts?op=records');
         const j = (await r.json()) as { records?: RawRecord[] };
         const map: RecordMap = {};
         for (const x of j.records ?? []) map[x.fighter.toUpperCase()] = x;

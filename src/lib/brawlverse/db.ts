@@ -53,95 +53,17 @@ CREATE TABLE IF NOT EXISTS fan_captions (
   created_at DOUBLE PRECISION NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_captions_status ON fan_captions (status, created_at);
-CREATE TABLE IF NOT EXISTS bet_wallets (
+CREATE TABLE IF NOT EXISTS player_credits (
   device_hash TEXT PRIMARY KEY,
   balance BIGINT NOT NULL DEFAULT 0,
-  last_claim DOUBLE PRECISION NOT NULL DEFAULT 0,
-  created_at DOUBLE PRECISION NOT NULL
+  updated_at DOUBLE PRECISION NOT NULL DEFAULT 0
 );
-CREATE TABLE IF NOT EXISTS bet_markets (
-  id TEXT PRIMARY KEY,
-  bout_id TEXT NOT NULL,
-  market_type TEXT NOT NULL,
-  question TEXT NOT NULL,
-  selections TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'open',
-  winning_selection TEXT,
-  created_at DOUBLE PRECISION NOT NULL,
-  settled_at DOUBLE PRECISION
-);
-CREATE TABLE IF NOT EXISTS bets (
-  id BIGSERIAL PRIMARY KEY,
-  market_id TEXT NOT NULL,
-  device_hash TEXT NOT NULL,
-  selection TEXT NOT NULL,
-  amount BIGINT NOT NULL,
-  ip_ua TEXT NOT NULL DEFAULT '',
-  created_at DOUBLE PRECISION NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_bets_market ON bets (market_id);
-CREATE TABLE IF NOT EXISTS bet_ledger (
-  id BIGSERIAL PRIMARY KEY,
-  device_hash TEXT NOT NULL,
-  delta BIGINT NOT NULL,
-  reason TEXT NOT NULL,
-  ref TEXT NOT NULL DEFAULT '',
-  created_at DOUBLE PRECISION NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_ledger_device ON bet_ledger (device_hash, created_at);
 CREATE TABLE IF NOT EXISTS fighter_records (
   fighter TEXT PRIMARY KEY,
   wins INTEGER NOT NULL DEFAULT 0,
   losses INTEGER NOT NULL DEFAULT 0,
   kos INTEGER NOT NULL DEFAULT 0,
   updated_at DOUBLE PRECISION NOT NULL DEFAULT 0
-);
-CREATE TABLE IF NOT EXISTS contract_markets (
-  id TEXT PRIMARY KEY,
-  bout_id TEXT NOT NULL DEFAULT '',
-  market_kind TEXT NOT NULL,
-  question TEXT NOT NULL,
-  rule_text TEXT NOT NULL DEFAULT '',
-  status TEXT NOT NULL DEFAULT 'open',
-  qy_outstanding DOUBLE PRECISION NOT NULL DEFAULT 0,
-  qn_outstanding DOUBLE PRECISION NOT NULL DEFAULT 0,
-  winning_side TEXT,
-  created_at DOUBLE PRECISION NOT NULL,
-  settled_at DOUBLE PRECISION
-);
-CREATE TABLE IF NOT EXISTS contract_positions (
-  device_hash TEXT NOT NULL,
-  market_id TEXT NOT NULL,
-  yes_contracts DOUBLE PRECISION NOT NULL DEFAULT 0,
-  no_contracts DOUBLE PRECISION NOT NULL DEFAULT 0,
-  cost_basis_yes DOUBLE PRECISION NOT NULL DEFAULT 0,
-  cost_basis_no DOUBLE PRECISION NOT NULL DEFAULT 0,
-  PRIMARY KEY (device_hash, market_id)
-);
-CREATE TABLE IF NOT EXISTS contract_trades (
-  id BIGSERIAL PRIMARY KEY,
-  market_id TEXT NOT NULL,
-  device_hash TEXT NOT NULL,
-  side TEXT NOT NULL,
-  action TEXT NOT NULL,
-  contracts DOUBLE PRECISION NOT NULL,
-  credits BIGINT NOT NULL,
-  avg_price DOUBLE PRECISION NOT NULL,
-  fee BIGINT NOT NULL DEFAULT 0,
-  created_at DOUBLE PRECISION NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_ctrades_market ON contract_trades (market_id, created_at);
-CREATE TABLE IF NOT EXISTS price_ticks (
-  id BIGSERIAL PRIMARY KEY,
-  market_id TEXT NOT NULL,
-  price_yes DOUBLE PRECISION NOT NULL,
-  created_at DOUBLE PRECISION NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_ticks_market ON price_ticks (market_id, created_at);
-CREATE TABLE IF NOT EXISTS contract_blacklist (
-  device_hash TEXT PRIMARY KEY,
-  reason TEXT NOT NULL DEFAULT '',
-  created_at DOUBLE PRECISION NOT NULL
 );
 CREATE TABLE IF NOT EXISTS ops_gates (
   id TEXT PRIMARY KEY,
@@ -268,7 +190,7 @@ const GATE_SEED: [string, string][] = [
 
 /**
  * v1 遗留的样例赛程标题。早期 seed 的占位数据必须清掉,
- * 否则后台盘口和 /live 会出现「QF1 — Sample Bout」这种假比赛。
+ * 否则后台和 /live 会出现「QF1 — Sample Bout」这种假比赛。
  * 只按这个精确标题删除,不动运营后来创建的任何 bout。
  */
 const SAMPLE_BOUT_TITLE = 'QF1 — Sample Bout';
@@ -301,9 +223,6 @@ async function ensure(): Promise<void> {
     "ALTER TABLE bouts ADD COLUMN IF NOT EXISTS tactic_note TEXT DEFAULT ''"
   );
   await sql.unsafe(
-    "ALTER TABLE bet_markets ADD COLUMN IF NOT EXISTS house_pool TEXT DEFAULT '{}'"
-  );
-  await sql.unsafe(
     'ALTER TABLE votes ADD COLUMN IF NOT EXISTS weight INTEGER DEFAULT 1'
   );
   await sql.unsafe(
@@ -333,11 +252,6 @@ async function ensure(): Promise<void> {
   );
   await sql.unsafe(
     `DELETE FROM votes WHERE bout_id IN (
-       SELECT id FROM bouts WHERE title = $1)`,
-    sample
-  );
-  await sql.unsafe(
-    `DELETE FROM bet_markets WHERE bout_id IN (
        SELECT id FROM bouts WHERE title = $1)`,
     sample
   );

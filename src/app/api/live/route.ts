@@ -1,5 +1,5 @@
 /** Friday Fight Night 直播状态 / 回合投票 / 回合结算。 */
-import { bumpRecord, settleMarket } from '@/lib/brawlverse/betting';
+import { bumpRecord } from '@/lib/brawlverse/records';
 import {
   checkRate,
   clientIp,
@@ -260,35 +260,15 @@ async function tally(req: Request): Promise<Response> {
   // P0-2:结算不只是置 REVEAL,必须把赛果写回 bout、终结 fantasy 的数据断点。
   // 幂等:该 bout 已结算过就不再累加战绩。
   let recordsBumped = false;
-  let marketSettled = false;
   if (bout && winnerFighter && !Number(bout.settled_at || 0)) {
     await qWrite(
       `UPDATE bouts SET winner=$1, result_method=$2, settled_at=$3, voting_open=0
        WHERE id=$4`,
       [winnerFighter, method, now, r.bout_id]
     );
-    // 优先走盘口结算(它会顺带更新 fighter_records);没有盘口则直接记战绩。
-    const market = await qOne<{
-      id: string;
-      status: string;
-      selections: string;
-    }>('SELECT id, status, selections FROM bet_markets WHERE id = $1', [
-      `${r.bout_id}-winner`,
-    ]);
-    if (
-      market &&
-      market.status !== 'settled' &&
-      (JSON.parse(market.selections) as string[]).includes(winnerFighter)
-    ) {
-      const res = await settleMarket(market.id, winnerFighter);
-      marketSettled = Boolean(res);
-      recordsBumped = marketSettled;
-    }
-    if (!recordsBumped) {
-      await bumpRecord(winnerFighter, true, method === 'KO');
-      if (loserFighter) await bumpRecord(loserFighter, false, false);
-      recordsBumped = true;
-    }
+    await bumpRecord(winnerFighter, true, method === 'KO');
+    if (loserFighter) await bumpRecord(loserFighter, false, false);
+    recordsBumped = true;
   }
 
   const url = winner === 'a' ? r.branch_a_url : r.branch_b_url;
@@ -311,7 +291,6 @@ async function tally(req: Request): Promise<Response> {
         winner_fighter: winnerFighter,
       },
       records_bumped: recordsBumped,
-      market_settled: marketSettled,
     },
     200,
     req

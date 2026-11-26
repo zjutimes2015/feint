@@ -52,17 +52,15 @@ export default async function DashboardPage() {
        AND r.winning_branch IN ('a','b')`,
     [identityKey]
   );
-  const wallet = await qOne<{ balance: string }>(
-    'SELECT balance FROM bet_wallets WHERE device_hash = $1',
+  const credits = await qOne<{ balance: string }>(
+    'SELECT balance FROM player_credits WHERE device_hash = $1',
     [identityKey]
   );
-  const bets = await qOne<{ n: string; wins: string }>(
-    `SELECT COUNT(*) AS n,
-            COALESCE(SUM(CASE WHEN m.status = 'settled'
-              AND m.winning_selection = b.selection THEN 1 ELSE 0 END),0) AS wins
-     FROM bets b
-     LEFT JOIN bet_markets m ON m.id = b.market_id
-     WHERE b.device_hash = $1`,
+  const arena = await qOne<{ wins: string; losses: string; kos: string }>(
+    `SELECT COALESCE(SUM(wins),0) AS wins,
+            COALESCE(SUM(losses),0) AS losses,
+            COALESCE(SUM(kos),0) AS kos
+     FROM arena_rankings WHERE player = $1`,
     [identityKey]
   );
 
@@ -73,11 +71,12 @@ export default async function DashboardPage() {
   const accuracy = settledTotal
     ? Math.round((settledWins / settledTotal) * 100)
     : 0;
-  const balance = Number(wallet?.balance || 0);
-  const betCount = Number(bets?.n || 0);
-  const betWins = Number(bets?.wins || 0);
+  const balance = Number(credits?.balance || 0);
+  const arenaWins = Number(arena?.wins || 0);
+  const arenaLosses = Number(arena?.losses || 0);
+  const arenaKos = Number(arena?.kos || 0);
 
-  const score = voteCount + settledWins * 5 + betCount * 2;
+  const score = voteCount + settledWins * 5 + arenaWins * 2;
   const rank = rankOf(score);
   const tier = await getTier(identityKey);
   const next = NEXT_TIER[tier];
@@ -127,9 +126,13 @@ export default async function DashboardPage() {
                 <div className="brawl-k">{t('creditsLabel')}</div>
                 <div className="brawl-v">{balance}</div>
                 <div className="brawl-k">
-                  {betCount
-                    ? t('betsDetail', { count: betCount, wins: betWins })
-                    : t('noBets')}
+                  {arenaWins || arenaLosses
+                    ? t('arenaDetail', {
+                        wins: arenaWins,
+                        losses: arenaLosses,
+                        kos: arenaKos,
+                      })
+                    : t('noArena')}
                 </div>
               </div>
               <div className="brawl-cell">
@@ -156,8 +159,8 @@ export default async function DashboardPage() {
               <LocaleLink href={Routes.Live} className="brawl-cta">
                 {t('ctaLive')}
               </LocaleLink>
-              <LocaleLink href={Routes.Bet} className="brawl-cta">
-                {t('ctaBet')}
+              <LocaleLink href={Routes.Arena} className="brawl-cta">
+                {t('ctaArena')}
               </LocaleLink>
               <LocaleLink href={Routes.FanForge} className="brawl-cta">
                 {t('ctaForge')}

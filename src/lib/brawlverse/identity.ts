@@ -64,7 +64,7 @@ export async function isAdmin(req: Request): Promise<boolean> {
 
 /**
  * 登录后把游客数据归并到账号:重写各业务表的 device_hash。
- * 幂等;bet_wallets 主键冲突时保留余额较高一行并迁移流水。
+ * 幂等;player_credits 主键冲突时合并余额。
  */
 export async function claimGuestData(
   userId: string,
@@ -76,36 +76,26 @@ export async function claimGuestData(
   const to = 'u:' + userId;
   if (from === to) return;
 
-  // 钱包:若用户键已存在,合并余额后删除游客钱包;否则直接改键
+  // 站内积分:若用户键已存在,合并余额后删除游客账户;否则直接改键
   // 注意:$1 必须被引用,否则 Postgres 无法推断参数类型(could not determine data type of parameter $1)
   await qWrite(
-    `INSERT INTO bet_wallets (device_hash, balance, last_claim, created_at)
-     SELECT $2, 0, 0, $3
-     WHERE NOT EXISTS (SELECT 1 FROM bet_wallets WHERE device_hash = $2)
+    `INSERT INTO player_credits (device_hash, balance, updated_at)
+     SELECT $2, 0, $3
+     WHERE NOT EXISTS (SELECT 1 FROM player_credits WHERE device_hash = $2)
        AND $1 <> ''`,
     [from, to, Date.now() / 1000]
   );
   await qWrite(
-    `UPDATE bet_wallets SET
-       balance = (SELECT balance FROM bet_wallets WHERE device_hash = $1)
-              + (SELECT balance FROM bet_wallets WHERE device_hash = $2),
-       last_claim = GREATEST(
-         (SELECT last_claim FROM bet_wallets WHERE device_hash = $1),
-         (SELECT last_claim FROM bet_wallets WHERE device_hash = $2))
-     WHERE device_hash = $2 AND EXISTS (SELECT 1 FROM bet_wallets WHERE device_hash = $1)`,
-    [from, to]
+    `UPDATE player_credits SET
+       balance = (SELECT balance FROM player_credits WHERE device_hash = $1)
+              + (SELECT balance FROM player_credits WHERE device_hash = $2),
+       updated_at = $3
+     WHERE device_hash = $2 AND EXISTS (SELECT 1 FROM player_credits WHERE device_hash = $1)`,
+    [from, to, Date.now() / 1000]
   );
-  await qWrite('DELETE FROM bet_wallets WHERE device_hash = $1', [from]);
+  await qWrite('DELETE FROM player_credits WHERE device_hash = $1', [from]);
 
   await qWrite('UPDATE votes SET device_hash = $2 WHERE device_hash = $1', [
-    from,
-    to,
-  ]);
-  await qWrite(
-    'UPDATE bet_ledger SET device_hash = $2 WHERE device_hash = $1',
-    [from, to]
-  );
-  await qWrite('UPDATE bets SET device_hash = $2 WHERE device_hash = $1', [
     from,
     to,
   ]);

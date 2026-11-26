@@ -3,7 +3,7 @@
 import { Routes } from '@/routes';
 import type { NestedMenuItem } from '@/types';
 import {
-  HandshakeIcon,
+  GamepadIcon,
   LibraryIcon,
   ScrollTextIcon,
   SparklesIcon,
@@ -47,10 +47,10 @@ export function useNavbarLinks(): NestedMenuItem[] {
       title: t('play.title'),
       items: [
         {
-          title: t('play.items.bet.title'),
-          description: t('play.items.bet.description'),
-          icon: <HandshakeIcon className="size-4 shrink-0" />,
-          href: Routes.Bet,
+          title: t('play.items.arena.title'),
+          description: t('play.items.arena.description'),
+          icon: <GamepadIcon className="size-4 shrink-0" />,
+          href: Routes.Arena,
           external: false,
         },
         {

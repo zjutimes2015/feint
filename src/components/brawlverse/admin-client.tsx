@@ -15,18 +15,6 @@ type Bout = {
 
 type BoutTally = { tally: Record<string, number>; total: number };
 
-type Market = {
-  id: string;
-  bout_id: string;
-  market_type: string;
-  question: string;
-  selections: string[];
-  status: string;
-  pools: Record<string, number>;
-  total_pool: number;
-  winning_selection: string | null;
-};
-
 type Sub = { player: string; tier: string; status: string; period_end: string };
 
 type Gate = { id: string; label: string; status: string; note: string | null };
@@ -85,9 +73,6 @@ export default function AdminClient() {
   const [bouts, setBouts] = useState<Bout[]>([]);
   const [tallies, setTallies] = useState<Record<string, BoutTally>>({});
 
-  const [markets, setMarkets] = useState<Market[]>([]);
-  const [settleSel, setSettleSel] = useState<Record<string, string>>({});
-
   const [subs, setSubs] = useState<Sub[]>([]);
   const [gates, setGates] = useState<Gate[]>([]);
 
@@ -110,12 +95,6 @@ export default function AdminClient() {
   const [nbTitle, setNbTitle] = useState('');
   const [nbA, setNbA] = useState('');
   const [nbB, setNbB] = useState('');
-
-  const [mkId, setMkId] = useState('');
-  const [mkBout, setMkBout] = useState('');
-  const [mkQuestion, setMkQuestion] = useState('');
-  const [mkType, setMkType] = useState('');
-  const [mkSels, setMkSels] = useState('');
 
   const [subDh, setSubDh] = useState('');
   const [subTier, setSubTier] = useState('ringside');
@@ -162,15 +141,6 @@ export default function AdminClient() {
         }
       }
       setTallies(tallyMap);
-    } catch (e) {
-      setError(errMsg(e));
-    }
-  }, []);
-
-  const loadMkts = useCallback(async () => {
-    try {
-      const d = await api<{ markets: Market[] }>('/api/admin?op=betting');
-      setMarkets(d.markets ?? []);
     } catch (e) {
       setError(errMsg(e));
     }
@@ -256,21 +226,12 @@ export default function AdminClient() {
 
   useEffect(() => {
     void loadBouts();
-    void loadMkts();
     void loadGates();
     void loadSubs();
     void loadCaps('pending');
     void loadEpisodes('review');
     void loadContents('published');
-  }, [
-    loadBouts,
-    loadMkts,
-    loadGates,
-    loadSubs,
-    loadCaps,
-    loadEpisodes,
-    loadContents,
-  ]);
+  }, [loadBouts, loadGates, loadSubs, loadCaps, loadEpisodes, loadContents]);
 
   async function toggleBout(id: string, open: boolean) {
     try {
@@ -312,40 +273,6 @@ export default function AdminClient() {
       setError(errMsg(e));
     }
     void loadBouts();
-  }
-
-  async function addMarket() {
-    const selections = mkSels
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    try {
-      await api('/api/admin?op=betting', {
-        method: 'POST',
-        body: JSON.stringify({
-          id: mkId,
-          bout_id: mkBout,
-          market_type: mkType || 'winner',
-          question: mkQuestion,
-          selections,
-        }),
-      });
-    } catch (e) {
-      setError(errMsg(e));
-    }
-    void loadMkts();
-  }
-
-  async function marketAction(id: string, body: Record<string, unknown>) {
-    try {
-      await api(`/api/admin?op=betting&id=${id}`, {
-        method: 'PATCH',
-        body: JSON.stringify(body),
-      });
-    } catch (e) {
-      setError(errMsg(e));
-    }
-    void loadMkts();
   }
 
   async function setSub() {
@@ -545,124 +472,6 @@ export default function AdminClient() {
             onClick={() => void addBout()}
           >
             {t('create')}
-          </button>
-        </div>
-      </div>
-
-      <div className="brawl-adm-card">
-        <h2>{t('tabs.markets')}</h2>
-        <div>
-          {markets.length === 0 ? (
-            <p className="brawl-adm-small">{t('noRows')}</p>
-          ) : null}
-          {markets.map((m) => {
-            const pools = Object.entries(m.pools)
-              .map(([k, v]) => `${k}:${v}`)
-              .join(' ');
-            const sel = settleSel[m.id] ?? m.selections[0] ?? '';
-            return (
-              <div className="brawl-adm-row brawl-adm-item" key={m.id}>
-                <span>
-                  [{m.id}] <b>{m.question}</b>{' '}
-                  <span className="brawl-adm-small">
-                    {m.status} · pool {m.total_pool} · {pools}
-                  </span>
-                </span>
-                <span style={{ flex: 1 }} />
-                {m.status === 'open' ? (
-                  <button
-                    type="button"
-                    className="brawl-adm-btn brawl-adm-btn--ghost"
-                    onClick={() => void marketAction(m.id, { action: 'lock' })}
-                  >
-                    {t('lock')}
-                  </button>
-                ) : null}
-                {m.status !== 'settled' ? (
-                  <>
-                    <select
-                      className="brawl-adm-select"
-                      value={sel}
-                      onChange={(e) =>
-                        setSettleSel((prev) => ({
-                          ...prev,
-                          [m.id]: e.target.value,
-                        }))
-                      }
-                    >
-                      {m.selections.map((s) => (
-                        <option key={s} value={s}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      type="button"
-                      className="brawl-adm-btn"
-                      onClick={() =>
-                        void marketAction(m.id, {
-                          action: 'settle',
-                          winning_selection: sel,
-                        })
-                      }
-                    >
-                      {t('settle')}
-                    </button>
-                  </>
-                ) : null}
-              </div>
-            );
-          })}
-        </div>
-        <div className="brawl-adm-row">
-          <input
-            className="brawl-adm-input"
-            placeholder={t('marketId')}
-            value={mkId}
-            onChange={(e) => setMkId(e.target.value)}
-          />
-          <input
-            className="brawl-adm-input"
-            placeholder="bout_id (qf1)"
-            value={mkBout}
-            onChange={(e) => setMkBout(e.target.value)}
-          />
-          <input
-            className="brawl-adm-input"
-            placeholder={t('question')}
-            style={{ flex: 1 }}
-            value={mkQuestion}
-            onChange={(e) => setMkQuestion(e.target.value)}
-          />
-        </div>
-        <div className="brawl-adm-row">
-          <input
-            className="brawl-adm-input"
-            placeholder="winner|method|round"
-            style={{ width: 150 }}
-            value={mkType}
-            onChange={(e) => setMkType(e.target.value)}
-          />
-          <input
-            className="brawl-adm-input"
-            placeholder={t('selections')}
-            style={{ flex: 1 }}
-            value={mkSels}
-            onChange={(e) => setMkSels(e.target.value)}
-          />
-          <button
-            type="button"
-            className="brawl-adm-btn"
-            onClick={() => void addMarket()}
-          >
-            {t('create')}
-          </button>
-          <button
-            type="button"
-            className="brawl-adm-btn brawl-adm-btn--ghost"
-            onClick={() => void loadMkts()}
-          >
-            {t('refresh')}
           </button>
         </div>
       </div>

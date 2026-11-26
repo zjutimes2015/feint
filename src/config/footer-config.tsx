@@ -44,8 +44,8 @@ export function useFooterLinks(): NestedMenuItem[] {
       title: t('play.title'),
       items: [
         {
-          title: t('play.items.bet.title'),
-          href: Routes.Bet,
+          title: t('play.items.arena.title'),
+          href: Routes.Arena,
           external: false,
         },
         {

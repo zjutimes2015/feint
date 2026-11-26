@@ -8,7 +8,7 @@ export enum Routes {
   Episodes = '/episodes',
   Fighters = '/fighters',
   Storylines = '/storylines',
-  Bet = '/bet',
+  Arena = '/arena',
   Fantasy = '/fantasy',
   Live = '/live',
   FanForge = '/fan-forge',

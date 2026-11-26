@@ -69,15 +69,16 @@ export async function getOrCreateReferralCode(
   return code;
 }
 
-/** 给钱包加虚拟积分（不存在则建钱包） */
+/** 给站内积分账户加积分（不存在则建账户）。积分无现金价值。 */
 export async function addCredits(
   deviceHash: string,
   amount: number
 ): Promise<void> {
   await qWrite(
-    `INSERT INTO bet_wallets (device_hash, balance, last_claim, created_at)
-     VALUES ($1, $2, 0, $3)
-     ON CONFLICT (device_hash) DO UPDATE SET balance = bet_wallets.balance + $2`,
+    `INSERT INTO player_credits (device_hash, balance, updated_at)
+     VALUES ($1, $2, $3)
+     ON CONFLICT (device_hash) DO UPDATE SET balance = player_credits.balance + $2,
+       updated_at = $3`,
     [deviceHash, amount, Date.now() / 1000]
   );
 }
