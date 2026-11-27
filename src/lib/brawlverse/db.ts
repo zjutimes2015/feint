@@ -197,6 +197,11 @@ const SAMPLE_BOUT_TITLE = 'QF1 — Sample Bout';
 
 let client: postgres.Sql | null = null;
 let inited = false;
+/**
+ * 建表只跑一次的 Promise 缓存：并发首请求同时进来时，
+ * 不会把 CREATE TABLE / ALTER TABLE 重复执行导致 pg_type 唯一键冲突。
+ */
+let initPromise: Promise<void> | null = null;
 
 function getClient(): postgres.Sql {
   if (!DSN) throw new Error('DATABASE_URL not set');
@@ -212,6 +217,16 @@ function getClient(): postgres.Sql {
 
 async function ensure(): Promise<void> {
   if (inited) return;
+  if (!initPromise) initPromise = initOnce();
+  try {
+    await initPromise;
+  } catch (error) {
+    initPromise = null; // 失败允许下次重试
+    throw error;
+  }
+}
+
+async function initOnce(): Promise<void> {
   const sql = getClient();
   await sql.unsafe(SCHEMA);
   // Arena 对战表（v0.1）：独立 schema 文件，幂等建表

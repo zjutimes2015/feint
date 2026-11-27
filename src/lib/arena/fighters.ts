@@ -120,17 +120,19 @@ export function portraitUrl(slug: string): string {
  * @param p 性格
  * @param playerHistory 玩家最近出招（最多传 5 个，越靠后越近）
  * @param ai 体力/人气状态（残血转保守、人气将满爱嘲讽）
+ * @param rand 随机源；每日同题/挑战码传入 seeded RNG 保证可复现
  */
 export function chooseAiMove(
   p: Personality,
   playerHistory: MoveId[],
   ai: FighterState,
-  player: FighterState
+  player: FighterState,
+  rand: () => number = Math.random
 ): MoveId {
   // 1. 读招：玩家连续两次同招 → 20% 概率针对
   const n = playerHistory.length;
   if (n >= 2 && playerHistory[n - 1] === playerHistory[n - 2]) {
-    if (Math.random() < 0.2) {
+    if (rand() < 0.2) {
       const last = playerHistory[n - 1];
       const def = MOVES[last];
       if (def.kind === 'strike') {
@@ -142,7 +144,7 @@ export function chooseAiMove(
     }
   }
 
-  const r = Math.random();
+  const r = rand();
 
   // 2. 残血（<30）转保守：防御概率翻倍
   const desperate = ai.hp < 30;
@@ -164,16 +166,16 @@ export function chooseAiMove(
 
   // 非进攻：防御 vs 心理
   const mindBias = p.feintRate + p.tauntRate + (showtime ? 0.2 : 0);
-  const r2 = Math.random();
+  const r2 = rand();
   if (r2 < mindBias / (mindBias + 1)) {
     // 心理战
     const f = p.feintRate / (p.feintRate + p.tauntRate || 1);
-    const pick = Math.random() < f ? 'feint' : 'taunt';
+    const pick = rand() < f ? 'feint' : 'taunt';
     if (ai.stamina >= MOVES[pick].stamina) return pick;
     return 'taunt'; // 嘲讽不耗体力，永远可用
   }
   // 防御
-  if (Math.random() < p.dodgeRate) {
+  if (rand() < p.dodgeRate) {
     if (ai.stamina >= MOVES.dodge.stamina) return 'dodge';
     if (ai.stamina >= MOVES.duck.stamina) return 'duck';
   }

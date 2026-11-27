@@ -27,6 +27,10 @@ const FIGHTER_NAMES: Record<FighterSlug, string> = {
   'goliath-7': 'GOLIATH-7',
 };
 
+function fighterName(slug: string): string {
+  return FIGHTER_NAMES[slug as FighterSlug] ?? slug;
+}
+
 interface MoveButton {
   id: string;
   key: string;
@@ -60,6 +64,10 @@ interface MatchState {
   stamina_a: number;
   stamina_b: number;
   winner: string | null;
+  mode: 'casual' | 'daily' | 'challenge';
+  day_key: string;
+  seed: number;
+  challenge_code: string;
 }
 
 interface LeaderRow {
@@ -68,6 +76,76 @@ interface LeaderRow {
   losses: number;
   kos: number;
 }
+
+interface StartState {
+  hp_a: number;
+  hp_b: number;
+  stamina_a: number;
+  stamina_b: number;
+  hype_a: number;
+  hype_b: number;
+}
+
+interface DailyInfo {
+  day_key: string;
+  seed: number;
+  fighter_a: string;
+  fighter_b: string;
+  start: StartState;
+}
+
+interface DailyBoardRow {
+  rank: number;
+  wins: number;
+  hp_left: number;
+  rounds: number;
+  attempts: number;
+  is_you: boolean;
+}
+
+interface DailyYou {
+  rank: number;
+  wins: number;
+  hp_left: number;
+  rounds: number;
+  attempts: number;
+}
+
+interface ChallengeInfo {
+  code: string;
+  fighter_a: string;
+  fighter_b: string;
+  fighter_a_name: string;
+  fighter_b_name: string;
+  start: StartState;
+  source_mode: string;
+  plays: number;
+  wins: number;
+}
+
+interface PlayerProgress {
+  rating: number;
+  rating_delta: number;
+  streak: number;
+  best_streak: number;
+  wins: number;
+  losses: number;
+  streak_broken: number;
+}
+
+interface Profile {
+  rating: number;
+  streak: number;
+  best_streak: number;
+  wins: number;
+  losses: number;
+  kos: number;
+  recent: string[];
+  daily_streak: { days: number; best: number; played_today: boolean };
+}
+
+/** 每回合决策读条：10 秒内没出招就自动格挡。 */
+const ROUND_SECONDS = 10;
 
 function getDeviceId(): string {
   if (typeof window === 'undefined') return '';
@@ -80,9 +158,13 @@ function getDeviceId(): string {
   return id;
 }
 
-async function api<T>(op: string, body?: Record<string, unknown>): Promise<T> {
-  const url = `/api/arena?op=${op}`;
-  const res = await fetch(url, {
+async function api<T>(
+  op: string,
+  body?: Record<string, unknown>,
+  params?: Record<string, string>
+): Promise<T> {
+  const qs = new URLSearchParams({ op, ...(params ?? {}) });
+  const res = await fetch(`/api/arena?${qs.toString()}`, {
     method: body ? 'POST' : 'GET',
     headers: { 'Content-Type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined,
@@ -92,6 +174,12 @@ async function api<T>(op: string, body?: Record<string, unknown>): Promise<T> {
     throw new Error(data.error || `request failed: ${res.status}`);
   }
   return data;
+}
+
+function poseSrc(slug: string, pose: string): string {
+  return pose === 'idle'
+    ? `/arena/fighters/${slug}.png`
+    : `/arena/fighters/${slug}_${pose}.png`;
 }
 
 type Screen = 'select' | 'battle' | 'result';
@@ -116,8 +204,27 @@ export default function ArenaClient() {
   const [flashB, setFlashB] = useState(false);
   const [poseA, setPoseA] = useState('idle');
   const [poseB, setPoseB] = useState('idle');
+  const [daily, setDaily] = useState<DailyInfo | null>(null);
+  const [dailyBoard, setDailyBoard] = useState<DailyBoardRow[]>([]);
+  const [dailyYou, setDailyYou] = useState<DailyYou | null>(null);
+  const [dailyStats, setDailyStats] = useState<{
+    players: number;
+    clears: number;
+  } | null>(null);
+  const [pendingChallenge, setPendingChallenge] =
+    useState<ChallengeInfo | null>(null);
+  const [share, setShare] = useState<{ code: string; url: string } | null>(
+    null
+  );
+  const [shareNote, setShareNote] = useState('');
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [progress, setProgress] = useState<PlayerProgress | null>(null);
+  const [timeLeft, setTimeLeft] = useState(ROUND_SECONDS);
+  const [autoNote, setAutoNote] = useState(false);
+  const [clock, setClock] = useState(() => Date.now());
   const logRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const timerFiredRef = useRef(false);
 
   // 粒子爆发：在画布上画打击火花
   const burstParticles = useCallback((xRatio: number) => {
@@ -180,30 +287,141 @@ export default function ArenaClient() {
     setTimeout(() => setScreenShake(false), 400);
   }, []);
 
+  const refreshDaily = useCallback(async () => {
+    try {
+      const data = await api<{
+        daily: DailyInfo;
+        leaderboard: DailyBoardRow[];
+        you: DailyYou | null;
+        stats: { players: number; clears: number };
+      }>('daily', undefined, { device_id: getDeviceId() });
+      setDaily(data.daily);
+      setDailyBoard(data.leaderboard);
+      setDailyYou(data.you);
+      setDailyStats(data.stats);
+    } catch {
+      // 数据库未就绪时静默降级，不影响自由对战
+    }
+  }, []);
+
+  const refreshProfile = useCallback(async () => {
+    try {
+      const data = await api<{ profile: Profile | null }>(
+        'profile',
+        undefined,
+        { device_id: getDeviceId() }
+      );
+      setProfile(data.profile);
+    } catch {
+      // 没有进度时界面自动降级
+    }
+  }, []);
+
+  // 首屏：拉今日同题 + 今日统计 + 我的进度 + 识别 ?c= 挑战链接
+  useEffect(() => {
+    void refreshDaily();
+    void refreshProfile();
+    const code = new URLSearchParams(window.location.search).get('c');
+    if (!code) return;
+    let alive = true;
+    (async () => {
+      try {
+        const r = await api<{ challenge: ChallengeInfo }>(
+          'challenge',
+          undefined,
+          { code }
+        );
+        if (alive) setPendingChallenge(r.challenge);
+      } catch {
+        if (alive) setError(t('challengeNotFound'));
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [refreshDaily, refreshProfile, t]);
+
+  // 结算倒计时（距 UTC 零点换题）每分钟刷新一次
+  useEffect(() => {
+    const id = window.setInterval(() => setClock(Date.now()), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const beginBattle = useCallback(
+    (m: MatchState) => {
+      setMatch(m);
+      setLog([t('fightStart', { a: m.fighter_a_name, b: m.fighter_b_name })]);
+      setScreen('battle');
+      setShare(null);
+      setShareNote('');
+      setProgress(null);
+      if (window.location.search) {
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    },
+    [t]
+  );
+
   const startMatch = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
-      const deviceId = getDeviceId();
-      const data = await api<{ match: MatchState }>('create', {
+      const data = await api<{ match: MatchState | null }>('create', {
         fighter: myFighter,
         ai_fighter: aiFighter,
-        device_id: deviceId,
+        device_id: getDeviceId(),
       });
-      setMatch(data.match);
-      setLog([
-        t('fightStart', {
-          a: data.match.fighter_a_name,
-          b: data.match.fighter_b_name,
-        }),
-      ]);
-      setScreen('battle');
+      if (!data.match) throw new Error('no match');
+      beginBattle(data.match);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'failed');
     } finally {
       setLoading(false);
     }
-  }, [myFighter, aiFighter, t]);
+  }, [myFighter, aiFighter, beginBattle]);
+
+  const startDaily = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await api<{ match: MatchState | null }>('create', {
+        daily: true,
+        device_id: getDeviceId(),
+      });
+      if (!data.match) throw new Error('no match');
+      beginBattle(data.match);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'failed');
+    } finally {
+      setLoading(false);
+    }
+  }, [beginBattle]);
+
+  const acceptChallenge = useCallback(async () => {
+    if (!pendingChallenge) return;
+    setLoading(true);
+    setError('');
+    try {
+      const data = await api<{ match: MatchState | null }>('create', {
+        challenge_code: pendingChallenge.code,
+        device_id: getDeviceId(),
+      });
+      if (!data.match) throw new Error('no match');
+      setPendingChallenge(null);
+      beginBattle(data.match);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'failed');
+    } finally {
+      setLoading(false);
+    }
+  }, [pendingChallenge, beginBattle]);
+
+  const dismissChallenge = useCallback(() => {
+    setPendingChallenge(null);
+    if (window.location.search) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const doMove = useCallback(
     async (move: string) => {
@@ -220,9 +438,12 @@ export default function ArenaClient() {
           finisher: string[];
           damageToA: number;
           damageToB: number;
+          progress: PlayerProgress | null;
+          daily_streak: { days: number; best: number } | null;
           match: MatchState;
         }>('move', { match_id: match.id, move, device_id: deviceId });
         setMatch(data.match);
+        setProgress(data.progress);
         setLog((prev) => [
           ...prev,
           `—— ${t('round')} ${data.round} ——`,
@@ -287,6 +508,8 @@ export default function ArenaClient() {
           } catch {
             /* leaderboard optional */
           }
+          if (data.match.mode === 'daily') void refreshDaily();
+          void refreshProfile();
         }
       } catch (e) {
         setError(e instanceof Error ? e.message : 'failed');
@@ -294,8 +517,86 @@ export default function ArenaClient() {
         setLoading(false);
       }
     },
-    [match, loading, t]
+    [
+      match,
+      loading,
+      t,
+      triggerScreenShake,
+      burstParticles,
+      refreshDaily,
+      refreshProfile,
+    ]
   );
+
+  // 每回合 10 秒读条：超时自动格挡
+  useEffect(() => {
+    if (screen !== 'battle' || !match || match.status !== 'active' || loading)
+      return;
+    timerFiredRef.current = false;
+    const startedAt = Date.now();
+    setTimeLeft(ROUND_SECONDS);
+    const id = window.setInterval(() => {
+      const left = Math.max(0, ROUND_SECONDS - (Date.now() - startedAt) / 1000);
+      setTimeLeft(left);
+      if (left <= 0 && !timerFiredRef.current) {
+        timerFiredRef.current = true;
+        window.clearInterval(id);
+        setAutoNote(true);
+        window.setTimeout(() => setAutoNote(false), 1400);
+        void doMove('block');
+      }
+    }, 100);
+    return () => window.clearInterval(id);
+  }, [screen, match, loading, doMove]);
+
+  // 复仇：同拳手、同 AI 种子、同残局重开
+  const replay = useCallback(async () => {
+    if (!match) return;
+    setLoading(true);
+    setError('');
+    try {
+      const data = await api<{ match: MatchState | null }>('replay', {
+        match_id: match.id,
+        device_id: getDeviceId(),
+      });
+      if (!data.match) throw new Error('no match');
+      beginBattle(data.match);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'failed');
+    } finally {
+      setLoading(false);
+    }
+  }, [match, beginBattle]);
+
+  // 分享挑战：把本局残局 + 种子变成 6 位码
+  const createShare = useCallback(async () => {
+    if (!match) return;
+    setLoading(true);
+    setError('');
+    try {
+      const data = await api<{ code: string }>('challenge', {
+        match_id: match.id,
+        device_id: getDeviceId(),
+      });
+      const url = `${window.location.origin}${window.location.pathname}?c=${data.code}`;
+      setShare({ code: data.code, url });
+      setShareNote(t('shareReady'));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'failed');
+    } finally {
+      setLoading(false);
+    }
+  }, [match, t]);
+
+  const copyShare = useCallback(async () => {
+    if (!share) return;
+    try {
+      await navigator.clipboard.writeText(share.url);
+      setShareNote(t('shareCopied'));
+    } catch {
+      setShareNote(t('shareManual'));
+    }
+  }, [share, t]);
 
   // 键盘操控
   useEffect(() => {
@@ -336,6 +637,69 @@ export default function ArenaClient() {
       return id;
     }
   };
+
+  const modeLabel = (mode: MatchState['mode']): string =>
+    mode === 'daily'
+      ? t('modeDaily')
+      : mode === 'challenge'
+        ? t('modeChallenge')
+        : t('modeCasual');
+
+  const labelStyle = {
+    fontSize: 10,
+    letterSpacing: 1,
+    color: '#888',
+    textTransform: 'uppercase' as const,
+    marginBottom: 4,
+  };
+
+  // 距下一个 UTC 零点（每日换题）的倒计时
+  const resetLabel = (() => {
+    const now = new Date(clock);
+    const next = Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + 1
+    );
+    const totalMin = Math.max(0, Math.floor((next - clock) / 60000));
+    return `${Math.floor(totalMin / 60)}h ${totalMin % 60}m`;
+  })();
+
+  const dailyClearRate =
+    dailyStats && dailyStats.players > 0
+      ? Math.round((dailyStats.clears / dailyStats.players) * 100)
+      : 0;
+
+  // 结果页三格高光：用现有姿态图拼漫画
+  const highlightFrames = (() => {
+    if (!match) return [];
+    const events = log.filter(
+      (line, i) => i > 0 && line && !line.trim().startsWith('——')
+    );
+    const last = events.slice(-3);
+    const winnerSlug = match.winner === 'B' ? match.fighter_b : match.fighter_a;
+    return [
+      {
+        slug: match.fighter_a,
+        pose: 'punch',
+        caption: last[0] ?? '',
+      },
+      {
+        slug: match.fighter_b,
+        pose: 'hit',
+        caption: last[1] ?? '',
+      },
+      {
+        slug: match.winner === 'draw' ? match.fighter_a : winnerSlug,
+        pose: match.winner === 'draw' ? 'idle' : 'victory',
+        caption:
+          last[2] ??
+          (match.winner === 'draw'
+            ? t('draw')
+            : `${winnerSlug === match.fighter_a ? match.fighter_a_name : match.fighter_b_name} ${t('wins')}`),
+      },
+    ];
+  })();
 
   return (
     <div className="brawl-page">
@@ -388,6 +752,32 @@ export default function ArenaClient() {
         }
         /* HP 平滑掉血（更丝滑） */
         .arena-hp-bar { transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        /* 每日同题卡片 */
+        .arena-daily {
+          border: 1px solid #4a3a12;
+          background: linear-gradient(180deg, #241b06 0%, #161616 100%);
+          border-radius: 16px;
+          padding: 18px;
+          margin-bottom: 28px;
+        }
+        .arena-daily-btn {
+          font-size: 16px; font-weight: 800; padding: 12px 28px;
+          border-radius: 10px; border: none; background: #ffb400; color: #111;
+          cursor: pointer;
+        }
+        .arena-ghost-btn {
+          font-size: 14px; font-weight: 700; padding: 10px 20px;
+          border-radius: 10px; border: 1px solid #555; background: transparent;
+          color: #ddd; cursor: pointer;
+        }
+        .arena-cta {
+          font-size: 15px; font-weight: 800; padding: 12px 26px;
+          border-radius: 10px; border: none; background: #ffb400; color: #111;
+          cursor: pointer;
+        }
+        .arena-cta--ghost {
+          background: transparent; color: #ffb400; border: 1px solid #ffb400;
+        }
       `}</style>
 
       <header className="brawl-hero brawl-hero--small">
@@ -413,6 +803,304 @@ export default function ArenaClient() {
 
       {screen === 'select' && (
         <section className="brawl-section" style={{ maxWidth: 900 }}>
+          {pendingChallenge && (
+            <div className="arena-daily" style={{ borderColor: '#7a2c2c' }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  letterSpacing: 1,
+                  color: '#ff8888',
+                  fontWeight: 800,
+                }}
+              >
+                {t('challengeBanner')}
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 900, margin: '6px 0' }}>
+                {t('challengeVs', {
+                  a: pendingChallenge.fighter_a_name,
+                  b: pendingChallenge.fighter_b_name,
+                })}
+              </div>
+              <div style={{ fontSize: 13, color: '#bbb', marginBottom: 12 }}>
+                {t('challengeSub')}
+              </div>
+              <div style={{ fontSize: 12, color: '#888', marginBottom: 12 }}>
+                {t('challengeStats', {
+                  plays: pendingChallenge.plays,
+                  wins: pendingChallenge.wins,
+                })}
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button
+                  type="button"
+                  className="arena-daily-btn"
+                  onClick={acceptChallenge}
+                  disabled={loading}
+                >
+                  {t('acceptChallenge')}
+                </button>
+                <button
+                  type="button"
+                  className="arena-ghost-btn"
+                  onClick={dismissChallenge}
+                >
+                  {t('dismiss')}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {daily && (
+            <div className="arena-daily">
+              <div
+                style={{
+                  fontSize: 12,
+                  letterSpacing: 1,
+                  color: '#ffb400',
+                  fontWeight: 800,
+                }}
+              >
+                {t('dailyTitle')} · {daily.day_key}
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 900, margin: '6px 0' }}>
+                {fighterName(daily.fighter_a)} vs {fighterName(daily.fighter_b)}
+              </div>
+              <div style={{ fontSize: 13, color: '#bbb', marginBottom: 4 }}>
+                {t('dailySub')}
+              </div>
+              <div style={{ fontSize: 12, color: '#888', marginBottom: 8 }}>
+                {t('dailyHpLine', {
+                  a: daily.start.hp_a,
+                  b: daily.start.hp_b,
+                })}{' '}
+                · {t('dailySeed', { seed: daily.seed })}
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 14,
+                  flexWrap: 'wrap',
+                  fontSize: 12,
+                  color: '#bbb',
+                  marginBottom: 12,
+                }}
+              >
+                <span>
+                  {t('dailySocial', {
+                    players: dailyStats?.players ?? 0,
+                    rate: dailyClearRate,
+                  })}
+                </span>
+                <span style={{ color: '#ffb400' }}>
+                  {t('dailyReset', { time: resetLabel })}
+                </span>
+                {profile?.daily_streak && (
+                  <span
+                    style={{
+                      color:
+                        profile.daily_streak.days > 0 &&
+                        !profile.daily_streak.played_today
+                          ? '#ff7b7b'
+                          : '#7bd88f',
+                    }}
+                  >
+                    {profile.daily_streak.played_today
+                      ? t('streakDone', { n: profile.daily_streak.days })
+                      : profile.daily_streak.days > 0
+                        ? t('streakRisk', { n: profile.daily_streak.days })
+                        : t('streakStart')}
+                  </span>
+                )}
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 16,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <button
+                  type="button"
+                  className="arena-daily-btn"
+                  onClick={startDaily}
+                  disabled={loading}
+                >
+                  {t('dailyFight')}
+                </button>
+                <div style={{ fontSize: 12, color: '#bbb' }}>
+                  {dailyYou ? (
+                    <>
+                      <span style={{ color: '#ffb400', fontWeight: 800 }}>
+                        {t('dailyRank', { rank: dailyYou.rank })}
+                      </span>
+                      <span style={{ color: '#888' }}>
+                        {' '}
+                        ·{' '}
+                        {t('dailyLine', {
+                          wins: dailyYou.wins,
+                          hp: dailyYou.hp_left,
+                          rounds: dailyYou.rounds,
+                        })}{' '}
+                        · {t('attempts', { n: dailyYou.attempts })}
+                      </span>
+                    </>
+                  ) : (
+                    t('dailyNone')
+                  )}
+                </div>
+              </div>
+
+              <div style={{ marginTop: 16 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: '#888',
+                    textTransform: 'uppercase',
+                    letterSpacing: 1,
+                    marginBottom: 6,
+                  }}
+                >
+                  {t('dailyLb')}
+                </div>
+                {dailyBoard.length === 0 ? (
+                  <div style={{ fontSize: 12, color: '#666' }}>
+                    {t('dailyLbEmpty')}
+                  </div>
+                ) : (
+                  <table
+                    style={{
+                      width: '100%',
+                      fontSize: 12,
+                      color: '#ddd',
+                      borderCollapse: 'collapse',
+                    }}
+                  >
+                    <thead>
+                      <tr style={{ color: '#888' }}>
+                        <th style={{ padding: 4, textAlign: 'left' }}>#</th>
+                        <th style={{ padding: 4, textAlign: 'left' }}>
+                          {t('winsCol')}
+                        </th>
+                        <th style={{ padding: 4, textAlign: 'right' }}>HP</th>
+                        <th style={{ padding: 4, textAlign: 'right' }}>R</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dailyBoard.slice(0, 5).map((row) => (
+                        <tr
+                          key={row.rank}
+                          style={{
+                            borderTop: '1px solid #262626',
+                            color: row.is_you ? '#ffb400' : '#ddd',
+                          }}
+                        >
+                          <td style={{ padding: 4 }}>
+                            {row.rank}
+                            {row.is_you && (
+                              <span style={{ fontSize: 10 }}>
+                                {' '}
+                                {t('youTag')}
+                              </span>
+                            )}
+                          </td>
+                          <td style={{ padding: 4 }}>{row.wins}</td>
+                          <td style={{ padding: 4, textAlign: 'right' }}>
+                            {row.hp_left}
+                          </td>
+                          <td style={{ padding: 4, textAlign: 'right' }}>
+                            {row.rounds}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          )}
+
+          {profile && (
+            <div
+              style={{
+                border: '1px solid #2a2a2a',
+                background: '#141414',
+                borderRadius: 14,
+                padding: '14px 18px',
+                marginBottom: 24,
+                display: 'flex',
+                gap: 28,
+                flexWrap: 'wrap',
+                alignItems: 'center',
+              }}
+            >
+              <div>
+                <div style={labelStyle}>{t('profileTitle')}</div>
+                <div
+                  style={{ fontSize: 26, fontWeight: 900, color: '#ffb400' }}
+                >
+                  {profile.rating}
+                  <span style={{ fontSize: 11, color: '#888', marginLeft: 6 }}>
+                    {t('ratingUnit')}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>{t('streakLabel')}</div>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>
+                  🔥 {profile.streak}{' '}
+                  <span style={{ fontSize: 11, color: '#888' }}>
+                    {t('bestStreak', { n: profile.best_streak })}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>{t('recentLabel')}</div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {profile.recent.length === 0 ? (
+                    <span style={{ fontSize: 12, color: '#666' }}>—</span>
+                  ) : (
+                    profile.recent.map((r, i) => (
+                      <span
+                        key={`${r}-${i}`}
+                        style={{
+                          width: 22,
+                          height: 22,
+                          borderRadius: 6,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 11,
+                          fontWeight: 800,
+                          background:
+                            r === 'W'
+                              ? '#1f3a26'
+                              : r === 'L'
+                                ? '#3a1f1f'
+                                : '#2a2a2a',
+                          color:
+                            r === 'W'
+                              ? '#7bd88f'
+                              : r === 'L'
+                                ? '#ff7b7b'
+                                : '#bbb',
+                        }}
+                      >
+                        {r}
+                      </span>
+                    ))
+                  )}
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>{t('recordLabel')}</div>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>
+                  {profile.wins}W · {profile.losses}L
+                </div>
+              </div>
+            </div>
+          )}
+
           <h2 style={{ textAlign: 'center', marginBottom: 8 }}>
             {t('chooseFighter')}
           </h2>
@@ -709,6 +1397,51 @@ export default function ArenaClient() {
             </div>
           </div>
 
+          {/* 10 秒读条：慢一拍就被读穿 */}
+          <div style={{ marginBottom: 14 }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontSize: 11,
+                color: timeLeft <= 3 ? '#ff6b6b' : '#999',
+                marginBottom: 4,
+                letterSpacing: 1,
+              }}
+            >
+              <span>
+                {autoNote
+                  ? t('autoBlocked')
+                  : timeLeft <= 3
+                    ? t('decideNow')
+                    : t('decideHint')}
+              </span>
+              <span style={{ fontWeight: 800 }}>{timeLeft.toFixed(1)}s</span>
+            </div>
+            <div
+              style={{
+                height: 8,
+                background: '#222',
+                borderRadius: 4,
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  width: `${(timeLeft / ROUND_SECONDS) * 100}%`,
+                  height: '100%',
+                  background:
+                    timeLeft <= 3
+                      ? '#ff4444'
+                      : timeLeft <= 6
+                        ? '#ffb400'
+                        : '#37c26a',
+                  transition: 'width 0.1s linear, background 0.2s',
+                }}
+              />
+            </div>
+          </div>
+
           {/* 招式按钮 */}
           <div
             style={{
@@ -785,8 +1518,19 @@ export default function ArenaClient() {
       {screen === 'result' && match && (
         <section
           className="brawl-section"
-          style={{ maxWidth: 720, textAlign: 'center' }}
+          style={{ maxWidth: 760, textAlign: 'center' }}
         >
+          <div
+            style={{
+              fontSize: 11,
+              letterSpacing: 2,
+              color: '#ffb400',
+              fontWeight: 800,
+              marginBottom: 6,
+            }}
+          >
+            {modeLabel(match.mode)} · {t('seedShort', { seed: match.seed })}
+          </div>
           <h2 style={{ fontSize: 32, marginBottom: 8 }}>
             {match.winner === 'draw'
               ? t('draw')
@@ -809,101 +1553,347 @@ export default function ArenaClient() {
               KO
             </div>
           )}
-          {match.winner !== 'draw' && (
-            <div style={{ margin: '12px 0' }}>
-              <img
-                src={`/arena/fighters/${match.winner === 'A' ? match.fighter_a : match.fighter_b}_victory.png`}
-                alt="winner"
-                onError={(e) => {
-                  const el = e.currentTarget;
-                  if (!el.dataset.fbk) {
-                    el.dataset.fbk = '1';
-                    el.src = `/arena/fighters/${match.winner === 'A' ? match.fighter_a : match.fighter_b}.png`;
-                  }
-                }}
+
+          {/* 进度反馈：段位分 / 连胜 / 连胜被终结 */}
+          {progress && (
+            <div
+              style={{
+                display: 'flex',
+                gap: 10,
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                marginBottom: 8,
+              }}
+            >
+              <span
                 style={{
-                  width: 200,
-                  height: 260,
-                  objectFit: 'cover',
-                  borderRadius: 12,
-                  border: '2px solid #ffb400',
+                  fontSize: 13,
+                  fontWeight: 800,
+                  background: '#1c1c1c',
+                  border: '1px solid #333',
+                  borderRadius: 999,
+                  padding: '6px 14px',
                 }}
-              />
+              >
+                {t('ratingLabel')} {progress.rating}{' '}
+                <b
+                  style={{
+                    color: progress.rating_delta > 0 ? '#7bd88f' : '#ff7b7b',
+                  }}
+                >
+                  {progress.rating_delta > 0 ? '+' : ''}
+                  {progress.rating_delta}
+                </b>
+              </span>
+              {progress.streak >= 2 && (
+                <span
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 800,
+                    background: '#3a2a08',
+                    border: '1px solid #7a5a12',
+                    color: '#ffb400',
+                    borderRadius: 999,
+                    padding: '6px 14px',
+                  }}
+                >
+                  🔥 {t('streakOn', { n: progress.streak })}
+                </span>
+              )}
+              {progress.streak_broken > 0 && (
+                <span
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 800,
+                    background: '#3a1111',
+                    border: '1px solid #7a2c2c',
+                    color: '#ff9b9b',
+                    borderRadius: 999,
+                    padding: '6px 14px',
+                  }}
+                >
+                  {t('streakBroken', { n: progress.streak_broken })}
+                </span>
+              )}
             </div>
           )}
-          <p style={{ color: '#999', fontSize: 14 }}>
+
+          {/* 差一点 / 惨胜：把结果推到情绪边缘 */}
+          {match.winner === 'B' && match.hp_b > 0 && match.hp_b <= 15 && (
+            <div style={{ fontSize: 13, color: '#ffb400', marginBottom: 6 }}>
+              {t('nearMiss', { hp: match.hp_b })}
+            </div>
+          )}
+          {match.winner === 'A' && match.hp_a > 0 && match.hp_a <= 15 && (
+            <div style={{ fontSize: 13, color: '#7bd88f', marginBottom: 6 }}>
+              {t('closeWin', { hp: match.hp_a })}
+            </div>
+          )}
+          {match.mode === 'daily' &&
+            profile?.daily_streak?.played_today &&
+            profile.daily_streak.days > 0 && (
+              <div style={{ fontSize: 13, color: '#7bd88f', marginBottom: 6 }}>
+                {t('dailyStreakNow', { n: profile.daily_streak.days })}
+              </div>
+            )}
+
+          {/* 三格高光：现有姿态图拼成漫画 */}
+          <div style={{ marginTop: 16 }}>
+            <div
+              style={{
+                fontSize: 11,
+                letterSpacing: 2,
+                color: '#888',
+                marginBottom: 10,
+              }}
+            >
+              {t('highlight')}
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 10,
+              }}
+            >
+              {highlightFrames.map((f, i) => (
+                <figure key={i} style={{ margin: 0 }}>
+                  <img
+                    src={poseSrc(f.slug, f.pose)}
+                    alt={fighterName(f.slug)}
+                    onError={(e) => {
+                      const el = e.currentTarget;
+                      if (!el.dataset.fbk) {
+                        el.dataset.fbk = '1';
+                        el.src = poseSrc(f.slug, 'idle');
+                      }
+                    }}
+                    style={{
+                      width: '100%',
+                      height: 170,
+                      objectFit: 'cover',
+                      borderRadius: 10,
+                      border: '1px solid #333',
+                      background: '#141414',
+                    }}
+                  />
+                  <figcaption
+                    style={{
+                      fontSize: 10,
+                      color: '#999',
+                      marginTop: 6,
+                      lineHeight: 1.45,
+                      minHeight: 28,
+                    }}
+                  >
+                    {f.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+
+          <p style={{ color: '#999', fontSize: 14, marginTop: 12 }}>
             {t('rounds', { n: match.round_no })}
           </p>
 
-          <div style={{ margin: '20px 0' }}>
+          <div
+            style={{
+              margin: '20px 0',
+              display: 'flex',
+              gap: 12,
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
             <button
               type="button"
+              className="arena-cta"
+              onClick={replay}
+              disabled={loading}
+            >
+              {t('replay')}
+            </button>
+            <button
+              type="button"
+              className="arena-cta arena-cta--ghost"
               onClick={() => {
                 setScreen('select');
                 setMatch(null);
                 setLog([]);
-              }}
-              style={{
-                fontSize: 16,
-                fontWeight: 800,
-                padding: '12px 36px',
-                borderRadius: 10,
-                border: 'none',
-                background: '#ffb400',
-                color: '#111',
-                cursor: 'pointer',
-                marginRight: 12,
+                setShare(null);
+                setShareNote('');
               }}
             >
               {t('rematch')}
             </button>
+            <button
+              type="button"
+              className="arena-cta arena-cta--ghost"
+              onClick={createShare}
+              disabled={loading}
+            >
+              {t('shareChallenge')}
+            </button>
           </div>
 
-          {leaderboard.length > 0 && (
-            <div style={{ marginTop: 24, textAlign: 'left' }}>
-              <h3 style={{ textAlign: 'center' }}>{t('leaderboard')}</h3>
-              <table
+          {share && (
+            <div
+              style={{
+                textAlign: 'left',
+                background: '#141414',
+                border: '1px solid #333',
+                borderRadius: 12,
+                padding: 14,
+                marginBottom: 16,
+              }}
+            >
+              <div style={{ fontSize: 13, fontWeight: 800, color: '#ffb400' }}>
+                {t('shareCode', { code: share.code })}
+              </div>
+              <div
                 style={{
-                  width: '100%',
-                  fontSize: 13,
-                  color: '#ddd',
-                  borderCollapse: 'collapse',
+                  fontSize: 11,
+                  color: '#888',
+                  wordBreak: 'break-all',
+                  marginTop: 6,
                 }}
               >
-                <thead>
-                  <tr style={{ color: '#888' }}>
-                    <th style={{ padding: 6 }}>#</th>
-                    <th style={{ padding: 6 }}>{t('player')}</th>
-                    <th style={{ padding: 6 }}>{t('winsCol')}</th>
-                    <th style={{ padding: 6 }}>{t('lossesCol')}</th>
-                    <th style={{ padding: 6 }}>KO</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {leaderboard.map((r, i) => (
-                    <tr key={r.player} style={{ borderTop: '1px solid #222' }}>
-                      <td style={{ padding: 6, textAlign: 'center' }}>
-                        {i + 1}
-                      </td>
-                      <td style={{ padding: 6 }}>
-                        {r.player.startsWith('u:')
-                          ? t('fighterAnon', { n: i + 1 })
-                          : r.player.slice(0, 8) + '…'}
-                      </td>
-                      <td style={{ padding: 6, textAlign: 'center' }}>
-                        {r.wins}
-                      </td>
-                      <td style={{ padding: 6, textAlign: 'center' }}>
-                        {r.losses}
-                      </td>
-                      <td style={{ padding: 6, textAlign: 'center' }}>
-                        {r.kos}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                {share.url}
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  marginTop: 10,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <button
+                  type="button"
+                  className="arena-ghost-btn"
+                  onClick={copyShare}
+                >
+                  {t('copyLink')}
+                </button>
+                <span style={{ fontSize: 12, color: '#37c26a' }}>
+                  {shareNote}
+                </span>
+              </div>
             </div>
+          )}
+
+          {match.mode === 'daily' ? (
+            <div style={{ marginTop: 24, textAlign: 'left' }}>
+              <h3 style={{ textAlign: 'center' }}>{t('dailyLb')}</h3>
+              {dailyBoard.length === 0 ? (
+                <div
+                  style={{ textAlign: 'center', fontSize: 13, color: '#666' }}
+                >
+                  {t('dailyLbEmpty')}
+                </div>
+              ) : (
+                <table
+                  style={{
+                    width: '100%',
+                    fontSize: 13,
+                    color: '#ddd',
+                    borderCollapse: 'collapse',
+                  }}
+                >
+                  <thead>
+                    <tr style={{ color: '#888' }}>
+                      <th style={{ padding: 6 }}>#</th>
+                      <th style={{ padding: 6 }}>{t('winsCol')}</th>
+                      <th style={{ padding: 6 }}>HP</th>
+                      <th style={{ padding: 6 }}>R</th>
+                      <th style={{ padding: 6 }}>{t('attemptsCol')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dailyBoard.map((row) => (
+                      <tr
+                        key={row.rank}
+                        style={{
+                          borderTop: '1px solid #222',
+                          color: row.is_you ? '#ffb400' : '#ddd',
+                        }}
+                      >
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {row.rank}
+                          {row.is_you && (
+                            <span style={{ fontSize: 10 }}> {t('youTag')}</span>
+                          )}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {row.wins}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {row.hp_left}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {row.rounds}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {row.attempts}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          ) : (
+            leaderboard.length > 0 && (
+              <div style={{ marginTop: 24, textAlign: 'left' }}>
+                <h3 style={{ textAlign: 'center' }}>{t('leaderboard')}</h3>
+                <table
+                  style={{
+                    width: '100%',
+                    fontSize: 13,
+                    color: '#ddd',
+                    borderCollapse: 'collapse',
+                  }}
+                >
+                  <thead>
+                    <tr style={{ color: '#888' }}>
+                      <th style={{ padding: 6 }}>#</th>
+                      <th style={{ padding: 6 }}>{t('player')}</th>
+                      <th style={{ padding: 6 }}>{t('winsCol')}</th>
+                      <th style={{ padding: 6 }}>{t('lossesCol')}</th>
+                      <th style={{ padding: 6 }}>KO</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leaderboard.map((r, i) => (
+                      <tr
+                        key={r.player}
+                        style={{ borderTop: '1px solid #222' }}
+                      >
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {i + 1}
+                        </td>
+                        <td style={{ padding: 6 }}>
+                          {r.player.startsWith('u:')
+                            ? t('fighterAnon', { n: i + 1 })
+                            : r.player.slice(0, 8) + '…'}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {r.wins}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {r.losses}
+                        </td>
+                        <td style={{ padding: 6, textAlign: 'center' }}>
+                          {r.kos}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
           )}
         </section>
       )}
