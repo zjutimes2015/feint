@@ -41,6 +41,57 @@ interface HomePageProps {
   params: Promise<{ locale: Locale }>;
 }
 
+const HOME_ROSTER = [
+  {
+    key: 'ironJaw',
+    arenaSlug: 'iron_jaw',
+    color: 'red',
+    img: '/brawlverse/assets/iron-jaw-portrait.jpg',
+  },
+  {
+    key: 'viper',
+    arenaSlug: 'viper',
+    color: 'green',
+    img: '/brawlverse/assets/viper-portrait.jpg',
+  },
+  {
+    key: 'sledge',
+    arenaSlug: 'sledge',
+    color: 'orange',
+    img: '/brawlverse/assets/fighter-sledge.jpg',
+  },
+  {
+    key: 'monsoon',
+    arenaSlug: 'monsoon',
+    color: 'cyan',
+    img: '/brawlverse/assets/fighter-monsoon.jpg',
+  },
+  {
+    key: 'volt',
+    arenaSlug: 'volt',
+    color: 'gold',
+    img: '/brawlverse/assets/fan-volt.jpg',
+  },
+  {
+    key: 'professor',
+    arenaSlug: 'the_professor',
+    color: 'purple',
+    img: '/brawlverse/assets/fighter-professor.jpg',
+  },
+  {
+    key: 'laReina',
+    arenaSlug: 'la_reina',
+    color: 'gold',
+    img: '/brawlverse/assets/fan-lareina.jpg',
+  },
+  {
+    key: 'goliath7',
+    arenaSlug: 'goliath-7',
+    color: 'gold',
+    img: '/brawlverse/assets/fan-goliath7.jpg',
+  },
+] as const;
+
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Metadata' });
@@ -68,52 +119,50 @@ export default async function HomePage({ params }: HomePageProps) {
     {
       key: 'arena',
       href: Routes.Arena,
+      badge: h('badgePlayNow'),
       title: h('quickArenaTitle'),
       body: h('quickArenaBody'),
       cta: h('quickArenaCta'),
     },
     {
-      key: 'live',
-      href: Routes.Live,
-      title: h('quickLiveTitle'),
-      body: h('quickLiveBody'),
-      cta: h('quickLiveCta'),
+      key: 'forge',
+      href: Routes.FanForge,
+      badge: h('badgePlayNow'),
+      title: h('quickForgeTitle'),
+      body: h('quickForgeBody'),
+      cta: h('quickForgeCta'),
     },
     {
       key: 'vote',
-      href: Routes.Live,
+      href: '#rule-vote',
+      badge: h('badgePlayNow'),
       title: h('quickVoteTitle'),
       body: h('quickVoteBody'),
       cta: h('quickVoteCta'),
     },
     {
-      key: 'forge',
-      href: Routes.FanForge,
-      title: h('quickForgeTitle'),
-      body: h('quickForgeBody'),
-      cta: h('quickForgeCta'),
+      key: 'live',
+      href: Routes.Live,
+      badge: h('badgeWeekly'),
+      title: h('quickLiveTitle'),
+      body: h('quickLiveBody'),
+      cta: h('quickLiveCta'),
     },
   ] as const;
-  const homeFighters = [
-    {
-      key: 'ironJaw',
-      color: 'red',
-      img: '/brawlverse/iron-jaw-portrait.jpg',
-      name: f('list.ironJaw.name'),
-      style: f('list.ironJaw.style'),
-      trash: f('list.ironJaw.trash'),
-      bio: f('list.ironJaw.bio'),
-    },
-    {
-      key: 'viper',
-      color: 'green',
-      img: '/brawlverse/viper-portrait.jpg',
-      name: f('list.viper.name'),
-      style: f('list.viper.style'),
-      trash: f('list.viper.trash'),
-      bio: f('list.viper.bio'),
-    },
-  ];
+
+  const startSteps = [
+    { num: '01', title: h('step1Title'), body: h('step1Body') },
+    { num: '02', title: h('step2Title'), body: h('step2Body') },
+    { num: '03', title: h('step3Title'), body: h('step3Body') },
+  ] as const;
+
+  const homeFighters = HOME_ROSTER.map((item) => ({
+    ...item,
+    name: f(`list.${item.key}.name`),
+    style: f(`list.${item.key}.style`),
+    trash: f(`list.${item.key}.trash`),
+    bio: f(`list.${item.key}.bio`),
+  }));
 
   return (
     <>
@@ -145,7 +194,7 @@ export default async function HomePage({ params }: HomePageProps) {
         }}
       />
       <div className="brawl-page">
-        <header className="brawl-hero">
+        <header className="brawl-hero" style={{ position: 'relative' }}>
           <div className="brawl-burst" />
           <h1 className="brawl-logo">{h('heroTitle')}</h1>
           <p className="brawl-tagline">
@@ -157,25 +206,123 @@ export default async function HomePage({ params }: HomePageProps) {
             <br />
             {h('heroSub2')}
           </p>
+          <div
+            className="brawl-row"
+            style={{ justifyContent: 'center', marginTop: 26, gap: 14 }}
+          >
+            <LocaleLink href={Routes.Arena} className="brawl-cta">
+              {h('heroPrimaryCta')}
+            </LocaleLink>
+            <LocaleLink
+              href={Routes.Register}
+              className="brawl-btn brawl-btn--ghost"
+              style={{ textDecoration: 'none', padding: '12px 24px' }}
+            >
+              {h('heroSecondaryCta')}
+            </LocaleLink>
+          </div>
+          <p className="brawl-note" style={{ marginTop: 14 }}>
+            {h('heroGuestNote')}
+          </p>
         </header>
 
-        <HomeNextEvent />
+        {/* 首屏正下方：3 步上手说明，新用户 5 秒看懂怎么玩 */}
+        <section className="brawl-section" id="how-to-play">
+          <h2 className="brawl-h2">{h('howTitle')}</h2>
+          <div className="brawl-cards">
+            {startSteps.map((s) => (
+              <div
+                className="brawl-card brawl-card--gold"
+                key={s.num}
+                style={{ textAlign: 'left' }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    letterSpacing: 2,
+                    color: '#ffcc00',
+                  }}
+                >
+                  STEP {s.num}
+                </div>
+                <h3 style={{ fontSize: 20, marginTop: 8 }}>{s.title}</h3>
+                <p className="brawl-bio" style={{ minHeight: 0 }}>
+                  {s.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
 
+        {/* 现在就能玩 vs 每周节目：清晰区分入口 */}
         <section className="brawl-section">
           <h2 className="brawl-h2">{h('quickTitle')}</h2>
           <div className="brawl-cards">
             {quickActions.map((a) => (
               <div className="brawl-card brawl-card--gold" key={a.key}>
+                <span className="brawl-tag" style={{ marginLeft: 0 }}>
+                  {a.badge}
+                </span>
                 <h3>{a.title}</h3>
                 <p className="brawl-style">{a.body}</p>
                 <p className="brawl-soon" style={{ marginTop: 16 }}>
-                  <LocaleLink href={a.href} className="brawl-cta">
-                    {a.cta}
-                  </LocaleLink>
+                  {a.href.startsWith('#') ? (
+                    <a href={a.href} className="brawl-cta">
+                      {a.cta}
+                    </a>
+                  ) : (
+                    <LocaleLink href={a.href} className="brawl-cta">
+                      {a.cta}
+                    </LocaleLink>
+                  )}
                 </p>
               </div>
             ))}
           </div>
+        </section>
+
+        <HomeNextEvent />
+
+        {/* 全部 8 名已上线可玩拳手，点击直接带入竞技场 */}
+        <section className="brawl-section">
+          <h2 className="brawl-h2">{h('fightersTitle')}</h2>
+          <p className="brawl-note" style={{ marginBottom: 22 }}>
+            {h('fightersSub')}
+          </p>
+          <div className="brawl-cards">
+            {homeFighters.map((fighter) => (
+              <div
+                className={`brawl-card brawl-card--${fighter.color}`}
+                key={fighter.key}
+              >
+                <img src={fighter.img} alt={fighter.name} />
+                <h3>{fighter.name}</h3>
+                <p className="brawl-style">{fighter.style}</p>
+                <p className="brawl-trash">{fighter.trash}</p>
+                <p className="brawl-bio">{fighter.bio}</p>
+                <div style={{ marginTop: 14 }}>
+                  <LocaleLink
+                    href={`${Routes.Arena}?fighter=${fighter.arenaSlug}`}
+                    className="brawl-btn"
+                    style={{
+                      display: 'inline-block',
+                      textDecoration: 'none',
+                      fontSize: 13,
+                      padding: '8px 14px',
+                    }}
+                  >
+                    {h('duelAsFighter', { name: fighter.name })}
+                  </LocaleLink>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="brawl-soon" style={{ marginTop: 26 }}>
+            <LocaleLink href={Routes.FanForge} className="brawl-cta">
+              {h('forgeCta')}
+            </LocaleLink>
+          </p>
         </section>
 
         <section className="brawl-section">
@@ -201,7 +348,7 @@ export default async function HomePage({ params }: HomePageProps) {
           <p className="brawl-note">{h('sampleNote')}</p>
         </section>
 
-        <section className="brawl-section">
+        <section className="brawl-section" id="rule-vote">
           <h2 className="brawl-h2">
             <span className="brawl-live">● LIVE</span> {h('trainingTitle')}
           </h2>
@@ -215,57 +362,11 @@ export default async function HomePage({ params }: HomePageProps) {
             loop
             playsInline
             preload="metadata"
+            poster="/brawlverse/assets/iron-jaw-portrait.jpg"
           >
             <source src="/brawlverse/training-sparring.mp4" type="video/mp4" />
           </video>
           <RuleVote />
-        </section>
-
-        <section className="brawl-section">
-          <h2 className="brawl-h2">{h('fightersTitle')}</h2>
-          <div className="brawl-cards">
-            {homeFighters.map((f) => (
-              <div className={`brawl-card brawl-card--${f.color}`} key={f.key}>
-                <img src={f.img} alt={f.name} />
-                <h3>{f.name}</h3>
-                <p className="brawl-style">{f.style}</p>
-                <p className="brawl-trash">{f.trash}</p>
-                <p className="brawl-bio">{f.bio}</p>
-                <div className="brawl-stats">
-                  <span>0-0</span>
-                  <span>{h('lockedStat')}</span>
-                </div>
-              </div>
-            ))}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div className="brawl-card brawl-card--locked" key={i}>
-                <div className="brawl-q">?</div>
-                <h3>{h('lockedName')}</h3>
-                <p className="brawl-style">{h('lockedStyle')}</p>
-              </div>
-            ))}
-          </div>
-          <p className="brawl-soon" style={{ marginTop: 26 }}>
-            <LocaleLink href="/fan-forge" className="brawl-cta">
-              {h('forgeCta')}
-            </LocaleLink>
-          </p>
-        </section>
-
-        <section className="brawl-section">
-          <h2 className="brawl-h2">{h('howTitle')}</h2>
-          <ol className="brawl-howto">
-            <li>
-              <b>{h('how1')}</b>
-            </li>
-            <li>
-              <b>{h('how2')}</b>
-            </li>
-            <li>
-              <b>{h('how3')}</b>
-            </li>
-          </ol>
-          <p className="brawl-soon">{h('seasonSoon')}</p>
         </section>
 
         <section className="brawl-section" id="pricing">

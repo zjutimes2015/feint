@@ -15,7 +15,6 @@ import { LocaleLink, useLocalePathname } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
-import { LoginWrapper } from '@/components/auth/login-wrapper';
 import {
   ArrowUpRightIcon,
   ChevronRightIcon,
@@ -39,6 +38,7 @@ export function NavbarMobile({ className, ...props }: NavbarMobileProps) {
   const localePathname = useLocalePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [sessionTimedOut, setSessionTimedOut] = useState(false);
   const { data: session, isPending } = authClient.useSession();
   const currentUser = session?.user;
   const menuLinks = useNavbarLinks();
@@ -48,6 +48,15 @@ export function NavbarMobile({ className, ...props }: NavbarMobileProps) {
     setMounted(true);
     setOpen(false);
   }, [localePathname]);
+
+  useEffect(() => {
+    if (!isPending) {
+      setSessionTimedOut(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setSessionTimedOut(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [isPending]);
 
   if (!mounted) return null;
 
@@ -63,7 +72,7 @@ export function NavbarMobile({ className, ...props }: NavbarMobileProps) {
         </LocaleLink>
 
         <div className="flex items-center gap-4">
-          {isPending ? (
+          {isPending && !sessionTimedOut ? (
             <Skeleton className="size-8 rounded-full" />
           ) : currentUser ? (
             <UserButtonMobile user={currentUser} />
@@ -96,17 +105,16 @@ export function NavbarMobile({ className, ...props }: NavbarMobileProps) {
           <div className="flex flex-1 flex-col items-start gap-4 p-4">
             {!currentUser && (
               <div className="flex w-full flex-col gap-4">
-                <LoginWrapper mode="redirect" asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="lg"
-                    className="w-full"
-                    onClick={() => setOpen(false)}
-                  >
-                    {t('Common.login')}
-                  </Button>
-                </LoginWrapper>
+                <LocaleLink
+                  href={Routes.Login}
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    buttonVariants({ variant: 'outline', size: 'lg' }),
+                    'w-full'
+                  )}
+                >
+                  {t('Common.login')}
+                </LocaleLink>
                 <LocaleLink
                   href={Routes.Register}
                   onClick={() => setOpen(false)}

@@ -39,6 +39,7 @@ export function Navbar({ scroll = true }: NavBarProps) {
   const localePathname = useLocalePathname();
   const [mounted, setMounted] = useState(false);
   const [menuValue, setMenuValue] = useState('');
+  const [sessionTimedOut, setSessionTimedOut] = useState(false);
   const { data: session, isPending } = authClient.useSession();
   const currentUser = session?.user;
   const showBarBg = scroll && scrolled;
@@ -48,6 +49,18 @@ export function Navbar({ scroll = true }: NavBarProps) {
     setMounted(true);
     setMenuValue('');
   }, [localePathname]);
+
+  // If get-session hangs or is slow, never trap desktop users on a pulsing skeleton.
+  useEffect(() => {
+    if (!isPending) {
+      setSessionTimedOut(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setSessionTimedOut(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [isPending]);
+
+  const showAuthSkeleton = !mounted || (isPending && !sessionTimedOut);
 
   return (
     <header
@@ -193,7 +206,7 @@ export function Navbar({ scroll = true }: NavBarProps) {
             <div className="flex items-center gap-4 shrink-0">
               <ModeSwitcher />
               <LocaleSwitcher />
-              {!mounted || isPending ? (
+              {showAuthSkeleton ? (
                 <Skeleton className="size-8 rounded-full" />
               ) : currentUser ? (
                 <UserButton user={currentUser} />

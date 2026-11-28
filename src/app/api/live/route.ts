@@ -97,30 +97,34 @@ export async function GET(req: Request) {
   const op = opOf(req);
   if (op !== 'state') return json({ error: 'unknown op' }, 400, req);
 
-  const rid = new URL(req.url).searchParams.get('round_id');
-  const r = rid
-    ? await qOne<LiveRound>('SELECT * FROM live_rounds WHERE id = $1', [rid])
-    : await qOne<LiveRound>(
-        'SELECT * FROM live_rounds ORDER BY created_at DESC LIMIT 1'
-      );
-  if (!r) return json({ error: 'no live round yet' }, 404, req);
+  try {
+    const rid = new URL(req.url).searchParams.get('round_id');
+    const r = rid
+      ? await qOne<LiveRound>('SELECT * FROM live_rounds WHERE id = $1', [rid])
+      : await qOne<LiveRound>(
+          'SELECT * FROM live_rounds ORDER BY created_at DESC LIMIT 1'
+        );
+    if (!r) return json({ error: 'no live round yet' }, 404, req);
 
-  const d = await publicState(r);
-  const b = await qOne<{
-    fighter_a: string;
-    fighter_b: string;
-    title: string;
-  }>('SELECT fighter_a, fighter_b, title FROM bouts WHERE id = $1', [
-    r.bout_id,
-  ]);
-  if (b) {
-    d.fighter_a = b.fighter_a;
-    d.fighter_b = b.fighter_b;
-    d.title = b.title;
+    const d = await publicState(r);
+    const b = await qOne<{
+      fighter_a: string;
+      fighter_b: string;
+      title: string;
+    }>('SELECT fighter_a, fighter_b, title FROM bouts WHERE id = $1', [
+      r.bout_id,
+    ]);
+    if (b) {
+      d.fighter_a = b.fighter_a;
+      d.fighter_b = b.fighter_b;
+      d.title = b.title;
+    }
+    // P1-5:固定档期,页面据此显示"下一场还有多久"。
+    d.schedule = fightNightInfo();
+    return json(d, 200, req);
+  } catch {
+    return json({ error: 'live service temporarily unavailable' }, 503, req);
   }
-  // P1-5:固定档期,页面据此显示"下一场还有多久"。
-  d.schedule = fightNightInfo();
-  return json(d, 200, req);
 }
 
 export async function POST(req: Request) {

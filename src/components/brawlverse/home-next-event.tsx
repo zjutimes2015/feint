@@ -30,21 +30,29 @@ export default function HomeNextEvent() {
 
   useEffect(() => {
     let alive = true;
+    const ctrl = new AbortController();
+    const timeout = window.setTimeout(() => ctrl.abort(), 4000);
     void (async () => {
       try {
-        const r = await fetch('/api/live?op=state', { cache: 'no-store' });
+        const r = await fetch('/api/live?op=state', {
+          cache: 'no-store',
+          signal: ctrl.signal,
+        });
         if (r.ok) {
           const j = (await r.json()) as LiveState;
           if (alive) setLive(j);
         }
       } catch {
-        // 没有直播回合时走固定档期文案
+        // 没有直播回合或接口超时时走固定档期文案
       } finally {
+        window.clearTimeout(timeout);
         if (alive) setReady(true);
       }
     })();
     return () => {
       alive = false;
+      window.clearTimeout(timeout);
+      ctrl.abort();
     };
   }, []);
 
@@ -84,7 +92,14 @@ export default function HomeNextEvent() {
           </p>
         ) : null}
         <div className="brawl-row brawl-gap">
-          <LocaleLink href={Routes.Live} className="brawl-cta">
+          <LocaleLink href={Routes.Arena} className="brawl-cta">
+            {t('quickArenaCta')}
+          </LocaleLink>
+          <LocaleLink
+            href={Routes.Live}
+            className="brawl-btn brawl-btn--ghost"
+            style={{ textDecoration: 'none' }}
+          >
             {t('nextEventCta')}
           </LocaleLink>
         </div>

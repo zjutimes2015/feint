@@ -208,6 +208,8 @@ function getClient(): postgres.Sql {
   if (!client) {
     client = postgres(DSN, {
       max: 4,
+      connect_timeout: 8,
+      idle_timeout: 20,
       // 与模板数据库客户端保持一致:Neon pooler 兼容
       prepare: false,
     });

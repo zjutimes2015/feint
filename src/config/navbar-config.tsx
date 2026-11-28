@@ -24,8 +24,8 @@ export function useNavbarLinks(): NestedMenuItem[] {
 
   return [
     {
-      title: t('episodes.title'),
-      href: Routes.Episodes,
+      title: t('play.items.arena.title'),
+      href: Routes.Arena,
       external: false,
     },
     {
@@ -34,33 +34,14 @@ export function useNavbarLinks(): NestedMenuItem[] {
       external: false,
     },
     {
-      title: t('storylines.title'),
-      href: Routes.Storylines,
+      title: t('episodes.title'),
+      href: Routes.Episodes,
       external: false,
     },
     {
       title: t('live.title'),
       href: Routes.Live,
       external: false,
-    },
-    {
-      title: t('play.title'),
-      items: [
-        {
-          title: t('play.items.arena.title'),
-          description: t('play.items.arena.description'),
-          icon: <GamepadIcon className="size-4 shrink-0" />,
-          href: Routes.Arena,
-          external: false,
-        },
-        {
-          title: t('play.items.fantasy.title'),
-          description: t('play.items.fantasy.description'),
-          icon: <UsersIcon className="size-4 shrink-0" />,
-          href: Routes.Fantasy,
-          external: false,
-        },
-      ],
     },
     {
       title: t('universe.title'),
@@ -70,6 +51,20 @@ export function useNavbarLinks(): NestedMenuItem[] {
           description: t('universe.items.forge.description'),
           icon: <SparklesIcon className="size-4 shrink-0" />,
           href: Routes.FanForge,
+          external: false,
+        },
+        {
+          title: t('play.items.fantasy.title'),
+          description: t('play.items.fantasy.description'),
+          icon: <UsersIcon className="size-4 shrink-0" />,
+          href: Routes.Fantasy,
+          external: false,
+        },
+        {
+          title: t('storylines.title'),
+          description: t('more.items.about.description'),
+          icon: <GamepadIcon className="size-4 shrink-0" />,
+          href: Routes.Storylines,
           external: false,
         },
         {

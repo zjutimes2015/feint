@@ -1,5 +1,16 @@
 'use client';
 
+import { LocaleLink } from '@/i18n/navigation';
+import {
+  MAX_ROUNDS,
+  MOVES,
+  resolveRound,
+  type FighterState,
+  type MoveId,
+} from '@/lib/arena/engine';
+import { FIGHTERS, chooseAiMove } from '@/lib/arena/fighters';
+import { authClient } from '@/lib/auth-client';
+import { Routes } from '@/routes';
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -164,16 +175,65 @@ async function api<T>(
   params?: Record<string, string>
 ): Promise<T> {
   const qs = new URLSearchParams({ op, ...(params ?? {}) });
-  const res = await fetch(`/api/arena?${qs.toString()}`, {
-    method: body ? 'POST' : 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    body: body ? JSON.stringify(body) : undefined,
-  });
-  const data = (await res.json()) as T & { error?: string };
-  if (!res.ok || data.error) {
-    throw new Error(data.error || `request failed: ${res.status}`);
+  const ctrl = new AbortController();
+  const timer = window.setTimeout(() => ctrl.abort(), 5000);
+  try {
+    const res = await fetch(`/api/arena?${qs.toString()}`, {
+      method: body ? 'POST' : 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined,
+      signal: ctrl.signal,
+    });
+    const data = (await res.json()) as T & { error?: string };
+    if (!res.ok || data.error) {
+      throw new Error(data.error || `request failed: ${res.status}`);
+    }
+    return data;
+  } finally {
+    window.clearTimeout(timer);
   }
-  return data;
+}
+
+function localHashToInt(s: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function localMulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function buildLocalDaily(): DailyInfo {
+  const key = new Date().toISOString().slice(0, 10);
+  const seed = localHashToInt(`daily:${key}`);
+  const r = localMulberry32(seed);
+  const ia = Math.floor(r() * FIGHTER_ORDER.length);
+  let ib = Math.floor(r() * FIGHTER_ORDER.length);
+  if (ib === ia) ib = (ib + 1) % FIGHTER_ORDER.length;
+  return {
+    day_key: key,
+    seed,
+    fighter_a: FIGHTER_ORDER[ia],
+    fighter_b: FIGHTER_ORDER[ib],
+    start: {
+      hp_a: 55 + Math.floor(r() * 20),
+      hp_b: 55 + Math.floor(r() * 20),
+      stamina_a: 100,
+      stamina_b: 100,
+      hype_a: Math.floor(r() * 30),
+      hype_b: Math.floor(r() * 30),
+    },
+  };
 }
 
 function poseSrc(slug: string, pose: string): string {
@@ -186,10 +246,19 @@ type Screen = 'select' | 'battle' | 'result';
 
 export default function ArenaClient() {
   const t = useTranslations('Arena');
+  const { data: authSession } = authClient.useSession();
+  const isSignedIn = Boolean(authSession?.user);
   const [screen, setScreen] = useState<Screen>('select');
   const [myFighter, setMyFighter] = useState<FighterSlug>('iron_jaw');
   const [aiFighter, setAiFighter] = useState<FighterSlug>('viper');
   const [match, setMatch] = useState<MatchState | null>(null);
+  const [localMode, setLocalMode] = useState(false);
+  const localReadRef = useRef<{ a: boolean; b: boolean }>({
+    a: false,
+    b: false,
+  });
+  const localHistoryRef = useRef<MoveId[]>([]);
+  const localStartRef = useRef<StartState | null>(null);
   const [log, setLog] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -300,7 +369,8 @@ export default function ArenaClient() {
       setDailyYou(data.you);
       setDailyStats(data.stats);
     } catch {
-      // 数据库未就绪时静默降级，不影响自由对战
+      // 数据库未就绪时在本地生成同一套每日残局，保证立即可玩
+      setDaily((prev) => prev ?? buildLocalDaily());
     }
   }, []);
 
@@ -317,11 +387,21 @@ export default function ArenaClient() {
     }
   }, []);
 
-  // 首屏：拉今日同题 + 今日统计 + 我的进度 + 识别 ?c= 挑战链接
+  // 首屏：拉今日同题 + 今日统计 + 我的进度 + 识别 ?fighter= 预选 + ?c= 挑战链接
   useEffect(() => {
     void refreshDaily();
     void refreshProfile();
-    const code = new URLSearchParams(window.location.search).get('c');
+    const params = new URLSearchParams(window.location.search);
+    const preFighter = params.get('fighter');
+    if (
+      preFighter &&
+      (FIGHTER_ORDER as readonly string[]).includes(preFighter)
+    ) {
+      const slug = preFighter as FighterSlug;
+      setMyFighter(slug);
+      setAiFighter(slug === 'viper' ? 'iron_jaw' : 'viper');
+    }
+    const code = params.get('c');
     if (!code) return;
     let alive = true;
     (async () => {
@@ -362,6 +442,51 @@ export default function ArenaClient() {
     [t]
   );
 
+  const startLocalBattle = useCallback(
+    (
+      fighterA: string,
+      fighterB: string,
+      mode: 'casual' | 'daily',
+      start?: StartState,
+      seed?: number,
+      dayKey?: string
+    ) => {
+      const st: StartState = start ?? {
+        hp_a: 100,
+        hp_b: 100,
+        stamina_a: 100,
+        stamina_b: 100,
+        hype_a: 0,
+        hype_b: 0,
+      };
+      localReadRef.current = { a: false, b: false };
+      localHistoryRef.current = [];
+      localStartRef.current = st;
+      setLocalMode(true);
+      beginBattle({
+        id: `local-${Date.now()}`,
+        fighter_a: fighterA,
+        fighter_b: fighterB,
+        fighter_a_name: fighterName(fighterA),
+        fighter_b_name: fighterName(fighterB),
+        status: 'active',
+        round_no: 0,
+        hp_a: st.hp_a,
+        hp_b: st.hp_b,
+        hype_a: st.hype_a,
+        hype_b: st.hype_b,
+        stamina_a: st.stamina_a,
+        stamina_b: st.stamina_b,
+        winner: null,
+        mode,
+        day_key: dayKey ?? '',
+        seed: seed ?? Math.floor(Math.random() * 2147483647),
+        challenge_code: '',
+      });
+    },
+    [beginBattle]
+  );
+
   const startMatch = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -372,13 +497,15 @@ export default function ArenaClient() {
         device_id: getDeviceId(),
       });
       if (!data.match) throw new Error('no match');
+      setLocalMode(false);
       beginBattle(data.match);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'failed');
+    } catch {
+      // 后端不可用或超时时无缝切到本地引擎，保证立即可玩
+      startLocalBattle(myFighter, aiFighter, 'casual');
     } finally {
       setLoading(false);
     }
-  }, [myFighter, aiFighter, beginBattle]);
+  }, [myFighter, aiFighter, beginBattle, startLocalBattle]);
 
   const startDaily = useCallback(async () => {
     setLoading(true);
@@ -389,13 +516,22 @@ export default function ArenaClient() {
         device_id: getDeviceId(),
       });
       if (!data.match) throw new Error('no match');
+      setLocalMode(false);
       beginBattle(data.match);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'failed');
+    } catch {
+      const d = daily ?? buildLocalDaily();
+      startLocalBattle(
+        d.fighter_a,
+        d.fighter_b,
+        'daily',
+        d.start,
+        d.seed,
+        d.day_key
+      );
     } finally {
       setLoading(false);
     }
-  }, [beginBattle]);
+  }, [beginBattle, daily, startLocalBattle]);
 
   const acceptChallenge = useCallback(async () => {
     if (!pendingChallenge) return;
@@ -429,8 +565,7 @@ export default function ArenaClient() {
       setLoading(true);
       setError('');
       try {
-        const deviceId = getDeviceId();
-        const data = await api<{
+        let data: {
           round: number;
           move_a: string;
           move_b: string;
@@ -441,7 +576,86 @@ export default function ArenaClient() {
           progress: PlayerProgress | null;
           daily_streak: { days: number; best: number } | null;
           match: MatchState;
-        }>('move', { match_id: match.id, move, device_id: deviceId });
+        };
+        if (localMode) {
+          const nextRound = match.round_no + 1;
+          const stateA: FighterState = {
+            hp: match.hp_a,
+            stamina: match.stamina_a,
+            hype: match.hype_a,
+            read: localReadRef.current.a,
+          };
+          const stateB: FighterState = {
+            hp: match.hp_b,
+            stamina: match.stamina_b,
+            hype: match.hype_b,
+            read: localReadRef.current.b,
+          };
+          const aiProfile = FIGHTERS[match.fighter_b] ?? FIGHTERS.viper;
+          const rand = localMulberry32(
+            localHashToInt(`${match.seed}:${nextRound}`)
+          );
+          const aiMove = chooseAiMove(
+            aiProfile,
+            localHistoryRef.current.slice(-5),
+            stateB,
+            stateA,
+            rand
+          );
+          const res = resolveRound(
+            stateA,
+            stateB,
+            move as MoveId,
+            aiMove,
+            match.fighter_a_name,
+            match.fighter_b_name
+          );
+          localHistoryRef.current.push(move as MoveId);
+          localReadRef.current = { a: res.stateA.read, b: res.stateB.read };
+          let winner: string | null = res.ko;
+          let status = 'active';
+          if (res.ko) {
+            status = 'finished';
+          } else if (nextRound >= MAX_ROUNDS) {
+            status = 'finished';
+            winner =
+              res.stateA.hp > res.stateB.hp
+                ? 'A'
+                : res.stateB.hp > res.stateA.hp
+                  ? 'B'
+                  : 'draw';
+          }
+          data = {
+            round: nextRound,
+            move_a: move,
+            move_b: aiMove,
+            events: res.events,
+            finisher: res.finisher,
+            damageToA: res.damageToA,
+            damageToB: res.damageToB,
+            progress: null,
+            daily_streak: null,
+            match: {
+              ...match,
+              round_no: nextRound,
+              hp_a: res.stateA.hp,
+              hp_b: res.stateB.hp,
+              stamina_a: res.stateA.stamina,
+              stamina_b: res.stateB.stamina,
+              hype_a: res.stateA.hype,
+              hype_b: res.stateB.hype,
+              status,
+              winner,
+            },
+          };
+        } else {
+          const deviceId = getDeviceId();
+          data = await api<typeof data>('move', {
+            match_id: match.id,
+            move,
+            device_id: deviceId,
+          });
+        }
         setMatch(data.match);
         setProgress(data.progress);
         setLog((prev) => [
@@ -525,6 +739,7 @@ export default function ArenaClient() {
       burstParticles,
       refreshDaily,
       refreshProfile,
+      localMode,
     ]
   );
 
@@ -552,6 +767,17 @@ export default function ArenaClient() {
   // 复仇：同拳手、同 AI 种子、同残局重开
   const replay = useCallback(async () => {
     if (!match) return;
+    if (localMode) {
+      startLocalBattle(
+        match.fighter_a,
+        match.fighter_b,
+        match.mode === 'daily' ? 'daily' : 'casual',
+        localStartRef.current ?? undefined,
+        match.seed,
+        match.day_key
+      );
+      return;
+    }
     setLoading(true);
     setError('');
     try {
@@ -566,7 +792,7 @@ export default function ArenaClient() {
     } finally {
       setLoading(false);
     }
-  }, [match, beginBattle]);
+  }, [match, localMode, beginBattle, startLocalBattle]);
 
   // 分享挑战：把本局残局 + 种子变成 6 位码
   const createShare = useCallback(async () => {
@@ -803,6 +1029,87 @@ export default function ArenaClient() {
 
       {screen === 'select' && (
         <section className="brawl-section" style={{ maxWidth: 900 }}>
+          {/* 新手 3 步速览：进门即懂怎么打 */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: 12,
+              marginBottom: 24,
+              textAlign: 'left',
+            }}
+          >
+            <div
+              style={{
+                border: '1px solid #333',
+                background: '#141414',
+                borderRadius: 12,
+                padding: '12px 14px',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 11,
+                  fontWeight: 800,
+                  color: '#ffb400',
+                  letterSpacing: 1,
+                  marginBottom: 4,
+                }}
+              >
+                {t('guideStrikeTitle')}
+              </div>
+              <div style={{ fontSize: 12, color: '#bbb', lineHeight: 1.5 }}>
+                {t('guideStrikeBody')}
+              </div>
+            </div>
+            <div
+              style={{
+                border: '1px solid #333',
+                background: '#141414',
+                borderRadius: 12,
+                padding: '12px 14px',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 11,
+                  fontWeight: 800,
+                  color: '#39ff6a',
+                  letterSpacing: 1,
+                  marginBottom: 4,
+                }}
+              >
+                {t('guideDefenseTitle')}
+              </div>
+              <div style={{ fontSize: 12, color: '#bbb', lineHeight: 1.5 }}>
+                {t('guideDefenseBody')}
+              </div>
+            </div>
+            <div
+              style={{
+                border: '1px solid #333',
+                background: '#141414',
+                borderRadius: 12,
+                padding: '12px 14px',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 11,
+                  fontWeight: 800,
+                  color: '#b47bff',
+                  letterSpacing: 1,
+                  marginBottom: 4,
+                }}
+              >
+                {t('guideMindTitle')}
+              </div>
+              <div style={{ fontSize: 12, color: '#bbb', lineHeight: 1.5 }}>
+                {t('guideMindBody')}
+              </div>
+            </div>
+          </div>
+
           {pendingChallenge && (
             <div className="arena-daily" style={{ borderColor: '#7a2c2c' }}>
               <div
@@ -1442,46 +1749,111 @@ export default function ArenaClient() {
             </div>
           </div>
 
-          {/* 招式按钮 */}
+          {/* 招式按钮：按 打击 / 防御 / 心理 区分并标注伤害与体力消耗 */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(5, 1fr)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
               gap: 8,
               marginBottom: 16,
             }}
           >
-            {MOVE_BUTTONS.map((m) => (
-              <button
-                type="button"
-                key={m.id}
-                onClick={() => doMove(m.id)}
-                disabled={loading}
-                style={{
-                  padding: '10px 4px',
-                  borderRadius: 10,
-                  border:
-                    m.id === 'feint' ? '2px solid #b47bff' : '1px solid #444',
-                  background: m.id === 'feint' ? '#241a33' : '#1c1c1c',
-                  color: '#fff',
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: loading ? 'wait' : 'pointer',
-                }}
-              >
-                {moveLabel(m.id)}
-                <span
+            {MOVE_BUTTONS.map((m) => {
+              const def = MOVES[m.id as MoveId];
+              const lowStamina = match.stamina_a < def.stamina;
+              const borderColor =
+                m.id === 'feint'
+                  ? '2px solid #b47bff'
+                  : def.kind === 'defense'
+                    ? '1px solid #2b6b3e'
+                    : def.kind === 'mind'
+                      ? '1px solid #6b4b9c'
+                      : '1px solid #5a3a1a';
+              const bgColor =
+                m.id === 'feint'
+                  ? '#241a33'
+                  : def.kind === 'defense'
+                    ? '#122218'
+                    : '#1c1c1c';
+              const subHint =
+                def.kind === 'strike'
+                  ? `${def.damage} DMG · ⚡${def.stamina}`
+                  : m.id === 'feint'
+                    ? `${t('moveHintFeint')} · ⚡${def.stamina}`
+                    : m.id === 'taunt'
+                      ? `${t('moveHintTaunt')} · ⚡0`
+                      : `${t('moveHintDef')} · ⚡${def.stamina}`;
+              return (
+                <button
+                  type="button"
+                  key={m.id}
+                  onClick={() => doMove(m.id)}
+                  disabled={loading}
                   style={{
-                    display: 'block',
-                    fontSize: 10,
-                    color: '#888',
-                    fontWeight: 400,
+                    padding: '10px 6px',
+                    borderRadius: 10,
+                    border: borderColor,
+                    background: bgColor,
+                    color: '#fff',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    opacity: lowStamina ? 0.45 : 1,
+                    cursor: loading ? 'wait' : 'pointer',
                   }}
                 >
-                  [{m.key}]
-                </span>
-              </button>
-            ))}
+                  {moveLabel(m.id)}{' '}
+                  <span
+                    style={{ fontSize: 10, color: '#888', fontWeight: 400 }}
+                  >
+                    [{m.key}]
+                  </span>
+                  <span
+                    style={{
+                      display: 'block',
+                      fontSize: 10,
+                      color: lowStamina ? '#ff7b7b' : '#aaa',
+                      fontWeight: 500,
+                      marginTop: 2,
+                    }}
+                  >
+                    {subHint}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 10,
+              fontSize: 11,
+              color: '#888',
+            }}
+          >
+            <span>
+              {localMode ? t('localModeBadge') : t('rankedModeBadge')}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setScreen('select');
+                setMatch(null);
+                setLog([]);
+              }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#999',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                fontSize: 11,
+              }}
+            >
+              {t('leaveMatch')}
+            </button>
           </div>
 
           {/* 战报 */}
@@ -1727,15 +2099,50 @@ export default function ArenaClient() {
             >
               {t('rematch')}
             </button>
-            <button
-              type="button"
-              className="arena-cta arena-cta--ghost"
-              onClick={createShare}
-              disabled={loading}
-            >
-              {t('shareChallenge')}
-            </button>
+            {!localMode && (
+              <button
+                type="button"
+                className="arena-cta arena-cta--ghost"
+                onClick={createShare}
+                disabled={loading}
+              >
+                {t('shareChallenge')}
+              </button>
+            )}
           </div>
+
+          {!isSignedIn && (
+            <div
+              style={{
+                border: '1px solid #4a3a12',
+                background: '#1a1508',
+                borderRadius: 12,
+                padding: '12px 16px',
+                marginBottom: 18,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+                flexWrap: 'wrap',
+                textAlign: 'left',
+              }}
+            >
+              <span style={{ fontSize: 13, color: '#e5d4a1' }}>
+                {t('guestSaveHint')}
+              </span>
+              <LocaleLink
+                href={Routes.Register}
+                className="arena-daily-btn"
+                style={{
+                  fontSize: 13,
+                  padding: '8px 16px',
+                  textDecoration: 'none',
+                }}
+              >
+                {t('guestSaveCta')}
+              </LocaleLink>
+            </div>
+          )}
 
           {share && (
             <div

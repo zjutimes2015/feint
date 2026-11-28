@@ -18,36 +18,57 @@ type FighterKey =
   | 'monsoon'
   | 'professor';
 
-const FIGHTERS: { key: FighterKey; color: string; img: string }[] = [
+const FIGHTERS: {
+  key: FighterKey;
+  arenaSlug: string;
+  color: string;
+  img: string;
+}[] = [
   {
     key: 'ironJaw',
+    arenaSlug: 'iron_jaw',
     color: 'red',
     img: '/brawlverse/assets/iron-jaw-portrait.jpg',
   },
   {
     key: 'viper',
+    arenaSlug: 'viper',
     color: 'green',
     img: '/brawlverse/assets/viper-portrait.jpg',
   },
-  { key: 'volt', color: 'gold', img: '/brawlverse/assets/fan-volt.jpg' },
+  {
+    key: 'volt',
+    arenaSlug: 'volt',
+    color: 'gold',
+    img: '/brawlverse/assets/fan-volt.jpg',
+  },
   {
     key: 'goliath7',
+    arenaSlug: 'goliath-7',
     color: 'gold',
     img: '/brawlverse/assets/fan-goliath7.jpg',
   },
-  { key: 'laReina', color: 'gold', img: '/brawlverse/assets/fan-lareina.jpg' },
+  {
+    key: 'laReina',
+    arenaSlug: 'la_reina',
+    color: 'gold',
+    img: '/brawlverse/assets/fan-lareina.jpg',
+  },
   {
     key: 'sledge',
+    arenaSlug: 'sledge',
     color: 'orange',
     img: '/brawlverse/assets/fighter-sledge.jpg',
   },
   {
     key: 'monsoon',
+    arenaSlug: 'monsoon',
     color: 'cyan',
     img: '/brawlverse/assets/fighter-monsoon.jpg',
   },
   {
     key: 'professor',
+    arenaSlug: 'the_professor',
     color: 'purple',
     img: '/brawlverse/assets/fighter-professor.jpg',
   },
@@ -79,7 +100,7 @@ export default function FightersGrid() {
 
   return (
     <div className="brawl-cards">
-      {FIGHTERS.map(({ key, color, img }) => {
+      {FIGHTERS.map(({ key, arenaSlug, color, img }) => {
         const name = t(`list.${key}.name`);
         return (
           <div className={`brawl-card brawl-card--${color}`} key={key}>
@@ -98,11 +119,25 @@ export default function FightersGrid() {
                 {t('stance')}: {t(`list.${key}.stance`)}
               </span>
             </div>
-            <p>
+            <div
+              className="brawl-row"
+              style={{ justifyContent: 'space-between', marginTop: 12 }}
+            >
+              <LocaleLink
+                href={`/arena?fighter=${arenaSlug}`}
+                className="brawl-btn"
+                style={{
+                  textDecoration: 'none',
+                  fontSize: 12,
+                  padding: '6px 12px',
+                }}
+              >
+                {t('playInArena')}
+              </LocaleLink>
               <LocaleLink href={`/fighters/${FIGHTER_SLUG_BY_KEY[key]}`}>
                 {t('viewProfile')}
               </LocaleLink>
-            </p>
+            </div>
           </div>
         );
       })}

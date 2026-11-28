@@ -46,19 +46,34 @@ export default function LiveClient() {
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
+    const ctrl = new AbortController();
+    const timeout = window.setTimeout(() => ctrl.abort(), 5000);
     try {
-      const r = await fetch('/api/live?op=state', { cache: 'no-store' });
+      const r = await fetch('/api/live?op=state', {
+        cache: 'no-store',
+        signal: ctrl.signal,
+      });
       if (r.status === 404) {
         setNoRound(true);
         setState(null);
+        setErr('');
+        return;
+      }
+      if (!r.ok) {
+        setNoRound(true);
+        setErr(t('connectFailed'));
         return;
       }
       const j = (await r.json()) as LiveState;
       setNoRound(false);
+      setErr('');
       setState(j);
       setSecs(Number(j.seconds_left) || 0);
     } catch {
+      setNoRound(true);
       setErr(t('connectFailed'));
+    } finally {
+      window.clearTimeout(timeout);
     }
   }, [t]);
 
@@ -131,6 +146,19 @@ export default function LiveClient() {
         <div className="brawl-panel">
           <h3>{t('noRound')}</h3>
           <p>{t('noRoundBody')}</p>
+          {err ? <p className="brawl-warn">{err}</p> : null}
+          <div className="brawl-row brawl-gap">
+            <LocaleLink href="/arena" className="brawl-cta">
+              {t('playArenaCta')}
+            </LocaleLink>
+            <LocaleLink
+              href="/episodes"
+              className="brawl-btn brawl-btn--ghost"
+              style={{ textDecoration: 'none' }}
+            >
+              {t('watchEpisodesCta')}
+            </LocaleLink>
+          </div>
         </div>
       ) : state ? (
         <>

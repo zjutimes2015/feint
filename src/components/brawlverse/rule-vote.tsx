@@ -23,17 +23,23 @@ export default function RuleVote() {
   const [resetKey, setResetKey] = useState(0);
 
   const refreshTally = useCallback(async () => {
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(() => ctrl.abort(), 5000);
     try {
       const r = await fetch(
-        `/api/votes?op=tally&bout_id=${EX_BOUT}&round_no=${EX_ROUND}`
+        `/api/votes?op=tally&bout_id=${EX_BOUT}&round_no=${EX_ROUND}`,
+        { signal: ctrl.signal }
       );
+      if (!r.ok) return;
       const j = (await r.json()) as { tally?: Partial<RuleTally> };
       setTally({
         rage: Number(j.tally?.rage) || 0,
         fair: Number(j.tally?.fair) || 0,
       });
     } catch {
-      // 网络异常时保留上一次票数
+      // 网络异常或超时时保留上一次票数
+    } finally {
+      window.clearTimeout(timer);
     }
   }, []);
 

@@ -27,29 +27,33 @@ export async function GET(req: Request) {
   const boutId = url.searchParams.get('bout_id');
   const roundNo = parseInt(url.searchParams.get('round_no') || '1', 10) || 1;
 
-  const rows = await qAll<{ choice: string; n: string }>(
-    'SELECT choice, SUM(weight) AS n FROM votes WHERE bout_id = $1 AND round_no = $2 GROUP BY choice',
-    [boutId, roundNo]
-  );
-  const tally: Record<string, number> = {
-    heavy: 0,
-    dodge: 0,
-    guard: 0,
-    rage: 0,
-    fair: 0,
-  };
-  for (const r of rows) tally[r.choice] = Number(r.n);
+  try {
+    const rows = await qAll<{ choice: string; n: string }>(
+      'SELECT choice, SUM(weight) AS n FROM votes WHERE bout_id = $1 AND round_no = $2 GROUP BY choice',
+      [boutId, roundNo]
+    );
+    const tally: Record<string, number> = {
+      heavy: 0,
+      dodge: 0,
+      guard: 0,
+      rage: 0,
+      fair: 0,
+    };
+    for (const r of rows) tally[r.choice] = Number(r.n);
 
-  return json(
-    {
-      bout_id: boutId,
-      round_no: roundNo,
-      tally,
-      total: Object.values(tally).reduce((a, b) => a + b, 0),
-    },
-    200,
-    req
-  );
+    return json(
+      {
+        bout_id: boutId,
+        round_no: roundNo,
+        tally,
+        total: Object.values(tally).reduce((a, b) => a + b, 0),
+      },
+      200,
+      req
+    );
+  } catch {
+    return json({ error: 'votes service temporarily unavailable' }, 503, req);
+  }
 }
 
 export async function POST(req: Request) {
